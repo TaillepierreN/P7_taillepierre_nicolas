@@ -1,0 +1,16 @@
+services:
+    mysql:
+        container_name: local-mysql
+        image: mysql:latest
+        restart: always
+        environment:
+            MYSQL_DATABASE: 'db'
+            MYSQL_ROOT_PASSWORD: root
+        ports:
+            - 3310:3306
+        expose:
+            - 3310
+        volumes:
+            - ${PWD}/my-db:/var/lib/mysql
+volumes:
+    my-db:
