@@ -1,28 +1,29 @@
-module.exports = (db, Sequelize) => {
-    return db.define(
+module.exports = (sequelize, Sequelize) => {
+    const Post = sequelize.define(
         "post", {
             id:{
-                type: Sequelize.DataTypes.INTEGER,
+                type: Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true ,
                 allowNull: false
             },
             title:{
-                type: Sequelize.DataTypes.STRING(45),
+                type: Sequelize.STRING(45),
                 allowNull: false
             },
             content:{
-                type: Sequelize.DataTypes.TEXT,
+                type: Sequelize.TEXT,
                 allowNull: false
             },
             likes:{
-                type: Sequelize.DataType.INTEGER,
+                type: Sequelize.INTEGER,
                 default: 0
             },
             attachment:{
-                type: Sequelize.DataType.STRING(255)
+                type: Sequelize.STRING(255)
             }
 
         }
-    )
-}
+    );
+    return Post;
+};
