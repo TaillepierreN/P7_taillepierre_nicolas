@@ -22,7 +22,11 @@ module.exports = (sequelize, Sequelize) => {
             },
             isAdmin:{
                 type: Sequelize.BOOLEAN,
-                default: false
+                defaultValue: false
+            },
+            profilepic:{
+                type: Sequelize.STRING(255),
+                allowNull: true
             }
         });
     return User;
