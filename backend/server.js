@@ -5,7 +5,9 @@ const authRouting = require('./routes/authRouting');
 const forumRouting = require('./routes/forumRouting');
 const userRouting = require('./routes/userRouting');
 
-dotenv.config({path: 'config/.env'});
+dotenv.config({
+    path: 'config/.env'
+});
 const app = express();
 
 app.use(express.json());
