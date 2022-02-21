@@ -1,12 +1,7 @@
 module.exports = (sequelize, Sequelize) => {
     const Post = sequelize.define(
         "post", {
-            id:{
-                type: Sequelize.INTEGER,
-                primaryKey: true,
-                autoIncrement: true ,
-                allowNull: false
-            },
+
             title:{
                 type: Sequelize.STRING(45),
                 allowNull: false
@@ -21,6 +16,10 @@ module.exports = (sequelize, Sequelize) => {
             },
             attachment:{
                 type: Sequelize.STRING(255)
+            },
+            userId:{
+                type: Sequelize.INTEGER,
+                allowNull: false
             }
 
         }

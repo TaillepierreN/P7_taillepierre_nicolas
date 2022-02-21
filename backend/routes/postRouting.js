@@ -1,5 +1,5 @@
 const {Router} = require('express');
-const { showMessage, showMessages, postMessage, modifyMessage, deleteMessage } = require('../controllers/forumController');
+const { showMessage, showMessages, postMessage, modifyMessage, deleteMessage } = require('../controllers/postController');
 const multer = require('../middlewares/multer-config');
 
 const router = Router();
