@@ -9,7 +9,8 @@ exports.signup = async (req, res) => {
         const user = {
             email: req.body.email,
             password: hash,
-            username: req.body.username
+            username: req.body.username,
+            profilepic: `${req.protocol}://${req.get('host')}//images/profile/${req.file.filename}`
         };
         await User.create(user)
         return res.status(201).json({
@@ -38,7 +39,7 @@ exports.login = async (req, res) => {
                 error: "Mot de passe incorrect"
             });
         }
-        res.status(200).json({
+        return res.status(200).json({
             userId: user.id,
             token: jwt.sign({
                     userId: user.id
