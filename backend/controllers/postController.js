@@ -1,25 +1,29 @@
 const db = require("../models");
 const Post = db.posts;
+const Comment = db.comments;
 
-exports.showMessage = async (req, res) => {
+
+exports.showMessages = async (req, res) => {
     try {
 
         const posts = await Post.findAll({
             include: [{
                 model: db.users,
                 as: 'user'
+            },
+            {
+                model:db.comments,
+                as: 'comment'
             }],
             order: [
                 ["createdAt", "DESC"]
             ]
         });
-        if (posts.length > 0) {
-            return res.status(200).json('post ' + posts)
-        } else {
-            return res.status(404).json({
-                message: "aucun posts trouvé"
-            })
-        }
+        const comnum = await Comment.count({
+            col: 'postId',
+            where: { postId: posts.id}
+        })
+        return res.status(200).json(posts, comnum);
     } catch (error) {
         return res.status(500).json({
             error
@@ -27,7 +31,8 @@ exports.showMessage = async (req, res) => {
     }
 }
 
-exports.showMessages = async (req, res) => {
+
+exports.showMessage = async (req, res) => {
     try {
         const post = await Post.findOne({
             where: {
@@ -41,11 +46,12 @@ exports.showMessages = async (req, res) => {
                 ["createdAt", "DESC"]
             ]
         });
-        if (post.length > 0) {
-            return res.status(200).json('post ' + post)
+
+        if (post) {
+            return res.status(200).json(post)
         } else {
             return res.status(404).json({
-                message: "aucun posts trouvé"
+                message: "aucun post trouvé avec cet ID"
             })
         }
     } catch (error) {
@@ -57,12 +63,10 @@ exports.showMessages = async (req, res) => {
 
 exports.postMessage = async (req, res) => {
     try {
-        const newpost = await {
-            title: req.body.title,
-            content: req.body.content,
-            attachment: `${req.protocol}://${req.get('host')}//images/attachment/${req.file.filename}`,
-            userId: req.body.userId
-        };
+        const newpost = { ...req.body };
+        if (req.file) {
+            newpost.attachment = `${req.protocol}://${req.get('host')}//images/attachment/${req.file.filename}`
+        }
         await Post.create(newpost);
         return res.status(201).json({
             message: "Post crée"
@@ -76,34 +80,53 @@ exports.postMessage = async (req, res) => {
 
 exports.modifyMessage = async (req, res) => {
     try {
-        const post = Post.findOne({where: { id: req.params.id}})
-        if(post){
+        const post = Post.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+        if (post) {
             await Post.update({
                 title: req.body.title,
                 content: req.body.content,
-                attachment: `${req.protocol}://${req.get('host')}//images/attachment/${req.file.filename}`},
-                {where: {id: req.params.id}}
-            )
+                attachment: `${req.protocol}://${req.get('host')}//images/attachment/${req.file.filename}`
+            }, {
+                where: {
+                    id: req.params.id
+                }
+            })
             return res.status(200).json({
                 message: "Post mis à jour"
             })
         }
     } catch (error) {
-        return res.status(400).json({ error: error});
+        return res.status(500).json({
+            error: error
+        });
     }
 
 }
 
-exports.deleteMessage = (req, res) => {
+exports.deleteMessage = async (req, res) => {
     try {
-        const post = Post.findOne({where: { id: req.params.id}})
-        if(post){
-            await Post.destroy({where: {id: req.params.id}})
+        const post = Post.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+        if (post) {
+            await Post.destroy({
+                where: {
+                    id: req.params.id
+                }
+            })
             return res.status(200).json({
-                message: "Post mis à jour"
+                message: "Post retiré"
             })
         }
     } catch (error) {
-        return res.status(400).json({ error: error});
+        return res.status(500).json({
+            error: error
+        });
     }
 }
