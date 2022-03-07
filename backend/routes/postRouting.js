@@ -6,8 +6,8 @@ const router = Router();
 
 router.get("/:id", showMessage)
 router.get('/', showMessages)
-router.post('/new', multer, postMessage)
-router.put('/update/:id', multer, modifyMessage)
-router.delete('/delete/:id', deleteMessage)
+router.post('/', multer, postMessage)
+router.put('/:id', multer, modifyMessage)
+router.delete('/:id', deleteMessage)
 
 module.exports = router;
