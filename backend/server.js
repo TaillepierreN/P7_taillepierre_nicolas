@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const authRouting = require('./routes/authRouting');
 const postRouting = require('./routes/postRouting');
 const userRouting = require('./routes/userRouting');
+const commentRouting = require('./routes/commentRouting');
 
 dotenv.config({
     path: 'config/.env'
@@ -17,6 +18,7 @@ app.use(cors());
 app.use('/auth', authRouting);
 app.use('/post', postRouting);
 app.use('/user', userRouting);
+app.use('/post', commentRouting)
 
 const db = require('./models');
 db.sequelize.sync();
