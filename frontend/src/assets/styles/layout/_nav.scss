@@ -1,0 +1,24 @@
+nav {
+    padding: 2px;
+    @include flex;
+    position: absolute;
+    right: 30px;
+    top: 45px;
+    justify-content: flex-end;
+
+    a {
+        font-weight: bold;
+        color: #2c3e50;
+        padding-inline: 15px;
+
+        &.router-link-exact-active {
+            color: #b94242;
+        }
+    }
+}
+
+img {
+    height: 120px;
+    display: block;
+    margin: auto;
+}
