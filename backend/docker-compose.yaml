@@ -11,6 +11,6 @@ services:
         expose:
             - 3310
         volumes:
-            - G:\OpenClassroom\P7\P7_taillepierre_nicolas\my-db:\var\lib\mysql
+            - ../my-db:/var/lib/mysql
 volumes:
     my-db:
