@@ -7,22 +7,28 @@ exports.showMessages = async (req, res) => {
     try {
 
         const posts = await Post.findAll({
+            attributes: {
+                include: [[Sequelize.fn("COUNT", Sequelize.col("comments.id")),"comnum"]]
+            },
             include: [{
                 model: db.users,
                 as: 'user'
             },
             {
-                model:db.comments,
-                as: 'comment'
-            }],
+                model:Comment,
+                as: 'comments',
+            attributes:[]}
+         ],
             order: [
                 ["createdAt", "DESC"]
             ]
         });
-        const comnum = await Comment.count({
-            col: 'postId',
-            where: { postId: posts.id}
-        })
+        // const comnum = await Comment.count({
+        //     col: 'postId',
+        //     where: {
+        //         postId: posts.id
+        //     }
+        // })
         return res.status(200).json(posts, comnum);
     } catch (error) {
         return res.status(500).json({
@@ -39,9 +45,14 @@ exports.showMessage = async (req, res) => {
                 id: req.params.id
             },
             include: [{
-                model: db.users,
-                as: 'user'
-            }],
+                    model: db.users,
+                    as: 'user'
+                },
+                {
+                    model: db.comments,
+                    as: 'comment'
+                }
+            ],
             order: [
                 ["createdAt", "DESC"]
             ]
@@ -63,7 +74,9 @@ exports.showMessage = async (req, res) => {
 
 exports.postMessage = async (req, res) => {
     try {
-        const newpost = { ...req.body };
+        const newpost = {
+            ...req.body
+        };
         if (req.file) {
             newpost.attachment = `${req.protocol}://${req.get('host')}//images/attachment/${req.file.filename}`
         }
