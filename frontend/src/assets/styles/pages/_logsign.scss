@@ -1,0 +1,22 @@
+.logpanel,
+.slidingpanel{
+    @include flex;
+}
+.sliderlog,
+.slidersign{
+    width: 50%;
+    height: 300px;
+    background-color: #dad4c0;
+    position: relative;
+    z-index: 2;
+    color: #2c3e50;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    
+    @include flex(column);
+    justify-content:center;
+    transform: translateY(-300px);
+}
+.slidersign{
+    transform: translate(100%,-300px);
+}

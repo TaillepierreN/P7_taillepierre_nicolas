@@ -15,6 +15,11 @@ const routes = [
     component: LoginView
   },
   {
+    path: '/signup',
+    name: 'signup',
+    component: LoginView
+  },
+  {
     path: '/profile',
     name: 'profile',
     component: ProfileView
@@ -26,8 +31,8 @@ const router = createRouter({
   routes
 })
 // router.beforeEach((to, from, next) => {
-//   if ((to.name !== 'Login' && to.name !== 'Signup') && !localStorage.getItem('token')) {
-//     next({ name: 'Login' })
+//   if ((to.name !== 'login' && to.name !== 'signup') && !localStorage.getItem('token')) {
+//     next({ name: 'login' })
 //   }
 //   else next()
 // })

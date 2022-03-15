@@ -11,8 +11,21 @@ a {
     text-decoration: none;
     list-style: none;
 }
+a {
+    font-weight: bold;
+    color: #ffffff;
+    padding-inline: 15px;
+    font-size: 20px;
+
+    &.router-link-exact-active {
+        color: #b94242;
+    }
+}
 
 .wrap {
     margin: 0 auto;
     max-width: 1440px;
+}
+body{
+    background-color: rgb(29, 29, 29);
 }

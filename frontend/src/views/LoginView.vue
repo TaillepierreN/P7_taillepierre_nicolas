@@ -1,18 +1,36 @@
 <template>
-  <div class="login">
-    <h1>Login</h1>
-    <div class="login_div">
-      <label id="email" for="">email: <input type="email"/> </label>
-      <label id="password" for="">password: <input type="text"> </label>
-      <button>Se connecter</button>
+  <main class="logsign wrap">
+    <div class="logpanel">
+      <LogComponent :account=ownAccount />
+      <SignComponent :account=ownAccount />
     </div>
-  </div>
+    <div class="slidingpanel">
+      <router-link to="/login" v-show="ownAccount" @click="ownAccount = !ownAccount" class="sliderlog">
+        <p>Vous possèdez deja un compte?</p>
+        <h2>Se connecter</h2>
+      </router-link>
+      <router-link to='/signup' v-show="!ownAccount" @click="ownAccount = !ownAccount" class="slidersign">
+        <p>Pas de compte?</p>
+        <h2>S'enregistrer</h2>
+      </router-link>
+    </div>
+  </main>
 </template>
-<script>
-// @ is an alias to /src
 
+<script>
+import LogComponent from "@/components/LogComponent.vue";
+import SignComponent from "@/components/SignComponent.vue";
 export default {
   name: "LoginView",
-  components: {},
+  components: {
+    LogComponent,
+    SignComponent,
+  },
+  data(){
+    return {
+      ownAccount: false
+    }
+    }
 };
+
 </script>
