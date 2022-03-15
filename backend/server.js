@@ -16,9 +16,9 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/auth', authRouting);
-app.use('/post', postRouting);
+app.use('/post', postRouting, commentRouting);
 app.use('/user', userRouting);
-app.use('/post', commentRouting)
+// app.use('/post', commentRouting)
 
 const db = require('./models');
 db.sequelize.sync();

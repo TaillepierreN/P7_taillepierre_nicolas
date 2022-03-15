@@ -7,6 +7,7 @@ module.exports = (sequelize, Sequelize) => {
             },
             postId:{
                 type: Sequelize.INTEGER,
+                allowNull: false
             },
             userId:{
                 type: Sequelize.INTEGER,

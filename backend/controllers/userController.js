@@ -8,7 +8,8 @@ exports.ModifyUser = async (req,res) => {
             await User.update({
                 email: req.body.email,
                 username: req.body.username,
-                profilepic: `${req.protocol}://${req.get('host')}//images/${req.file.filename}`},
+                // profilepic: `${req.protocol}://${req.get('host')}//images/${req.file.filename}`
+            },
                 {where:{id: req.params.id}})
                 return res.status(200).json({
                     message: ' Profile mis à jour'

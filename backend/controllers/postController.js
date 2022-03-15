@@ -1,35 +1,32 @@
 const db = require("../models");
 const Post = db.posts;
-const Comment = db.comments;
 
 
 exports.showMessages = async (req, res) => {
     try {
 
         const posts = await Post.findAll({
-            attributes: {
-                include: [[Sequelize.fn("COUNT", Sequelize.col("comments.id")),"comnum"]]
-            },
-            include: [{
-                model: db.users,
-                as: 'user'
-            },
-            {
-                model:Comment,
-                as: 'comments',
-            attributes:[]}
-         ],
+            // attributes: [
+            //     [sequelize.literal('(SELECT COUNT(*) FROM "db.ccomments" WHERE "Comments"."postId" = Post.id)'), 'comnum']
+            // ],
+            include: [
+                {
+                    model: db.users,
+                    as: 'user'
+                },
+                {
+                    model: db.comments,
+                    as: 'comments',
+                    required: false ,
+                }
+            ],
             order: [
                 ["createdAt", "DESC"]
             ]
         });
-        // const comnum = await Comment.count({
-        //     col: 'postId',
-        //     where: {
-        //         postId: posts.id
-        //     }
-        // })
-        return res.status(200).json(posts, comnum);
+        // comnum = "1";
+        // comnum = JSON.stringify(comnum);
+        return res.status(200).json(posts);
     } catch (error) {
         return res.status(500).json({
             error
@@ -50,7 +47,8 @@ exports.showMessage = async (req, res) => {
                 },
                 {
                     model: db.comments,
-                    as: 'comment'
+                    as: 'comments',
+                    required: false ,
                 }
             ],
             order: [
@@ -99,11 +97,14 @@ exports.modifyMessage = async (req, res) => {
             }
         })
         if (post) {
-            await Post.update({
-                title: req.body.title,
-                content: req.body.content,
-                attachment: `${req.protocol}://${req.get('host')}//images/attachment/${req.file.filename}`
-            }, {
+            const postupdate ={
+                ...req.body
+            };
+            if (req.file) {
+                postupdate.attachment = `${req.protocol}://${req.get('host')}//images/attachment/${req.file.filename}`
+            }
+            await Post.update( postupdate,
+            {
                 where: {
                     id: req.params.id
                 }

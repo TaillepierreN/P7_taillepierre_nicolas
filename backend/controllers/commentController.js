@@ -2,21 +2,14 @@ const db = require("../models");
 const Comment = db.comments;
 const Post = db.posts;
 
-exports.newComment = async (req, res) =>{
+exports.newComment = async (req, res) => {
     try {
-        const post = await Post.findOne({
-            where: { id: req.params.id },
-            include: [{
-                model: db.comments,
-                as: 'comment'
-            }]
-        });
         const newComment = {
-            postId: req.params.id,
+            postId: parseInt(req.params.id),
             userId: req.body.userId,
             content: req.body.content
         };
-        await post.addComment(newComment)
+        await Comment.create(newComment)
         return res.status(201).json({
             message: "Commentaire posté"
         })
@@ -26,21 +19,6 @@ exports.newComment = async (req, res) =>{
             error
         });
     }
-    // try {
-    //     const newComment = {
-    //         postId: req.params.id,
-    //         userId: req.body.userId,
-    //         content: req.body.content
-    //     };
-    //     await Comment.create(newComment);
-    //     return res.status(201).json({
-    //         message: "Commentaire posté"
-    //     });
-    // } catch (error) {
-    //     return res.status(500).json({
-    //         error
-    //     });
-    // }
 }
 
 // exports.showPostComments = async (req,res) =>{
@@ -63,13 +41,19 @@ exports.newComment = async (req, res) =>{
 // }
 
 
-exports.deleteComment = async (req,res) =>{
+exports.deleteComment = async (req, res) => {
     try {
-        const comment = Comment.findOne ({
-            where: {postId: req.params.id}
+        const comment = Comment.findOne({
+            where: {
+                id: req.params.comId
+            }
         });
-        if(comment){
-            await Comment.destroy({where: {postId: req.params.id}})
+        if (comment) {
+            await Comment.destroy({
+                where: {
+                    id: req.params.comId
+                }
+            })
             return res.status(200).json({
                 message: "Commentaire supprimé"
             })
