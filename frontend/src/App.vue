@@ -1,9 +1,9 @@
 <template>
-    <img src="@\assets\img\icon-above-font.svg" alt="">
+    <img src="@\assets\img\icon-left-font-monochrome-white.png" alt="">
   <nav>
     <router-link to="/">Acceuil</router-link> |
     <router-link to="/login" v-if="!isLogged">Login</router-link>
-    <router-link to="/profile" v-else>Profile</router-link>
+    <router-link to="/profile">Profile</router-link>
   </nav>
   <router-view/>
 </template>
@@ -12,7 +12,7 @@
   export default{
     data() {
       return {
-        isLogged: true
+        isLogged: false
       }
     }
   }
