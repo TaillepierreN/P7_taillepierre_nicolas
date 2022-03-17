@@ -3,6 +3,8 @@ const User = db.users;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken")
 
+
+// Création de compte
 exports.signup = async (req, res) => {
     try {
         const hash = await bcrypt.hash(req.body.password, 10)
@@ -10,8 +12,10 @@ exports.signup = async (req, res) => {
             email: req.body.email,
             password: hash,
             username: req.body.username,
-            // profilepic: `${req.protocol}://${req.get('host')}//images/profile/${req.file.filename}`
         };
+        if(req.file){
+            user.profilepic = `${req.protocol}://${req.get('host')}//images/profile/${req.file.filename}`
+        }
         await User.create(user)
         return res.status(201).json({
             message: "utilisateur crée"
@@ -23,6 +27,7 @@ exports.signup = async (req, res) => {
     }
 }
 
+//Connexion au compte
 exports.login = async (req, res) => {
     try {
         const user = await User.findOne({

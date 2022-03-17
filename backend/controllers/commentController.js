@@ -1,7 +1,7 @@
 const db = require("../models");
 const Comment = db.comments;
-const Post = db.posts;
 
+//Ajout nouveau commentaire
 exports.newComment = async (req, res) => {
     try {
         const newComment = {
@@ -21,26 +21,7 @@ exports.newComment = async (req, res) => {
     }
 }
 
-// exports.showPostComments = async (req,res) =>{
-//     try {
-//         const comments = await Comments.findAll({
-//             where: {postId: req.params.id},
-//             include: [{model: db.users, as: 'user'}, {model: db.posts, as: 'post'}],
-//             order: [ ["createdAt", "DESC"]] 
-//         });
-//         if( comments.length > 0) {
-//             return res.status(200).json(comments)
-//         } else{
-//             return res.status(404).json({ message: "aucun commentaire"});
-//         }
-//     } catch (error) {
-//         return res.status(500).json({
-//             error
-//         });
-//     }
-// }
-
-
+// Supprimer commentaire
 exports.deleteComment = async (req, res) => {
     try {
         const comment = Comment.findOne({

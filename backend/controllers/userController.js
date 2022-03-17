@@ -1,6 +1,7 @@
 const db = require("../models");
 const User = db.users;
 
+//Modifier un utilisateur
 exports.ModifyUser = async (req,res) => {
     try {
         const user = User.findOne({where:{ id: req.params.id}})
@@ -20,6 +21,7 @@ exports.ModifyUser = async (req,res) => {
     }
 }
 
+//Supprimer un utilisateur
 exports.deleteUser =(req, res) => {
     try {
         const user = User.findOne({where:{ id: req.params.id}})
