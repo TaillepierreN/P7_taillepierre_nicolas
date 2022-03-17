@@ -1,31 +1,39 @@
 const db = require("../models");
 const Post = db.posts;
 
-
+// Afficher tout les posts 
 exports.showMessages = async (req, res) => {
     try {
 
         const posts = await Post.findAll({
-            // attributes: [
-            //     [sequelize.literal('(SELECT COUNT(*) FROM "db.ccomments" WHERE "Comments"."postId" = Post.id)'), 'comnum']
-            // ],
-            include: [
-                {
+            attributes: [
+                "id", "title", "content", "likes", "updatedAt", "createdAt",
+                [
+                    db.Sequelize.fn("COUNT", db.Sequelize.col("comments.id")), "commentsCount"
+                ]
+            ],
+            include: [{
                     model: db.users,
-                    as: 'user'
+                    as: 'user',
+                    attributes: [
+                        "id", "username", "profilepic"
+                    ]
                 },
+
                 {
                     model: db.comments,
-                    as: 'comments',
-                    required: false ,
+                    as: "comments",
+                    attributes: [],
+
                 }
             ],
             order: [
                 ["createdAt", "DESC"]
+            ],
+            group: [
+                "post.id"
             ]
         });
-        // comnum = "1";
-        // comnum = JSON.stringify(comnum);
         return res.status(200).json(posts);
     } catch (error) {
         return res.status(500).json({
@@ -34,13 +42,22 @@ exports.showMessages = async (req, res) => {
     }
 }
 
-
+// Afficher un post particulier
 exports.showMessage = async (req, res) => {
     try {
         const post = await Post.findOne({
             where: {
                 id: req.params.id
             },
+            // attributes: [
+            //     "id", "title", "content", "likes", "updatedAt", "createdAt",
+            //     [
+            //         db.Sequelize.fn("COUNT", db.Sequelize.col("comments.id")), "commentsCount"
+            //     ]
+            // ],
+            // group: [
+            //     "post.id"
+            // ],
             include: [{
                     model: db.users,
                     as: 'user'
@@ -48,7 +65,14 @@ exports.showMessage = async (req, res) => {
                 {
                     model: db.comments,
                     as: 'comments',
-                    required: false ,
+                    required: false,
+                    include: [{
+                        model: db.users,
+                        as: 'user',
+                        attributes: [
+                            "id", "username", "profilepic"
+                        ]
+                    }]
                 }
             ],
             order: [
@@ -70,6 +94,7 @@ exports.showMessage = async (req, res) => {
     }
 }
 
+// Crée un nouveau post
 exports.postMessage = async (req, res) => {
     try {
         const newpost = {
@@ -89,6 +114,7 @@ exports.postMessage = async (req, res) => {
     }
 }
 
+// Modifier post existant
 exports.modifyMessage = async (req, res) => {
     try {
         const post = Post.findOne({
@@ -97,14 +123,13 @@ exports.modifyMessage = async (req, res) => {
             }
         })
         if (post) {
-            const postupdate ={
+            const postupdate = {
                 ...req.body
             };
             if (req.file) {
                 postupdate.attachment = `${req.protocol}://${req.get('host')}//images/attachment/${req.file.filename}`
             }
-            await Post.update( postupdate,
-            {
+            await Post.update(postupdate, {
                 where: {
                     id: req.params.id
                 }
@@ -121,6 +146,7 @@ exports.modifyMessage = async (req, res) => {
 
 }
 
+//Supprimer un post
 exports.deleteMessage = async (req, res) => {
     try {
         const post = Post.findOne({
