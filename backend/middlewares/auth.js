@@ -14,7 +14,7 @@ module.exports = async (req, res, next) => {
         next();
     } catch (error) {
         return res.status(401).json({
-            message: 'invalid request'
+            message: 'Unauthorized request'
         });
     }
 } 
