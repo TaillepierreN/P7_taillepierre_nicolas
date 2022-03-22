@@ -60,7 +60,8 @@ exports.showMessage = async (req, res) => {
             // ],
             include: [{
                     model: db.users,
-                    as: 'user'
+                    as: 'user',
+                    attributes:[ "username", "profilepic", "id"]
                 },
                 {
                     model: db.comments,
