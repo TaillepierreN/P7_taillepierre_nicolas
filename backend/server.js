@@ -5,6 +5,7 @@ const authRouting = require('./routes/authRouting');
 const postRouting = require('./routes/postRouting');
 const userRouting = require('./routes/userRouting');
 const commentRouting = require('./routes/commentRouting');
+const users_posts_likeRouting = require('./routes/users_posts_likeRouting');
 
 dotenv.config({
     path: 'config/.env'
@@ -16,9 +17,9 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/auth', authRouting);
-app.use('/post', postRouting, commentRouting);
+app.use('/post', postRouting, commentRouting, users_posts_likeRouting);
 app.use('/user', userRouting);
-// app.use('/post', commentRouting)
+
 
 const db = require('./models');
 db.sequelize.sync();
