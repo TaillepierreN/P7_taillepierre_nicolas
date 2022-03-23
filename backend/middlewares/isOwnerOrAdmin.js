@@ -14,7 +14,8 @@ module.exports = async (req, res, next) => {
         } else{
             switch (req.baseUrl) {
                 case '/user':
-                    if(userId === req.params.id){
+                    if(userId === parseInt(req.params.id)){
+                        console.log("helloworld")
                         next();
                     }else{
                         res.status(403).json({message: "Vous n'avez pas le droit de modifier cet utilisateur"})

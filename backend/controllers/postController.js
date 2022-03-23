@@ -1,5 +1,7 @@
 const db = require("../models");
 const Post = db.posts;
+const fs = require('fs');
+
 
 // Afficher tout les posts 
 exports.showMessages = async (req, res) => {
@@ -123,12 +125,20 @@ exports.modifyMessage = async (req, res) => {
                 id: req.params.id
             }
         })
+        const postupdate = req.file ? {
+            ...req.body,
+            attachment: `${req.protocol}://${req.get('host')}//images/attachment/${req.file.filename}`
+        } : {
+            ...req.body
+        }
         if (post) {
-            const postupdate = {
-                ...req.body
-            };
             if (req.file) {
-                postupdate.attachment = `${req.protocol}://${req.get('host')}//images/attachment/${req.file.filename}`
+                const toDelete = post.attachment.split('/attachment/')[1];
+                try {
+                    fs.unlinkSync(`/attachment/${toDelete}`)
+                } catch (error) {
+                    console.error(error)
+                }
             }
             await Post.update(postupdate, {
                 where: {
@@ -156,6 +166,8 @@ exports.deleteMessage = async (req, res) => {
             }
         })
         if (post) {
+            const toDelete = post.attachment.split('/attachment/')[1];
+            fs.unlinkSync(`/attachment/${toDelete}`);
             await Post.destroy({
                 where: {
                     id: req.params.id

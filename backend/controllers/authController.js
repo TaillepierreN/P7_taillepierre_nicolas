@@ -30,8 +30,9 @@ exports.signup = async (req, res) => {
 //Connexion au compte
 exports.login = async (req, res) => {
     try {
-        const user = await User.findOne({
+        const user = await User.findOne({ where: {
             email: req.body.email
+        }
         })
         if (!user) {
             return res.status(404).json({
@@ -44,6 +45,7 @@ exports.login = async (req, res) => {
                 error: "Mot de passe incorrect"
             });
         }
+        console.log(user)
         return res.status(200).json({
             userId: user.id,
             token: jwt.sign({

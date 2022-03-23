@@ -8,6 +8,6 @@ router.get("/:id", showMessage)
 router.get('/', showMessages)
 router.post('/', multer, postMessage)
 router.put('/:id', multer, modifyMessage)
-router.delete('/:id', deleteMessage)
+router.delete('/:id', multer, deleteMessage)
 
 module.exports = router;
