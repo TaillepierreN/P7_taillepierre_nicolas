@@ -30,6 +30,10 @@ db.comments.belongsTo(db.posts, {foreignKey: "postId", as: "post"});
 
 db.users.belongsToMany(db.posts, {through : db.likes});
 db.posts.belongsToMany(db.users, {through: db.likes});
+db.users.hasMany(db.likes);
+db.posts.hasMany(db.likes);
+db.likes.belongsTo(db.posts, {foreignKey: "postId", as: "post"});
+db.likes.belongsTo(db.users, {foreignKey: "userId", as: "user"});
 
 
 module.exports = db;

@@ -9,9 +9,12 @@ exports.showMessages = async (req, res) => {
 
         const posts = await Post.findAll({
             attributes: [
-                "id", "title", "content", "likes", "updatedAt", "createdAt",
+                "id", "title", "content", "updatedAt", "createdAt",
                 [
                     db.Sequelize.fn("COUNT", db.Sequelize.col("comments.id")), "commentsCount"
+                ],
+                [
+                    db.Sequelize.fn("COUNT", db.Sequelize.col("likes.postId")), "likesCount"
                 ]
             ],
             include: [{
@@ -21,13 +24,18 @@ exports.showMessages = async (req, res) => {
                         "id", "username", "profilepic"
                     ]
                 },
+                {
+                    model: db.likes,
+                    as: "likes",
+                    attributes: [],
 
+                },
                 {
                     model: db.comments,
                     as: "comments",
                     attributes: [],
+                },
 
-                }
             ],
             order: [
                 ["createdAt", "DESC"]
@@ -63,7 +71,7 @@ exports.showMessage = async (req, res) => {
             include: [{
                     model: db.users,
                     as: 'user',
-                    attributes:[ "username", "profilepic", "id"]
+                    attributes: ["username", "profilepic", "id"]
                 },
                 {
                     model: db.comments,
