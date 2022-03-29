@@ -4,7 +4,7 @@
             <div class="post_info">
                 <div class="post_info_user">
                     <img src="@/assets/img/icon.svg" alt />
-                    <h4>{{ post.user.username }}</h4>
+                    <h4>{{ post.user }}</h4>
                 </div>
                 <h3>{{ post.title }}</h3>
                 <p
@@ -48,9 +48,9 @@ export default {
 
     },
 
-    async created() {
+    mounted() {
         let url = document.location.pathname.split('/')[2].replace(/"/g,'')
-        await fetch(`http://localhost:3010/post/${url}`)
+            fetch(`http://localhost:3010/post/${url}`)
             .then((res) => res.json())
             .then((data) => (this.post = data))
             .catch((err) => console.log(err.message));

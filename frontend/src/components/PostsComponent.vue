@@ -6,7 +6,9 @@
           <img src="@/assets/img/icon.svg" alt="" />
           <h4>{{ post.user.username }}</h4>
         </div>
-        <h3>{{ post.title }}</h3>
+        <h3>
+          <router-link class="post_title" :to="{ name: 'posts', params: { id: post.id}}"> {{ post.title }} </router-link>
+        </h3>
         <p v-if="post.createdAt === post.updatedAt">
           Posté le: {{ formatDate(post.createdAt) }}
         </p>
