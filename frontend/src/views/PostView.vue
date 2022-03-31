@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <PostComponent />
+    <PostComponent v-if="post" :post="post" />
   </div>
 </template>
   
@@ -13,7 +13,18 @@ export default {
   components: {
     PostComponent,
   },
-  props: [],
+  data: () => ({
+    post: null
+  }),
+
+
+  mounted() {
+        let url = document.location.pathname.split('/')[2].replace(/"/g,'')
+            fetch(`http://localhost:3010/post/${url}`)
+            .then((res) => res.json())
+            .then((data) => (this.post = data))
+            .catch((err) => console.log(err.message));
+    },
 };
 </script>
   

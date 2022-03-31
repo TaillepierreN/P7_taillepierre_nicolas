@@ -1,18 +1,30 @@
 <template>
   <div class="home">
-    <PostsComponent/>
+    <div class="wrap">
+      <PostComponent :post="post" v-for="post in posts" :key="post.id" />
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import PostsComponent from '@/components/PostsComponent.vue'
+import PostComponent from '@/components/PostComponent.vue'
 
 export default {
   name: "HomeView",
   components: {
-    PostsComponent
+    PostComponent
   },
-  props:[]
+
+  data: () => ({
+    posts: []
+  }),
+
+  mounted() {
+    fetch("http://localhost:3010/post/")
+      .then((res) => res.json())
+      .then((data) => (this.posts = data))
+      .catch((err) => console.log(err.message));
+  },
 };
 </script>

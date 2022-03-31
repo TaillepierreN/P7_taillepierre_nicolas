@@ -3,7 +3,7 @@
   <nav>
     <router-link to="/">Acceuil</router-link> |
     <router-link to="/login" v-if="!isLogged">Login</router-link>
-    <router-link to="/profile" v-if="isLogged" >Profile</router-link> |
+    <router-link :to="{ name: 'profile', params: {id: userId}}" v-if="isLogged" >Profile</router-link> |
     <button v-if="isLogged" @click="disconnect" id="dcbutton">
       <img src="@\assets\img\icons8-déconnexion-50.png" alt="">
       </button>
@@ -15,20 +15,23 @@
   export default{
     data() {
       let isLogged=false
-
       if(localStorage.getItem('token')){
         isLogged= true;
       }
       console.log(isLogged)
 
+      const userId = window.localStorage.getItem("userId");
+      console.log(userId)
       return {
-        isLogged
+        isLogged,
+        userId
       }
     },
     methods: {
       disconnect: function(e){
         e.preventDefault();
         window.localStorage.removeItem("token");
+        window.localStorage.removeItem("userId");
         location.reload();
       }
     }
