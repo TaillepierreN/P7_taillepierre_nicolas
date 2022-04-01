@@ -4,6 +4,26 @@ const fs = require('fs');
 const bcrypt = require("bcrypt");
 
 
+exports.showUser = async (req, res) =>{
+    try {
+        const user = await User.findOne({
+            where: {
+                id: req.params.id
+            },
+            attributes: ["id", "username", "profilepic", "email"]
+        });
+        if (user){
+            return res.status(200).json(user)
+        }else{
+            return res.status(404).json({
+                message: "aucun utilisateur trouvé"
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({ error})
+    }
+}
+
 //Modifier un utilisateur
 exports.ModifyUser = async (req, res) => {
     try {
