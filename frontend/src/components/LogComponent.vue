@@ -4,6 +4,7 @@
     <form id="logform" @submit="loginForm" method="post" class="login_div">
       <label class="email" >email: <input id="logmail" type="email" v-model="email" v-if='account === false' /> </label>
       <label class="password" >password: <input id="logpass" type="text" v-model="password" v-if='account === false' /> </label>
+      <p class="error" v-if="errormsg"> {{ errormsg }} </p>
       <button>Se connecter</button>
     </form>
   </div>
@@ -19,7 +20,8 @@ export default {
   data() {
     return{
       email: '',
-      password: ''
+      password: '',
+      errormsg: ''
     }
   },
   methods: {
@@ -37,10 +39,15 @@ export default {
       })
       .then(res => res.json())
       .then(json => {
+        if(json.token){
         window.localStorage.setItem("token", JSON.stringify(json.token));
         window.localStorage.setItem("userId", JSON.stringify(json.userId))
         window.localStorage.setItem("isAdmin", JSON.stringify(json.isAdmin));
         window.location.href= "/"
+        } else{
+          console.log(json)
+          return this.errormsg = JSON.stringify(json)
+        }
       });
 
 

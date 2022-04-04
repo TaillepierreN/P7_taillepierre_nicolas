@@ -35,15 +35,15 @@ exports.login = async (req, res) => {
         }
         })
         if (!user) {
-            return res.status(404).json({
-                error: "Utilisateur non trouvé"
-            });
+            return res.status(404).json(
+                "Utilisateur non trouvé"
+            );
         }
         const isValid = await bcrypt.compare(req.body.password, user.password)
         if (!isValid) {
-            return res.status(400).json({
-                error: "Mot de passe incorrect"
-            });
+            return res.status(400).json(
+               "Mot de passe incorrect"
+            );
         }
         console.log(user)
         return res.status(200).json({
