@@ -14,17 +14,16 @@ export default {
     PostComponent,
   },
   data: () => ({
-    post: null
+    post: null,
   }),
 
-
   mounted() {
-        let url = document.location.pathname.split('/')[2].replace(/"/g,'')
-            fetch(`http://localhost:3010/post/${url}`)
-            .then((res) => res.json())
-            .then((data) => (this.post = data))
-            .catch((err) => console.log(err.message));
-    },
+    let url = document.location.pathname.split("/")[2].replace(/"/g, "");
+    fetch(`http://localhost:3010/post/${url}`)
+      .then((res) => res.json())
+      .then((data) => (this.post = data))
+      .catch((err) => console.log(err.message));
+  },
 };
 </script>
   
