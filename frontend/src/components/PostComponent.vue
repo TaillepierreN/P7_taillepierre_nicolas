@@ -1,11 +1,10 @@
 <template>
-  <div class="wrap">
+  <div>
     <div class="post">
       <div class="post_info">
         <div class="post_info_user">
           <img src="@/assets/img/icon.svg" alt />
           <h4>{{ post.user.username }}</h4>
-          <button @click="editMode = !editMode">Edit</button>
         </div>
         <router-link
           v-if="!editMode"
@@ -24,16 +23,35 @@
         </p>
       </div>
       <div class="post_content">
-        <p>{{ post.content }}</p>
+        <p v-if="!editMode">{{ post.content }}</p>
+        <textarea
+          class="editPostContent"
+          type="text"
+          v-if="editMode"
+          v-model="editPost.content"
+        />
       </div>
       <div class="post_likecombar">
+        <div class="edit">
+          <button
+            class="edit_button"
+            v-if="isUserOrAdmin == true"
+            @click="editMode = !editMode"
+          >
+          <p v-if="!editMode">
+            Edit
+          </p>
+          <p v-else>Annuler</p>
+          </button>
+          <button @click="editMsg" v-if="editMode">Sauvegarder</button>
+        </div>
+        <div class="editDivider"></div>
         <p class="commentsCount">Commentaire ({{ post.commentsCount }})</p>
         <span> </span>
         <p class="likeCount">likes: ({{ post.likesCount }})</p>
       </div>
     </div>
     <div v-if="comments">
-      <!-- <h1>{{ comments }}</h1> -->
       <CommentComponent
         :comment="comment"
         v-for="comment in comments"
@@ -59,7 +77,7 @@ export default {
       editPost: { ...this.post },
       editMode: false,
       comments: [],
-      isUserOrAdmin: false
+      isUserOrAdmin: false,
     };
   },
 
@@ -68,25 +86,35 @@ export default {
       const date = dayjs(dateString);
       return date.format("HH:mm - D MMM 'YY");
     },
-    
-  },
 
-  mounted(){
-    this.comments = this.post.comments
-    if(this.comments){
-      this.comments = this.comments.reverse()
+    editMsg: function(e){
+      e.preventDefault();
+      fetch(`http://localhost:3010/post/${this.post.id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          id: this.post.id,
+          ...this.editPost
+        }),
+        headers:{
+          "Content-type": "application/json"
+        }
+      })
     }
-      let uid = window.localStorage.getItem("userId");
-      let admin = JSON.parse(window.localStorage.getItem("isAdmin"));
-      console.log(admin);
-      if(this.post.user.id == uid || admin == true){
-        console.log("yay")
-        this.isUserOrAdmin = true
-        return this.isUserOrAdmin;
-      }
-
   },
 
+  mounted() {
+    this.comments = this.post.comments;
+    if (this.comments) {
+      this.comments = this.comments.reverse();
+    }
+    let uid = window.localStorage.getItem("userId");
+    let admin = JSON.parse(window.localStorage.getItem("isAdmin"));
+    if (this.post.user.id == uid || admin == true) {
+      this.isUserOrAdmin = true;
+      console.log(this.isUserOrAdmin);
+      return this.isUserOrAdmin;
+    }
+  },
 
   // filters: {
   //   reverse(comments) {
