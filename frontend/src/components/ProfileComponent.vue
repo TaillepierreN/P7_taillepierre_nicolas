@@ -45,4 +45,3 @@ export default {
   
 };
 </script>
-// v-if="user.id === post.user.id"
