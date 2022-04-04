@@ -58,7 +58,8 @@ export default {
     return {
       editPost: { ...this.post },
       editMode: false,
-      comments: []
+      comments: [],
+      isUserOrAdmin: false
     };
   },
 
@@ -75,6 +76,14 @@ export default {
     if(this.comments){
       this.comments = this.comments.reverse()
     }
+      let uid = window.localStorage.getItem("userId");
+      let admin = JSON.parse(window.localStorage.getItem("isAdmin"));
+      console.log(admin);
+      if(this.post.user.id == uid || admin == true){
+        console.log("yay")
+        this.isUserOrAdmin = true
+        return this.isUserOrAdmin;
+      }
 
   },
 

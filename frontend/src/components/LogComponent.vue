@@ -39,6 +39,7 @@ export default {
       .then(json => {
         window.localStorage.setItem("token", JSON.stringify(json.token));
         window.localStorage.setItem("userId", JSON.stringify(json.userId))
+        window.localStorage.setItem("isAdmin", JSON.stringify(json.isAdmin));
         window.location.href= "/"
       });
 

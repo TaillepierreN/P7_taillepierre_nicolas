@@ -32,6 +32,7 @@
         e.preventDefault();
         window.localStorage.removeItem("token");
         window.localStorage.removeItem("userId");
+        window.localStorage.removeItem("isAdmin");
         location.reload();
       }
     }

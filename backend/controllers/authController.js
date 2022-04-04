@@ -48,12 +48,14 @@ exports.login = async (req, res) => {
         console.log(user)
         return res.status(200).json({
             userId: user.id,
+            isAdmin: user.isAdmin,
             token: jwt.sign({
                     userId: user.id
                 },
                 process.env.TOKEN, {
                     expiresIn: '24h'
                 })
+
         })
     } catch (error) {
         return res.status(500).json({
