@@ -3,6 +3,7 @@ import PostView from '../views/PostView.vue'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import ProfileView from '../views/ProfileView.vue'
+import NewPost from '../views/NewPost.vue'
 
 const routes = [
   {
@@ -29,6 +30,11 @@ const routes = [
     path: '/post/:id',
     name: 'posts',
     component: PostView
+  },
+  {
+    path: '/post/',
+    name: 'newpost',
+    component: NewPost
   }
 ]
 

@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <div class="wrap">
+      <button><router-link to="/post/" style="color: black">Nouveau</router-link></button>
       <PostComponent :post="post" v-for="post in posts" :key="post.id" />
     </div>
   </div>

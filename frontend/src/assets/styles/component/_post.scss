@@ -34,6 +34,12 @@
       @include flex;
       justify-content: flex-end;
       margin-right: 35px;
+      &_counter{
+        display: flex;
+        & p{
+          margin: auto 5px;
+        }
+      }
     }
     &_title{
       color: black;
