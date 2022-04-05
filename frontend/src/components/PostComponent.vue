@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="post">
+    <div class="post" id="post">
       <div class="post_info">
         <div class="post_info_user">
           <img src="@/assets/img/icon.svg" alt />
@@ -35,20 +35,32 @@
         <div class="edit">
           <button
             class="edit_button"
-            v-if="isUserOrAdmin == true"
+            v-if="isUserOrAdmin == true && singlePost == true"
             @click="editMode = !editMode"
           >
-          <p v-if="!editMode">
-            Edit
-          </p>
-          <p v-else>Annuler</p>
+            <p v-if="!editMode">Edit</p>
+            <p v-else>Annuler</p>
           </button>
           <button @click="editMsg" v-if="editMode">Sauvegarder</button>
+          <button @click="delMsg" v-if="editMode">Supprimer</button>
         </div>
         <div class="editDivider"></div>
-        <p class="commentsCount">Commentaire ({{ post.commentsCount }})</p>
-        <span> </span>
-        <p class="likeCount">likes: ({{ post.likesCount }})</p>
+        <div class="post_likecombar_counter">
+          <p class="commentsCount">
+            Commentaire ( <span v-if="!post.commentsCount">0</span
+            ><span v-else>
+              {{ post.commentsCount }}
+            </span>
+            )
+          </p>
+          <p class="likeCount">
+            likes: ( <span v-if="!post.commentsCount">0</span>
+            <span v-else>
+              {{ post.likesCount }}
+            </span>
+            )
+          </p>
+        </div>
       </div>
     </div>
     <div v-if="comments">
@@ -78,6 +90,7 @@ export default {
       editMode: false,
       comments: [],
       isUserOrAdmin: false,
+      singlePost: false,
     };
   },
 
@@ -87,19 +100,34 @@ export default {
       return date.format("HH:mm - D MMM 'YY");
     },
 
-    editMsg: function(e){
+    editMsg: function (e) {
       e.preventDefault();
       fetch(`http://localhost:3010/post/${this.post.id}`, {
         method: "PUT",
         body: JSON.stringify({
           id: this.post.id,
-          ...this.editPost
+          ...this.editPost,
         }),
-        headers:{
-          "Content-type": "application/json"
-        }
+        headers: {
+          "Content-type": "application/json",
+        },
       })
-    }
+        .then((this.editMode = false))
+        .then((window.location.href = `/post/${this.post.id}`));
+    },
+
+    delMsg: function (e) {
+      e.preventDefault();
+      fetch(`http://localhost:3010/post/${this.post.id}`, {
+        method: "DELETE",
+        body: JSON.stringify({
+          id: this.post.id,
+        }),
+        headers: {
+          "Content-type": "application/json",
+        },
+      }).then((window.location.href = "/"));
+    },
   },
 
   mounted() {
@@ -111,23 +139,10 @@ export default {
     let admin = JSON.parse(window.localStorage.getItem("isAdmin"));
     if (this.post.user.id == uid || admin == true) {
       this.isUserOrAdmin = true;
-      console.log(this.isUserOrAdmin);
-      return this.isUserOrAdmin;
+      if (window.location.href.indexOf("post") > 0) {
+        this.singlePost = true;
+      }
     }
   },
-
-  // filters: {
-  //   reverse(comments) {
-  //     return comments.sortDirection = "DESC"
-  //   }
-  // }
-
-  // mounted() {
-  //     let url = document.location.pathname.split('/')[2].replace(/"/g,'')
-  //         fetch(`http://localhost:3010/post/${url}`)
-  //         .then((res) => res.json())
-  //         .then((data) => (this.post = data))
-  //         .catch((err) => console.log(err.message));
-  // },
 };
 </script>
