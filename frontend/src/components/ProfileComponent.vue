@@ -3,13 +3,25 @@
     <div class="profile">
       <h1>Profile</h1>
       <div class="profile_div">
-        <label>email : {{ user.email }}</label>
-        <label>username :{{ user.username }}</label>
+        <label
+          >email : {{ user.email }}
+          <input type="text" v-if="editMode" v-model="editUser.email"
+        /></label>
+        <label
+          >username :{{ user.username }}
+          <input type="text" v-if="editMode" v-model="editUser.username"
+        /></label>
       </div>
+      <button @click="editMode = !editMode">edit</button>
       <div class="profile_post">
         <h1>Post de l'utilisateur</h1>
-        <div class="profile_post_list" >
-          <PostComponent :post="post" v-for="post in filteredPosts" :key="post.id"  />
+        <div class="profile_post_list">
+          <PostComponent
+            :post="post"
+            v-for="post in posts"
+            :key="post.id"
+            :singlePost="false"
+          />
         </div>
       </div>
     </div>
@@ -27,21 +39,30 @@ export default {
   props: ["user"],
   data() {
     return {
+      editUser: { ...this.user },
+      editMode: false,
       posts: [],
     };
   },
   mounted() {
-    fetch(`http://localhost:3010/post`)
+    fetch(`http://localhost:3010/post?userId=${this.$route.params.id}`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
       .then((res) => res.json())
-      .then((data) => (this.posts = data))
+      .then((data) => {
+        this.posts = data
+        console.log(data)
+      })
       .catch((err) => console.log(err.message));
   },
 
-  computed:{
-      filteredPosts: function () {
-          return this.posts.filter(postf => postf.user.id === JSON.parse(document.location.pathname.split('/')[2].replace(/"/g,'')))
-      }
-  }
-  
+  methods: {
+    editUsr: function (e) {
+      e.preventDefault();
+      fetch(`http://localhost:3010/`);
+    },
+  },
 };
 </script>

@@ -8,7 +8,7 @@ const router = Router();
 
 router.put('/:id', auth, isOwnerOrAdmin, multer, ModifyUser )
 router.delete('/:id', auth, isOwnerOrAdmin, multer, deleteUser)
-router.get('/:id', multer, showUser)
+router.get('/:id',auth, multer, showUser)
 
 
 module.exports = router;

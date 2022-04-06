@@ -4,26 +4,27 @@
       <div class="post_info">
         <div class="post_info_user">
           <img src="@/assets/img/icon.svg" alt />
-          <h4>{{ post.user.username }}</h4>
+          <h4>{{ editPost.user.username }}</h4>
         </div>
         <router-link
           v-if="!editMode"
           class="post_title"
-          :to="{ name: 'posts', params: { id: post.id } }"
+          :to="{ name: 'posts', params: { id: editPost.id } }"
         >
-          {{ post.title }}
+          {{ editPost.title }}
         </router-link>
         <input v-if="editMode" type="text" v-model="editPost.title" />
-        <p v-if="post.createdAt === post.updatedAt">
-          Posté le: {{ formatDate(post.createdAt) }}
+        <p v-if="editPost.createdAt === editPost.updatedAt">
+          Posté le: {{ formatDate(editPost.createdAt) }}
         </p>
         <p v-else>
-          Posté le: {{ formatDate(post.createdAt) }} Modifié:
-          {{ formatDate(post.updatedAt) }}
+          Posté le: {{ formatDate(editPost.createdAt) }} Modifié:
+          {{ formatDate(editPost.updatedAt) }}
         </p>
       </div>
       <div class="post_content">
-        <p v-if="!editMode">{{ post.content }}</p>
+        <p v-if="!editMode">{{ editPost.content }}</p>
+        <img v-if="!editMode" :src="editPost.attachment" alt="">
         <textarea
           class="editPostContent"
           type="text"
@@ -46,17 +47,20 @@
         </div>
         <div class="editDivider"></div>
         <div class="post_likecombar_counter">
-          <p class="commentsCount">
-            Commentaire ( <span v-if="!post.commentsCount">0</span
-            ><span v-else>
-              {{ post.commentsCount }}
-            </span>
-            )
-          </p>
+          <a class="postlink" href="#comment">
+            <p class="commentsCount">
+              Commentaire ( <span v-if="singlePost == false">
+                {{ editPost.commentsCount }}
+              </span>
+              <span v-else> {{ editPost.comments.length }}</span>
+              )
+            </p>
+          </a>
+
           <p class="likeCount">
-            likes: ( <span v-if="!post.commentsCount">0</span>
+            likes: ( <span v-if="!editPost.commentsCount">0</span>
             <span v-else>
-              {{ post.likesCount }}
+              {{ editPost.likesCount }}
             </span>
             )
           </p>
@@ -79,7 +83,7 @@ import CommentComponent from "@/components/CommentComponent.vue";
 
 export default {
   name: "PostComponent",
-  props: ["post"],
+  props: ["post","singlePost"],
   components: {
     CommentComponent,
   },
@@ -90,7 +94,7 @@ export default {
       editMode: false,
       comments: [],
       isUserOrAdmin: false,
-      singlePost: false,
+
     };
   },
 
@@ -112,8 +116,7 @@ export default {
           "Content-type": "application/json",
         },
       })
-        .then((this.editMode = false))
-        .then((window.location.href = `/post/${this.post.id}`));
+        .then(() =>this.editMode = false);
     },
 
     delMsg: function (e) {
@@ -124,6 +127,7 @@ export default {
           id: this.post.id,
         }),
         headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
           "Content-type": "application/json",
         },
       }).then((window.location.href = "/"));
@@ -139,9 +143,9 @@ export default {
     let admin = JSON.parse(window.localStorage.getItem("isAdmin"));
     if (this.post.user.id == uid || admin == true) {
       this.isUserOrAdmin = true;
-      if (window.location.href.indexOf("post") > 0) {
-        this.singlePost = true;
-      }
+      // if (window.location.href.indexOf("post") > 0) {
+      //   this.singlePost = true;
+      // }
     }
   },
 };

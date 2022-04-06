@@ -2,7 +2,7 @@
   <div class="home">
     <div class="wrap">
       <button><router-link to="/post/" style="color: black">Nouveau</router-link></button>
-      <PostComponent :post="post" v-for="post in posts" :key="post.id" />
+      <PostComponent :post="post" v-for="post in posts" :key="post.id" :singlePost="false"/>
     </div>
   </div>
 </template>
@@ -22,7 +22,11 @@ export default {
   }),
 
   mounted() {
-    fetch("http://localhost:3010/post/")
+    fetch("http://localhost:3010/post/",{
+      headers:{
+        Authorization:"Bearer " + localStorage.getItem("token") 
+      }
+    })
       .then((res) => res.json())
       .then((data) => (this.posts = data))
       .catch((err) => console.log(err.message));
