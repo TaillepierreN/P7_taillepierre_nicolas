@@ -40,9 +40,9 @@ export default {
       .then(res => res.json())
       .then(json => {
         if(json.token){
-        window.localStorage.setItem("token", JSON.stringify(json.token));
-        window.localStorage.setItem("userId", JSON.stringify(json.userId))
-        window.localStorage.setItem("isAdmin", JSON.stringify(json.isAdmin));
+        window.localStorage.setItem("token", json.token);
+        window.localStorage.setItem("userId", json.userId)
+        window.localStorage.setItem("isAdmin", json.isAdmin);
         window.location.href= "/"
         } else{
           console.log(json)

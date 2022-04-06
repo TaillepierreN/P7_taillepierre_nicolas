@@ -6,8 +6,7 @@ const fs = require('fs');
 // Afficher tout les posts 
 exports.showMessages = async (req, res) => {
     try {
-
-        const posts = await Post.findAll({
+        const query = {
             attributes: [
                 "id", "title", "content", "updatedAt", "createdAt",
                 [
@@ -43,7 +42,13 @@ exports.showMessages = async (req, res) => {
             group: [
                 "post.id"
             ]
-        });
+        }
+        if(req.query.userId){
+            query.where = {
+                userId: req.query.userId
+            }
+        }
+        const posts = await Post.findAll(query);
         return res.status(200).json(posts);
     } catch (error) {
         return res.status(500).json({
@@ -112,7 +117,7 @@ exports.postMessage = async (req, res) => {
             ...req.body
         };
         if (req.file) {
-            newpost.attachment = `${req.protocol}://${req.get('host')}//images/attachment/${req.file.filename}`
+            newpost.attachment = `${req.protocol}://${req.get('host')}/images/attachment/${req.file.filename}`
         }
         await Post.create(newpost);
         return res.status(201).json({

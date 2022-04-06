@@ -1,6 +1,6 @@
 <template>
   <div class="wrap">
-    <div class="comment">
+    <div class="comment" id="comment">
       <div class="comment_info">
         <div class="comment_info_user">
           <img src="@/assets/img/icon.svg" alt />
@@ -26,13 +26,6 @@ import dayjs from "dayjs";
 export default {
   name: "CommentComponent",
   props: ["comment"],
-
-  data() {
-    return {
-      //   editComment: { ...this.comments },
-      //   editMode: false,
-    };
-  },
 
   methods: {
     formatDate(dateString) {
