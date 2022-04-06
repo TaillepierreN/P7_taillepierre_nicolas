@@ -14,7 +14,7 @@ exports.signup = async (req, res) => {
             username: req.body.username,
         };
         if(req.file){
-            user.profilepic = `${req.protocol}://${req.get('host')}//images/profile/${req.file.filename}`
+            user.profilepic = `${req.protocol}://${req.get('host')}/images/profile/${req.file.filename}`
         }
         await User.create(user)
         return res.status(201).json({

@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require("path");
 const cors = require('cors');
 const dotenv = require('dotenv');
 const authRouting = require('./routes/authRouting');
@@ -15,6 +16,8 @@ const app = express();
 app.use(express.json());
 
 app.use(cors());
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/auth', authRouting);
 app.use('/post', postRouting, commentRouting, users_posts_likeRouting);
