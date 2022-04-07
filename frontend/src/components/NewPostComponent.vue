@@ -61,7 +61,7 @@ export default {
 
         },
       })
-      // .then((window.location.href = "/"));
+      .then((window.location.href = "/"));
     },
 
     onFileChange(e) {

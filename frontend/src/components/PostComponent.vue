@@ -24,13 +24,22 @@
       </div>
       <div class="post_content">
         <p v-if="!editMode">{{ editPost.content }}</p>
-        <img v-if="!editMode" :src="editPost.attachment" alt="">
+        <img v-if="!editMode" id="imgpost" :src="editPost.attachment" alt="" />
         <textarea
           class="editPostContent"
           type="text"
           v-if="editMode"
           v-model="editPost.content"
         />
+        <div class="post_content_img" v-if="editMode">
+          <label for="image">image</label>
+          <input
+            id="image"
+            @change="onFileChange"
+            accept=".jpg, .jpeg, .png, .gif, .webp"
+            type="file"
+          />
+        </div>
       </div>
       <div class="post_likecombar">
         <div class="edit">
@@ -49,25 +58,28 @@
         <div class="post_likecombar_counter">
           <a class="postlink" href="#comment">
             <p class="commentsCount">
-              Commentaire ( <span v-if="singlePost == false">
+              Commentaire (
+              <span v-if="singlePost == false">
                 {{ editPost.commentsCount }}
               </span>
               <span v-else> {{ editPost.comments.length }}</span>
               )
             </p>
           </a>
-
-          <p class="likeCount">
-            likes: ( <span v-if="!editPost.commentsCount">0</span>
-            <span v-else>
-              {{ editPost.likesCount }}
-            </span>
-            )
-          </p>
+          <button @click="likeswitch">
+            <p class="likeCount">
+              likes: (
+              <span v-if="singlePost == false">{{ editPost.likesCount }}</span>
+              <span v-else-if="postlikesCount"> {{ editLike }}</span>
+              <span v-else>0</span>
+              )
+            </p>
+          </button>
         </div>
       </div>
     </div>
     <div v-if="comments">
+      <button>Ajouter commentaire</button>
       <CommentComponent
         :comment="comment"
         v-for="comment in comments"
@@ -83,18 +95,25 @@ import CommentComponent from "@/components/CommentComponent.vue";
 
 export default {
   name: "PostComponent",
-  props: ["post","singlePost"],
+  props: ["post", "singlePost", "postlikesCount"],
   components: {
     CommentComponent,
   },
 
   data() {
     return {
-      editPost: { ...this.post },
+      editPost: { ...this.post, image: null },
+      editLike: this.postlikesCount,
       editMode: false,
       comments: [],
       isUserOrAdmin: false,
-
+      acceptedFile: [
+        "imgage/png",
+        "image/jpg",
+        "image/jpeg",
+        "image/webp",
+        "image/gif",
+      ],
     };
   },
 
@@ -106,22 +125,26 @@ export default {
 
     editMsg: function (e) {
       e.preventDefault();
-      fetch(`http://localhost:3010/post/${this.post.id}`, {
+      const formData = new FormData();
+      formData.append("id", this.editPost.id);
+      formData.append("title", this.editPost.title);
+      formData.append("type", "post");
+      formData.append("image", this.editPost.image);
+
+      fetch(`http://localhost:3010/post/${this.$route.params.id}`, {
         method: "PUT",
-        body: JSON.stringify({
-          id: this.post.id,
-          ...this.editPost,
-        }),
+        body: formData,
         headers: {
-          "Content-type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
         },
-      })
-        .then(() =>this.editMode = false);
+      }).then(() => {
+        this.editMode = false;
+      });
     },
 
     delMsg: function (e) {
       e.preventDefault();
-      fetch(`http://localhost:3010/post/${this.post.id}`, {
+      fetch(`http://localhost:3010/post/${this.$route.params.id}`, {
         method: "DELETE",
         body: JSON.stringify({
           id: this.post.id,
@@ -130,7 +153,31 @@ export default {
           Authorization: "Bearer " + localStorage.getItem("token"),
           "Content-type": "application/json",
         },
-      }).then((window.location.href = "/"));
+      }).then(() => (window.location.href = "/"));
+    },
+
+    onFileChange(e) {
+      const file = e.target.files[0];
+      if (!this.acceptedFile.includes(file.type)) {
+        e.target.value = null;
+        return alert("Seul les fichiers jpg,jpeg,webp,gif,png sont accepté");
+      }
+      this.editPost.image = file;
+      console.log(this.editPost.image);
+    },
+
+    likeswitch(e) {
+      e.preventDefault();
+      fetch(`http://localhost:3010/post/${this.post.id}/like`, {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: localStorage.getItem("userId"),
+        }),
+      }).then(window.location.reload())
     },
   },
 
@@ -143,9 +190,6 @@ export default {
     let admin = JSON.parse(window.localStorage.getItem("isAdmin"));
     if (this.post.user.id == uid || admin == true) {
       this.isUserOrAdmin = true;
-      // if (window.location.href.indexOf("post") > 0) {
-      //   this.singlePost = true;
-      // }
     }
   },
 };

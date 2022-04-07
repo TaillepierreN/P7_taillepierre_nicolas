@@ -8,7 +8,7 @@ exports.showMessages = async (req, res) => {
     try {
         const query = {
             attributes: [
-                "id", "title", "content", "updatedAt", "createdAt",
+                "id", "title", "content", "updatedAt", "createdAt","attachment",
                 [
                     db.Sequelize.fn("COUNT", db.Sequelize.col("comments.id")), "commentsCount"
                 ],
@@ -64,15 +64,6 @@ exports.showMessage = async (req, res) => {
             where: {
                 id: req.params.id
             },
-            // attributes: [
-            //     "id", "title", "content", "likes", "updatedAt", "createdAt",
-            //     [
-            //         db.Sequelize.fn("COUNT", db.Sequelize.col("comments.id")), "commentsCount"
-            //     ]
-            // ],
-            // group: [
-            //     "post.id"
-            // ],
             include: [{
                     model: db.users,
                     as: 'user',
@@ -133,14 +124,14 @@ exports.postMessage = async (req, res) => {
 // Modifier post existant
 exports.modifyMessage = async (req, res) => {
     try {
-        const post = Post.findOne({
+        const post = await Post.findOne({
             where: {
                 id: req.params.id
             }
         })
         const postupdate = req.file ? {
             ...req.body,
-            attachment: `${req.protocol}://${req.get('host')}//images/attachment/${req.file.filename}`
+            attachment: `${req.protocol}://${req.get('host')}/images/attachment/${req.file.filename}`
         } : {
             ...req.body
         }
@@ -148,7 +139,7 @@ exports.modifyMessage = async (req, res) => {
             if (req.file) {
                 const toDelete = post.attachment.split('/attachment/')[1];
                 try {
-                    fs.unlinkSync(`/attachment/${toDelete}`)
+                    fs.unlinkSync(`images/attachment/${toDelete}`)
                 } catch (error) {
                     console.error(error)
                 }
@@ -158,6 +149,7 @@ exports.modifyMessage = async (req, res) => {
                     id: req.params.id
                 }
             })
+            console.log(postupdate)
             return res.status(200).json({
                 message: "Post mis à jour"
             })
@@ -173,19 +165,22 @@ exports.modifyMessage = async (req, res) => {
 //Supprimer un post
 exports.deleteMessage = async (req, res) => {
     try {
-        const post = Post.findOne({
+        const post = await Post.findOne({
             where: {
                 id: req.params.id
             }
         })
+        console.log(post)
         if (post) {
-            // const toDelete = post.attachment.split('/attachment/')[1];
-            // fs.unlinkSync(`/attachment/${toDelete}`);
+            const toDelete = post.attachment.split('/attachment/')[1];
+            fs.unlinkSync(`images/attachment/${toDelete}`);
+            console.log("step 1")
             await Post.destroy({
                 where: {
                     id: req.params.id
                 }
             })
+            console.log("step 2")
             return res.status(200).json({
                 message: "Post retiré"
             })

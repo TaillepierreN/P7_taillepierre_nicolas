@@ -18,8 +18,8 @@ export default {
     };
   },
   mounted() {
-    let url = document.location.pathname.split("/")[2].replace(/"/g, "");
-    fetch(`http://localhost:3010/user/${url}`, {
+    
+    fetch(`http://localhost:3010/user/${this.$route.params.id}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
