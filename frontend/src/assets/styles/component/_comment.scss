@@ -1,6 +1,6 @@
 .comment {
     width: 90%;
-    height: 150px;
+    height: 100%;
     background-color: antiquewhite;
     margin: 20px auto;
     &_info {
@@ -22,12 +22,12 @@
         }
       }
       &_content {
-        height: 215px;
+        height: 150px;
         width: 70%;
         margin: auto;
         padding-top: 40px;
         & p {
-          height: 100%;
+          height: 60%;
         }
       }
 }

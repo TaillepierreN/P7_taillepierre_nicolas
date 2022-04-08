@@ -17,7 +17,7 @@
         <input id="image" @change="onFileChange" accept=".jpg, .jpeg, .png, .gif, .webp" type="file">
         <div class="newpost_form_button">
           <button>Enregistrer</button>
-          <button>annuler</button>
+          <button type="button" @click="cancel"> annuler</button>
         </div>
       </form>
     </div>
@@ -62,6 +62,11 @@ export default {
         },
       })
       .then((window.location.href = "/"));
+    },
+
+    cancel:function(e){
+      e.preventDefault()
+      window.location.href ="/"
     },
 
     onFileChange(e) {

@@ -79,11 +79,15 @@
       </div>
     </div>
     <div v-if="comments">
-      <button>Ajouter commentaire</button>
+      <button @click="addComment = !addComment">Ajouter commentaire</button>
+      <div class="newcomment">
+        <NewCommentComponent v-if="addComment == true" :id="this.post.id" />
+      </div>
       <CommentComponent
         :comment="comment"
         v-for="comment in comments"
         :key="comment.id"
+        :postId="this.post.id"
       />
     </div>
   </div>
@@ -92,12 +96,14 @@
 <script>
 import dayjs from "dayjs";
 import CommentComponent from "@/components/CommentComponent.vue";
+import NewCommentComponent from "@/components/NewCommentComponent.vue"
 
 export default {
   name: "PostComponent",
   props: ["post", "singlePost", "postlikesCount"],
   components: {
     CommentComponent,
+    NewCommentComponent
   },
 
   data() {
@@ -114,6 +120,7 @@ export default {
         "image/webp",
         "image/gif",
       ],
+      addComment: false
     };
   },
 
