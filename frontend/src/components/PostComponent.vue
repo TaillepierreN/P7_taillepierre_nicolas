@@ -70,7 +70,7 @@
             <p class="likeCount">
               likes: (
               <span v-if="singlePost == false">{{ editPost.likesCount }}</span>
-              <span v-else-if="postlikesCount"> {{ editLike }}</span>
+              <span v-else-if="this.postlikesCount"> {{this.postlikesCount}}</span>
               <span v-else>0</span>
               )
             </p>
@@ -78,7 +78,7 @@
         </div>
       </div>
     </div>
-    <div v-if="comments">
+    <div v-if="comments && singlePost == true">
       <button @click="addComment = !addComment">Ajouter commentaire</button>
       <div class="newcomment">
         <NewCommentComponent v-if="addComment == true" :id="this.post.id" />
@@ -100,7 +100,7 @@ import NewCommentComponent from "@/components/NewCommentComponent.vue"
 
 export default {
   name: "PostComponent",
-  props: ["post", "singlePost", "postlikesCount"],
+  props: ["post", "singlePost","postlikesCount"],
   components: {
     CommentComponent,
     NewCommentComponent
@@ -109,8 +109,8 @@ export default {
   data() {
     return {
       editPost: { ...this.post, image: null },
-      editLike: this.postlikesCount,
       editMode: false,
+      // postlikesCount:"",
       comments: [],
       isUserOrAdmin: false,
       acceptedFile: [
@@ -184,8 +184,14 @@ export default {
         body: JSON.stringify({
           userId: localStorage.getItem("userId"),
         }),
-      }).then(window.location.reload())
-    },
+      })
+      .then(() =>{
+        if(this.singlePost==true){
+          window.location.href=`/post/${this.post.id}`
+        } else{
+          window.location.reload()
+        }
+      })
   },
 
   mounted() {
@@ -198,6 +204,9 @@ export default {
     if (this.post.user.id == uid || admin == true) {
       this.isUserOrAdmin = true;
     }
+
   },
-};
+  
+}
+}
 </script>

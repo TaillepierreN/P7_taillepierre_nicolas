@@ -10,7 +10,7 @@ exports.showMessages = async (req, res) => {
             attributes: [
                 "id", "title", "content", "updatedAt", "createdAt","attachment",
                 [
-                    db.Sequelize.fn("COUNT", db.Sequelize.col("comments.id")), "commentsCount"
+                    db.Sequelize.fn("COUNT", db.Sequelize.col("comments.postId")), "commentsCount"
                 ],
                 [
                     db.Sequelize.fn("COUNT", db.Sequelize.col("likes.postId")), "likesCount"
