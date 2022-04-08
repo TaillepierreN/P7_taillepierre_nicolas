@@ -172,9 +172,10 @@ exports.deleteMessage = async (req, res) => {
         })
         console.log(post)
         if (post) {
-            const toDelete = post.attachment.split('/attachment/')[1];
-            fs.unlinkSync(`images/attachment/${toDelete}`);
-            console.log("step 1")
+            if(post.attachment){
+                const toDelete = post.attachment.split('/attachment/')[1];
+                fs.unlinkSync(`images/attachment/${toDelete}`);
+            }
             await Post.destroy({
                 where: {
                     id: req.params.id

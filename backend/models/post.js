@@ -10,10 +10,6 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.TEXT,
                 allowNull: false
             },
-            // likes:{
-            //     type: Sequelize.INTEGER,
-            //     default: 0
-            // },
             attachment:{
                 type: Sequelize.STRING(255)
             },
