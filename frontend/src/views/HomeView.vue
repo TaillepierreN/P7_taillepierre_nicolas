@@ -1,31 +1,38 @@
 <template>
   <div class="home">
     <div class="wrap">
-      <button><router-link to="/post/" style="color: black">Nouveau</router-link></button>
-      <PostComponent :post="post" v-for="post in posts" :key="post.id" :singlePost="false"/>
+      <button>
+        <router-link to="/post/" style="color: black">Nouveau</router-link>
+      </button>
+      <PostComponent
+        :post="post"
+        v-for="post in posts"
+        :key="post.id"
+        :singlePost="false"
+      />
     </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import PostComponent from '@/components/PostComponent.vue'
+import PostComponent from "@/components/PostComponent.vue";
 
 export default {
   name: "HomeView",
   components: {
-    PostComponent
+    PostComponent,
   },
 
   data: () => ({
-    posts: []
+    posts: [],
   }),
 
   mounted() {
-    fetch("http://localhost:3010/post/",{
-      headers:{
-        Authorization:"Bearer " + localStorage.getItem("token") 
-      }
+    fetch("http://localhost:3010/post/", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
     })
       .then((res) => res.json())
       .then((data) => (this.posts = data))

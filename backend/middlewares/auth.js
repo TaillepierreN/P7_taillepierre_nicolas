@@ -9,7 +9,7 @@ module.exports = async (req, res, next) => {
         const userId = decodedToken.userId;
         const user = await User.findOne({where: {id: userId}})
         if(!user){
-          return  res.status(403).json({ message: "votre compte n'a pas été trouvé"})
+            return  res.status(403).json({ message: "votre compte n'a pas été trouvé"})
         }
         next();
     } catch (error) {

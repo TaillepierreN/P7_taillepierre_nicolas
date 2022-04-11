@@ -1,5 +1,9 @@
 <template>
-  <form @submit="newcomment" style="background-color: white" class="newpost_content">
+  <form
+    @submit="newcomment"
+    style="background-color: white"
+    class="newpost_content"
+  >
     <h3>Nouveau commentaire</h3>
     <label for="newpost_content"
       ><input
@@ -27,6 +31,7 @@ export default {
   },
 
   methods: {
+    
     newcomment: function (e) {
       e.preventDefault();
       fetch(`http://localhost:3010/post/${this.$route.params.id}/comment`, {
@@ -34,21 +39,21 @@ export default {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
           "Content-type": "application/json",
-
         },
         body: JSON.stringify({
           content: this.comment.content,
           userId: localStorage.getItem("userId"),
         }),
       })
-        .then((res) => res.json)
-        .then((data) => console.log(data));
+      .then(() => (window.location.href = `/post/${this.$route.params.id}`));
+
     },
 
     cancel: function (e) {
       e.preventDefault();
       window.location.href = `/post/${this.$route.params.id}`;
     },
+
   },
 };
 </script>

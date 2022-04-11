@@ -70,7 +70,9 @@
             <p class="likeCount">
               likes: (
               <span v-if="singlePost == false">{{ editPost.likesCount }}</span>
-              <span v-else-if="this.postlikesCount"> {{this.postlikesCount}}</span>
+              <span v-else-if="this.postlikesCount">
+                {{ this.postlikesCount }}</span
+              >
               <span v-else>0</span>
               )
             </p>
@@ -96,14 +98,14 @@
 <script>
 import dayjs from "dayjs";
 import CommentComponent from "@/components/CommentComponent.vue";
-import NewCommentComponent from "@/components/NewCommentComponent.vue"
+import NewCommentComponent from "@/components/NewCommentComponent.vue";
 
 export default {
   name: "PostComponent",
-  props: ["post", "singlePost","postlikesCount"],
+  props: ["post", "singlePost", "postlikesCount"],
   components: {
     CommentComponent,
-    NewCommentComponent
+    NewCommentComponent,
   },
 
   data() {
@@ -120,11 +122,12 @@ export default {
         "image/webp",
         "image/gif",
       ],
-      addComment: false
+      addComment: false,
     };
   },
 
   methods: {
+
     formatDate(dateString) {
       const date = dayjs(dateString);
       return date.format("HH:mm - D MMM 'YY");
@@ -137,7 +140,6 @@ export default {
       formData.append("title", this.editPost.title);
       formData.append("type", "post");
       formData.append("image", this.editPost.image);
-
       fetch(`http://localhost:3010/post/${this.$route.params.id}`, {
         method: "PUT",
         body: formData,
@@ -184,29 +186,27 @@ export default {
         body: JSON.stringify({
           userId: localStorage.getItem("userId"),
         }),
-      })
-      .then(() =>{
-        if(this.singlePost==true){
-          window.location.href=`/post/${this.post.id}`
-        } else{
-          window.location.reload()
+      }).then(() => {
+        if (this.singlePost == true) {
+          window.location.href = `/post/${this.post.id}`;
+        } else {
+          window.location.reload();
         }
-      })
-  },
+      });
+    },
 
-  mounted() {
-    this.comments = this.post.comments;
-    if (this.comments) {
-      this.comments = this.comments.reverse();
-    }
-    let uid = window.localStorage.getItem("userId");
-    let admin = JSON.parse(window.localStorage.getItem("isAdmin"));
-    if (this.post.user.id == uid || admin == true) {
-      this.isUserOrAdmin = true;
-    }
+    mounted() {
+      this.comments = this.post.comments;
+      if (this.comments) {
+        this.comments = this.comments.reverse();
+      }
+      let uid = window.localStorage.getItem("userId");
+      let admin = JSON.parse(window.localStorage.getItem("isAdmin"));
+      if (this.post.user.id == uid || admin == true) {
+        this.isUserOrAdmin = true;
+      }
+    },
+  }
 
-  },
-  
-}
-}
+};
 </script>

@@ -18,19 +18,21 @@
 
 <script>
 export default {
+
   data() {
     let isLogged = false;
     if (localStorage.getItem("token")) {
       isLogged = true;
     }
-
     const userId = window.localStorage.getItem("userId");
     return {
       isLogged,
       userId,
     };
   },
+
   methods: {
+
     disconnect: function (e) {
       e.preventDefault();
       window.localStorage.removeItem("token");
@@ -39,6 +41,7 @@ export default {
       location.reload();
     },
   },
+
 };
 </script>
 

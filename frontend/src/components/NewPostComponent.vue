@@ -14,10 +14,15 @@
           v-model="post.content"
         ></textarea>
         <label for="image">image</label>
-        <input id="image" @change="onFileChange" accept=".jpg, .jpeg, .png, .gif, .webp" type="file">
+        <input
+          id="image"
+          @change="onFileChange"
+          accept=".jpg, .jpeg, .png, .gif, .webp"
+          type="file"
+        />
         <div class="newpost_form_button">
           <button>Enregistrer</button>
-          <button type="button" @click="cancel"> annuler</button>
+          <button type="button" @click="cancel">annuler</button>
         </div>
       </form>
     </div>
@@ -32,53 +37,51 @@ export default {
       post: {
         title: "",
         content: "",
-        image:null
+        image: null,
       },
-      acceptedFile:[
+      acceptedFile: [
         "imgage/png",
         "image/jpg",
         "image/jpeg",
         "image/webp",
-        "image/gif"
-      ]
+        "image/gif",
+      ],
     };
   },
 
   methods: {
+    
     newpost: function (e) {
       e.preventDefault();
-      const formData = new FormData()
-      formData.append("title",this.post.title)
-      formData.append("content",this.post.content)
-      formData.append("userId",window.localStorage.getItem("userId"))
-      formData.append("type", "post")
-      formData.append("image",this.post.image)
+      const formData = new FormData();
+      formData.append("title", this.post.title);
+      formData.append("content", this.post.content);
+      formData.append("userId", window.localStorage.getItem("userId"));
+      formData.append("type", "post");
+      formData.append("image", this.post.image);
       fetch("http://localhost:3010/post", {
         method: "POST",
         body: formData,
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
-
         },
-      })
-      .then((window.location.href = "/"));
+      }).then((window.location.href = "/"));
     },
 
-    cancel:function(e){
-      e.preventDefault()
-      window.location.href ="/"
+    cancel: function (e) {
+      e.preventDefault();
+      window.location.href = "/";
     },
 
     onFileChange(e) {
-      const file = e.target.files[0]
-      if(!this.acceptedFile.includes(file.type)){
-        e.target.value = null
-        return alert("Seul les fichiers jpg,jpeg,webp,gif,png sont accepté")
+      const file = e.target.files[0];
+      if (!this.acceptedFile.includes(file.type)) {
+        e.target.value = null;
+        return alert("Seul les fichiers jpg,jpeg,webp,gif,png sont accepté");
       }
-      this.post.image = file
-      console.log(this.post.image)
-
-    }
+      this.post.image = file;
+      console.log(this.post.image);
+    },
   },
 };
 </script>

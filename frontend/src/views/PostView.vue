@@ -1,6 +1,11 @@
 <template>
   <div class="home">
-    <PostComponent v-if="post" :post="post" :singlePost="true" :postlikesCount="postlikesCount" />
+    <PostComponent
+      v-if="post"
+      :post="post"
+      :singlePost="true"
+      :postlikesCount="postlikesCount"
+    />
   </div>
 </template>
   
@@ -15,10 +20,11 @@ export default {
   },
   data: () => ({
     post: null,
-    postlikesCount:'0'
+    postlikesCount: "0",
   }),
 
   mounted() {
+    
     fetch(`http://localhost:3010/post/${this.$route.params.id}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
@@ -28,7 +34,7 @@ export default {
       .then((data) => (this.post = data))
       .catch((err) => console.log(err.message));
 
-      fetch(`http://localhost:3010/post/${this.$route.params.id}/like`, {
+    fetch(`http://localhost:3010/post/${this.$route.params.id}/like`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
@@ -36,8 +42,6 @@ export default {
       .then((res) => res.json())
       .then((data) => (this.postlikesCount = JSON.stringify(data)))
       .catch((err) => console.log(err.message));
-
-
   },
 };
 </script>

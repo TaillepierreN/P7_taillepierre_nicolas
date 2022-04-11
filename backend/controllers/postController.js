@@ -8,7 +8,7 @@ exports.showMessages = async (req, res) => {
     try {
         const query = {
             attributes: [
-                "id", "title", "content", "updatedAt", "createdAt","attachment",
+                "id", "title", "content", "updatedAt", "createdAt", "attachment",
                 [
                     db.Sequelize.fn("COUNT", db.Sequelize.col("comments.postId")), "commentsCount"
                 ],
@@ -17,24 +17,22 @@ exports.showMessages = async (req, res) => {
                 ]
             ],
             include: [{
-                    model: db.users,
-                    as: 'user',
-                    attributes: [
-                        "id", "username", "profilepic"
-                    ]
-                },
-                {
-                    model: db.likes,
-                    as: "likes",
-                    attributes: [],
-
-                },
-                {
-                    model: db.comments,
-                    as: "comments",
-                    attributes: [],
-                },
-
+                model: db.users,
+                as: 'user',
+                attributes: [
+                    "id", "username", "profilepic"
+                ]
+            },
+            {
+                model: db.likes,
+                as: "likes",
+                attributes: [],
+            },
+            {
+                model: db.comments,
+                as: "comments",
+                attributes: [],
+            },
             ],
             order: [
                 ["createdAt", "DESC"]
@@ -43,7 +41,7 @@ exports.showMessages = async (req, res) => {
                 "post.id"
             ]
         }
-        if(req.query.userId){
+        if (req.query.userId) {
             query.where = {
                 userId: req.query.userId
             }
@@ -65,28 +63,27 @@ exports.showMessage = async (req, res) => {
                 id: req.params.id
             },
             include: [{
+                model: db.users,
+                as: 'user',
+                attributes: ["username", "profilepic", "id"]
+            },
+            {
+                model: db.comments,
+                as: 'comments',
+                required: false,
+                include: [{
                     model: db.users,
                     as: 'user',
-                    attributes: ["username", "profilepic", "id"]
-                },
-                {
-                    model: db.comments,
-                    as: 'comments',
-                    required: false,
-                    include: [{
-                        model: db.users,
-                        as: 'user',
-                        attributes: [
-                            "id", "username", "profilepic"
-                        ]
-                    }]
-                }
+                    attributes: [
+                        "id", "username", "profilepic"
+                    ]
+                }]
+            }
             ],
             order: [
                 ["createdAt", "DESC"]
             ]
         });
-
         if (post) {
             return res.status(200).json(post)
         } else {
@@ -149,7 +146,6 @@ exports.modifyMessage = async (req, res) => {
                     id: req.params.id
                 }
             })
-            console.log(postupdate)
             return res.status(200).json({
                 message: "Post mis à jour"
             })
@@ -159,7 +155,6 @@ exports.modifyMessage = async (req, res) => {
             error: error
         });
     }
-
 }
 
 //Supprimer un post
@@ -170,9 +165,8 @@ exports.deleteMessage = async (req, res) => {
                 id: req.params.id
             }
         })
-        console.log(post)
         if (post) {
-            if(post.attachment){
+            if (post.attachment) {
                 const toDelete = post.attachment.split('/attachment/')[1];
                 fs.unlinkSync(`images/attachment/${toDelete}`);
             }
@@ -181,7 +175,6 @@ exports.deleteMessage = async (req, res) => {
                     id: req.params.id
                 }
             })
-            console.log("step 2")
             return res.status(200).json({
                 message: "Post retiré"
             })

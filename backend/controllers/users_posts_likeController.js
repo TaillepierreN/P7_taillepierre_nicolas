@@ -11,8 +11,6 @@ exports.likeSwitch = async (req, res) =>{
                 postId: req.params.id
             }
         });
-        console.log(req.body.userId);
-        console.log(likeList)
         if(!likeList){
             const newLike = {
                 postId: req.params.id,

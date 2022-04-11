@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <NewPostComponent/>
+    <NewPostComponent />
   </div>
 </template>
   
@@ -13,17 +13,11 @@ export default {
   components: {
     NewPostComponent,
   },
+  
   data: () => ({
     post: null,
   }),
 
-  mounted() {
-
-  },
-
-  methods:{
-
-  }
 };
 </script>
   

@@ -22,31 +22,29 @@ exports.newComment = async (req, res) => {
 }
 
 //editer commentaire
-
-exports.editComment = async(req, res) =>{
-    try{
+exports.editComment = async (req, res) => {
+    try {
         const editComment = Comment.findOne({
-            where:{ 
+            where: {
                 id: req.params.comId,
                 userId: req.body.userId
             }
         });
-        if(editComment){
+        if (editComment) {
             const updatecom = req.body.content
             await Comment.update(
-                {content: updatecom},
+                { content: updatecom },
                 {
-                where:{
-                    id:req.params.comId,
-                    userId: req.body.userId
-                }
-            })
-            console.log(updatecom)
+                    where: {
+                        id: req.params.comId,
+                        userId: req.body.userId
+                    }
+                })
             return res.status(200).json({
                 message: "Commentaire mis à jour"
             })
         }
-    } catch(error){
+    } catch (error) {
         return res.status(500).json({
             error
         })

@@ -3,7 +3,7 @@ const User = db.users;
 const fs = require('fs');
 const bcrypt = require("bcrypt");
 
-
+//Afficher un utilisateur
 exports.showUser = async (req, res) =>{
     try {
         const user = await User.findOne({
@@ -36,7 +36,6 @@ exports.ModifyUser = async (req, res) => {
         } : {
             ...req.body,
             password: hash,
-
         }
         const user = User.findOne({
             where: {

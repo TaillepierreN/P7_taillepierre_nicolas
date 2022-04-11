@@ -42,10 +42,9 @@ exports.login = async (req, res) => {
         const isValid = await bcrypt.compare(req.body.password, user.password)
         if (!isValid) {
             return res.status(400).json(
-               "Mot de passe incorrect"
+                "Mot de passe incorrect"
             );
         }
-        console.log(user)
         return res.status(200).json({
             userId: user.id,
             isAdmin: user.isAdmin,
@@ -55,7 +54,6 @@ exports.login = async (req, res) => {
                 process.env.TOKEN, {
                     expiresIn: '24h'
                 })
-
         })
     } catch (error) {
         return res.status(500).json({

@@ -37,6 +37,7 @@ export default {
     PostComponent,
   },
   props: ["user"],
+
   data() {
     return {
       editUser: { ...this.user },
@@ -44,6 +45,7 @@ export default {
       posts: [],
     };
   },
+
   mounted() {
     fetch(`http://localhost:3010/post?userId=${this.$route.params.id}`, {
       headers: {
@@ -51,18 +53,17 @@ export default {
       },
     })
       .then((res) => res.json())
-      .then((data) => {
-        this.posts = data
-        console.log(data)
-      })
+      .then((data) => (this.posts = data))
       .catch((err) => console.log(err.message));
   },
 
   methods: {
+
     editUsr: function (e) {
       e.preventDefault();
       fetch(`http://localhost:3010/`);
     },
+    
   },
 };
 </script>
