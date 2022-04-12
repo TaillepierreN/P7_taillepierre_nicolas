@@ -25,7 +25,6 @@
           type="file"
           v-if="editMode"
         />
-        {{ editUser }}
         <label
           >email : {{ user.email }}
           <input type="text" v-if="editMode" v-model="editUser.email"
@@ -36,7 +35,7 @@
         /></label>
       </div>
       <button
-        @click="editMode = !editMode"
+        @click="editModeFn"
         v-if="isUserOrAdmin == true && !editMode"
       >
         edit
@@ -69,10 +68,11 @@ export default {
   components: {
     PostComponent,
   },
- 
+
   data() {
     return {
       editUser: { ...this.user },
+      newprofilepic: null,
       editMode: false,
       posts: [],
       isUserOrAdmin: false,
@@ -110,8 +110,8 @@ export default {
       formData.append("username", this.editUser.username);
       formData.append("email", this.editUser.email);
       formData.append("password", this.editUser.password);
-      formData.append("image", this.editUser.profilepic);
-      fetch(`http://localhost:3010/profile/${this.$route.params.id}`, {
+      formData.append("image", this.newprofilepic);
+      fetch(`http://localhost:3010/user/${this.$route.params.id}`, {
         method: "PUT",
         body: formData,
         headers: {
@@ -120,13 +120,19 @@ export default {
       }).then(() => (this.editMode = false));
     },
 
+    editModeFn: function(e) {
+      e.preventDefault()
+      this.editMode = !this.editMode
+      this.editUser = this.user
+    },
+
     onProfilChange(e) {
       const file = e.target.files[0];
       if (!this.acceptedFile.includes(file.type)) {
         e.target.value = null;
         return alert("Seul les fichiers jpg,jpeg,webp,gif,png sont accepté");
       }
-      this.editPost.profilepic = file;
+      this.newprofilepic = file;
     },
   },
 };

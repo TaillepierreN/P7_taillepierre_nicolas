@@ -174,7 +174,6 @@ export default {
         return alert("Seul les fichiers jpg,jpeg,webp,gif,png sont accepté");
       }
       this.editPost.image = file;
-      console.log(this.editPost.image);
     },
 
     likeswitch(e) {

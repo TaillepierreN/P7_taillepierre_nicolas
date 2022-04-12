@@ -29,15 +29,14 @@ exports.ModifyUser = async (req, res) => {
     try {
         const hash = await bcrypt.hash(req.body.password, 10)
         const userObject = req.file ? {
-            email: req.body.email,
-            username: req.body.username,
+            ...req.body,
             password: hash,
-            profilepic: `${req.protocol}://${req.get('host')}//images/profile/${req.file.filename}`
+            profilepic: `${req.protocol}://${req.get('host')}/images/profile/${req.file.filename}`
         } : {
             ...req.body,
             password: hash,
         }
-        const user = User.findOne({
+        const user = await User.findOne({
             where: {
                 id: req.params.id
             }
@@ -46,7 +45,7 @@ exports.ModifyUser = async (req, res) => {
             if (req.file) {
                 const toDelete = user.profilepic.split('/profile/')[1];
                 try {
-                    fs.unlinkSync(`/profile/${toDelete}`)
+                    fs.unlinkSync(`images/profile/${toDelete}`)
                 } catch (error) {
                     console.error(error)
                 }

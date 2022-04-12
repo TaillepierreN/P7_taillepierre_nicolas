@@ -6,7 +6,7 @@ const multer = require('../middlewares/multer-config');
 
 const router = Router();
 
-router.put('/:id', auth, isOwnerOrAdmin, multer, ModifyUser )
+router.put('/:id', multer,auth, isOwnerOrAdmin, ModifyUser )
 router.delete('/:id', auth, isOwnerOrAdmin, multer, deleteUser)
 router.get('/:id',auth, multer, showUser)
 
