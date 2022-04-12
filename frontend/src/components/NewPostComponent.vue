@@ -5,10 +5,10 @@
       <form @submit="newpost" class="newpost_form">
         <label for="">Titre: </label>
         <input type="text" v-model="post.title" />
-        <label for="">Contenu: </label>
+        <label for="postcontent">Contenu: </label>
         <textarea
           name=""
-          id=""
+          id="postcontent"
           cols="30"
           rows="10"
           v-model="post.content"
@@ -80,7 +80,6 @@ export default {
         return alert("Seul les fichiers jpg,jpeg,webp,gif,png sont accepté");
       }
       this.post.image = file;
-      console.log(this.post.image);
     },
   },
 };

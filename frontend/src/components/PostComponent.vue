@@ -3,7 +3,12 @@
     <div class="post" id="post">
       <div class="post_info">
         <div class="post_info_user">
-          <img src="@/assets/img/icon.svg" alt />
+          <img
+            :src="editPost.user.profilepic"
+            alt="Image de profile"
+            v-if="editPost.user.profilepic != null"
+          />
+          <img src="@/assets/img/icon.svg" alt="Image de profile" v-else />
           <h4>{{ editPost.user.username }}</h4>
         </div>
         <router-link
@@ -102,7 +107,7 @@ import NewCommentComponent from "@/components/NewCommentComponent.vue";
 
 export default {
   name: "PostComponent",
-  props: ["post", "singlePost", "postlikesCount"],
+  props: ["post", "singlePost", "postlikesCount", "isUserOrAdmin"],
   components: {
     CommentComponent,
     NewCommentComponent,
@@ -112,9 +117,7 @@ export default {
     return {
       editPost: { ...this.post, image: null },
       editMode: false,
-      // postlikesCount:"",
       comments: [],
-      isUserOrAdmin: false,
       acceptedFile: [
         "imgage/png",
         "image/jpg",
@@ -127,7 +130,6 @@ export default {
   },
 
   methods: {
-
     formatDate(dateString) {
       const date = dayjs(dateString);
       return date.format("HH:mm - D MMM 'YY");
@@ -200,13 +202,7 @@ export default {
       if (this.comments) {
         this.comments = this.comments.reverse();
       }
-      let uid = window.localStorage.getItem("userId");
-      let admin = JSON.parse(window.localStorage.getItem("isAdmin"));
-      if (this.post.user.id == uid || admin == true) {
-        this.isUserOrAdmin = true;
-      }
     },
-  }
-
+  },
 };
 </script>

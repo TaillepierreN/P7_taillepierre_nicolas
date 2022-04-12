@@ -5,6 +5,7 @@
       :post="post"
       :singlePost="true"
       :postlikesCount="postlikesCount"
+      :isUserOrAdmin="isUserOrAdmin"
     />
   </div>
 </template>
@@ -21,10 +22,10 @@ export default {
   data: () => ({
     post: null,
     postlikesCount: "0",
+    isUserOrAdmin: false,
   }),
 
   mounted() {
-    
     fetch(`http://localhost:3010/post/${this.$route.params.id}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
@@ -32,6 +33,13 @@ export default {
     })
       .then((res) => res.json())
       .then((data) => (this.post = data))
+      .then(() => {
+        let uid = window.localStorage.getItem("userId");
+        let admin = JSON.parse(window.localStorage.getItem("isAdmin"));
+        if (this.post.user.id == uid || admin == true) {
+          this.isUserOrAdmin = true;
+        }
+      })
       .catch((err) => console.log(err.message));
 
     fetch(`http://localhost:3010/post/${this.$route.params.id}/like`, {
