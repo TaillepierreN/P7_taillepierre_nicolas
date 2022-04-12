@@ -27,14 +27,17 @@ exports.showUser = async (req, res) =>{
 //Modifier un utilisateur
 exports.ModifyUser = async (req, res) => {
     try {
-        const hash = await bcrypt.hash(req.body.password, 10)
         const userObject = req.file ? {
             ...req.body,
-            password: hash,
+            // password: hash,
             profilepic: `${req.protocol}://${req.get('host')}/images/profile/${req.file.filename}`
         } : {
             ...req.body,
-            password: hash,
+            // password: hash,
+        }
+        if(req.body.password){
+            const hash = await bcrypt.hash(req.body.password, 10)
+            userObject.password = hash
         }
         const user = await User.findOne({
             where: {

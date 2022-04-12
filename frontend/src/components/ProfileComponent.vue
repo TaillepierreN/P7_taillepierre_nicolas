@@ -33,6 +33,8 @@
           >username :{{ user.username }}
           <input type="text" v-if="editMode" v-model="editUser.username"
         /></label>
+        <button @click="editPass = !editPass" v-if="editMode">Changer de mot de passe</button>
+        <label v-if="editPass">Mot de passe:<input type="password" v-model="newpassword"></label>
       </div>
       <button
         @click="editModeFn"
@@ -72,8 +74,10 @@ export default {
   data() {
     return {
       editUser: { ...this.user },
+      newpassword: "",
       newprofilepic: null,
       editMode: false,
+      editPass: false,
       posts: [],
       isUserOrAdmin: false,
       acceptedFile: [
@@ -109,7 +113,9 @@ export default {
       const formData = new FormData();
       formData.append("username", this.editUser.username);
       formData.append("email", this.editUser.email);
-      formData.append("password", this.editUser.password);
+      if(this.newpassword.length > 0){
+        formData.append("password", this.newpassword);
+      }
       formData.append("image", this.newprofilepic);
       fetch(`http://localhost:3010/user/${this.$route.params.id}`, {
         method: "PUT",
@@ -117,7 +123,10 @@ export default {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
-      }).then(() => (this.editMode = false));
+      }).then(() => {
+        this.editMode = false
+        this.editPass = false
+        });
     },
 
     editModeFn: function(e) {
