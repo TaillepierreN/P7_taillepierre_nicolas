@@ -6,7 +6,7 @@
         >email:
         <input
           id="signmail"
-          v-model="email"
+          v-model="sign.email"
           type="email"
           v-if="account === true"
         />
@@ -15,8 +15,8 @@
         >password:
         <input
           id="signpass"
-          v-model="password"
-          type="text"
+          v-model="sign.password"
+          type="password"
           v-if="account === true"
         />
       </label>
@@ -24,11 +24,18 @@
         >username:
         <input
           id="signuser"
-          v-model="username"
+          v-model="sign.username"
           type="text"
           v-if="account === true"
         />
       </label>
+      <label for="image">image de profil:</label>
+      <input
+        id="image"
+        @change="onProfilChange"
+        accept=".jpg, .jpeg, .png, .gif, .webp"
+        type="file"
+      />
       <button>S'enregistrer</button>
     </form>
   </div>
@@ -44,32 +51,48 @@ export default {
 
   data() {
     return {
-      email: "",
-      password: "",
-      username: "",
+      sign: {
+        email: "",
+        password: "",
+        username: "",
+        profilepic: null,
+      },
+      acceptedFile: [
+        "imgage/png",
+        "image/jpg",
+        "image/jpeg",
+        "image/webp",
+        "image/gif",
+      ],
     };
   },
 
   methods: {
-
     signForm: function (e) {
       e.preventDefault();
+      const formData = new FormData();
+      console.log(this.sign.profilepic);
+      formData.append("email", this.sign.email);
+      formData.append("password", this.sign.password);
+      formData.append("username", this.sign.username);
+      formData.append("image", this.sign.profilepic);
+      console.log(formData);
       fetch("http://localhost:3010/auth/signup", {
         method: "POST",
-        body: JSON.stringify({
-          email: this.email,
-          password: this.password,
-          username: this.username,
-        }),
-        headers: {
-          "Content-type": "application/json",
-        },
+        body: formData,
       })
         .then((res) => res.json())
-        .then((json) => console.log(json));
+        .then((window.location.href = "/login"));
     },
 
-  }
-  
+    onProfilChange(e) {
+      const file = e.target.files[0];
+      if (!this.acceptedFile.includes(file.type)) {
+        e.target.value = null;
+        return alert("Seul les fichiers jpg,jpeg,webp,gif,png sont accepté");
+      }
+      this.sign.profilepic = file;
+    },
+  },
 };
 </script>
