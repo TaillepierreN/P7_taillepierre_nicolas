@@ -34,13 +34,14 @@ export default {
     
     newcomment: function (e) {
       e.preventDefault();
-      fetch(`http://localhost:3010/post/${this.$route.params.id}/comment`, {
+      fetch(`http://localhost:3010/comment/`, {
         method: "POST",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
           "Content-type": "application/json",
         },
         body: JSON.stringify({
+          postId: this.$route.params.id,
           content: this.comment.content,
           userId: localStorage.getItem("userId"),
         }),

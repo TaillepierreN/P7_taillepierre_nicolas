@@ -128,6 +128,12 @@ export default {
       addComment: false,
     };
   },
+  mounted() {
+    this.comments = this.post.comments;
+    if (this.comments) {
+      this.comments = this.comments.reverse();
+    }
+  },
 
   methods: {
     formatDate(dateString) {
@@ -179,7 +185,7 @@ export default {
     likeswitch(e) {
       e.preventDefault();
       fetch(`http://localhost:3010/post/${this.post.id}/like`, {
-        method: "POST",
+        method: "PATCH",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
           "Content-type": "application/json",
@@ -194,13 +200,6 @@ export default {
           window.location.reload();
         }
       });
-    },
-
-    mounted() {
-      this.comments = this.post.comments;
-      if (this.comments) {
-        this.comments = this.comments.reverse();
-      }
     },
   },
 };

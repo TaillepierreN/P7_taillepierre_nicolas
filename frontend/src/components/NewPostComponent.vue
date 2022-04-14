@@ -65,7 +65,9 @@ export default {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
-      }).then((window.location.href = "/"));
+      })
+      .then((window.location.href = "/"))
+      .catch(error => alert(error.message))
     },
 
     cancel: function (e) {

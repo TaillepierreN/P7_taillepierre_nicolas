@@ -1,11 +1,12 @@
 const {Router} = require('express');
 const { newComment, deleteComment,editComment } = require('../controllers/commentController');
 const auth = require('../middlewares/auth');
+const isOwnerOrAdmin = require('../middlewares/isOwnerOrAdmin');
 
 const router = Router();
 
-router.post('/:id/comment',auth, newComment)
-router.delete('/:id/comment/:comId',auth, deleteComment)
-router.put('/:id/comment/:comId', auth, editComment)
+router.post('/',auth, newComment)
+router.delete('/:id',auth, isOwnerOrAdmin, deleteComment)
+router.put('/:id', auth, isOwnerOrAdmin, editComment)
 
 module.exports = router;

@@ -1,5 +1,6 @@
 const db = require("../models");
 const Post = db.posts;
+const Likes = db.likes;
 const fs = require('fs');
 
 
@@ -50,7 +51,7 @@ exports.showMessages = async (req, res) => {
         return res.status(200).json(posts);
     } catch (error) {
         return res.status(500).json({
-            error
+            message: error
         })
     }
 }
@@ -93,7 +94,7 @@ exports.showMessage = async (req, res) => {
         }
     } catch (error) {
         return res.status(500).json({
-            error
+            message: error
         })
     }
 }
@@ -113,7 +114,7 @@ exports.postMessage = async (req, res) => {
         });
     } catch (error) {
         return res.status(500).json({
-            error
+            message: error
         })
     }
 }
@@ -133,26 +134,29 @@ exports.modifyMessage = async (req, res) => {
             ...req.body
         }
         if (post) {
+            let toDelete
             if (req.file) {
-                const toDelete = post.attachment.split('/attachment/')[1];
-                try {
-                    fs.unlinkSync(`images/attachment/${toDelete}`)
-                } catch (error) {
-                    console.error(error)
-                }
+                toDelete = post.attachment.split('/attachment/')[1];
             }
             await Post.update(postupdate, {
                 where: {
                     id: req.params.id
                 }
             })
+            if (toDelete) {
+                fs.unlinkSync(`images/attachment/${toDelete}`)
+            }
             return res.status(200).json({
                 message: "Post mis à jour"
+            })
+        } else {
+            return res.status(404).json({
+                message: "Post non trouvé"
             })
         }
     } catch (error) {
         return res.status(500).json({
-            error: error
+            message: error
         });
     }
 }
@@ -166,22 +170,71 @@ exports.deleteMessage = async (req, res) => {
             }
         })
         if (post) {
+            let toDelete;
             if (post.attachment) {
-                const toDelete = post.attachment.split('/attachment/')[1];
-                fs.unlinkSync(`images/attachment/${toDelete}`);
+                toDelete = post.attachment.split('/attachment/')[1];
             }
             await Post.destroy({
                 where: {
                     id: req.params.id
                 }
             })
+            if (toDelete) {
+                fs.unlinkSync(`images/attachment/${toDelete}`);
+            }
             return res.status(200).json({
                 message: "Post retiré"
+            })
+        } else {
+            return res.status(404).json({
+                message: "Post non trouvé"
             })
         }
     } catch (error) {
         return res.status(500).json({
-            error: error
+            message: error
         });
+    }
+}
+
+// Ajout ou enleve le status like sur un post (un like par user)
+exports.likeSwitch = async (req, res) => {
+    try {
+        const likeList = await Likes.findOne({
+            where: {
+                userId: req.body.userId,
+                postId: req.params.id
+            }
+        });
+        if (!likeList) {
+            const newLike = {
+                postId: req.params.id,
+                userId: req.body.userId
+            };
+            await Likes.create(newLike);
+            return res.status(201).json({ message: "Post liké" })
+        } else {
+            await Likes.destroy({
+                where: {
+                    postId: req.params.id,
+                    userId: req.body.userId
+                }
+            });
+            return res.status(200).json({ message: "Like retiré" })
+        }
+    } catch (error) {
+        return res.status(500).json({ message: error })
+    }
+}
+
+// Compte le nombre de like du post
+exports.likeCount = async (req, res) => {
+    try {
+        const likeCounter = await Likes.findAndCountAll({
+            where: { postId: req.params.id }
+        })
+        return res.status(200).json(likeCounter.count);
+    } catch (error) {
+        return res.status(500).json({ message: error })
     }
 }

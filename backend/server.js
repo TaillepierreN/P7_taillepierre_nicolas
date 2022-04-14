@@ -6,7 +6,7 @@ const authRouting = require('./routes/authRouting');
 const postRouting = require('./routes/postRouting');
 const userRouting = require('./routes/userRouting');
 const commentRouting = require('./routes/commentRouting');
-const users_posts_likeRouting = require('./routes/users_posts_likeRouting');
+
 
 dotenv.config({
     path: 'config/.env'
@@ -20,8 +20,9 @@ app.use(cors());
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/auth', authRouting);
-app.use('/post', postRouting, commentRouting, users_posts_likeRouting);
+app.use('/post', postRouting);
 app.use('/user', userRouting);
+app.use('/comment', commentRouting);
 
 
 const db = require('./models');

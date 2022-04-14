@@ -51,7 +51,7 @@ export default {
     editCmt: function (e) {
       e.preventDefault();
       fetch(
-        `http://localhost:3010/post/${this.postId}/comment/${this.comment.id}`,
+        `http://localhost:3010/comment/${this.comment.id}`,
         {
           method: "PUT",
           headers: {
@@ -71,7 +71,7 @@ export default {
     delCmt: function (e) {
       e.preventDefault();
       fetch(
-        `http://localhost:3010/post/${this.postId}/comment/${this.comment.id}`,
+        `http://localhost:3010/comment/${this.comment.id}`,
         {
           method: "DELETE",
           headers: {
