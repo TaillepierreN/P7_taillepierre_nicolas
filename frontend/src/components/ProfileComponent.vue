@@ -4,19 +4,18 @@
       <h1>Profile</h1>
       <div class="profile_div">
         <img
-          :src="editUser.profilepic"
-          alt="Image de profile"
-          v-if="editUser.profilepic != null"
-          style="height: 160px;
-    width: fit-content"
-        />
-        <img
+          class="profilepageimg"
           :src="user.profilepic"
           alt="Image de profile"
-          v-else-if="user.profilepic != null"
           style="height:160px, width: fit-content"
+          v-if="user.profilepic != null"
         />
-        <img src="@/assets/img/icon.svg" alt="Image de profile" v-else />
+        <img
+          class="profilepageimg"
+          src="@/assets/img/icon.svg"
+          alt="Image de profile"
+          v-else
+        />
         <label for="image" v-if="editMode">image de profil:</label>
         <input
           id="image"
@@ -33,13 +32,14 @@
           >username :{{ user.username }}
           <input type="text" v-if="editMode" v-model="editUser.username"
         /></label>
-        <button @click="editPass = !editPass" v-if="editMode">Changer de mot de passe</button>
-        <label v-if="editPass">Mot de passe:<input type="password" v-model="newpassword"></label>
+        <button @click="editPass = !editPass" v-if="editMode">
+          Changer de mot de passe
+        </button>
+        <label v-if="editPass"
+          >Mot de passe:<input type="password" v-model="newpassword"
+        /></label>
       </div>
-      <button
-        @click="editModeFn"
-        v-if="isUserOrAdmin == true && !editMode"
-      >
+      <button @click="editModeFn" v-if="isUserOrAdmin == true && !editMode">
         edit
       </button>
       <button v-else-if="editMode" @click="editMode = !editMode">
@@ -113,7 +113,7 @@ export default {
       const formData = new FormData();
       formData.append("username", this.editUser.username);
       formData.append("email", this.editUser.email);
-      if(this.newpassword.length > 0){
+      if (this.newpassword.length > 0) {
         formData.append("password", this.newpassword);
       }
       formData.append("image", this.newprofilepic);
@@ -124,15 +124,16 @@ export default {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       }).then(() => {
-        this.editMode = false
-        this.editPass = false
-        });
+        this.editMode = false;
+        this.editPass = false;
+        
+      });
     },
 
-    editModeFn: function(e) {
-      e.preventDefault()
-      this.editMode = !this.editMode
-      this.editUser = this.user
+    editModeFn: function (e) {
+      e.preventDefault();
+      this.editMode = !this.editMode;
+      this.editUser = this.user;
     },
 
     onProfilChange(e) {
@@ -141,6 +142,8 @@ export default {
         e.target.value = null;
         return alert("Seul les fichiers jpg,jpeg,webp,gif,png sont accepté");
       }
+      document.getElementsByClassName("profilepageimg")[0].src = URL.createObjectURL(file);
+      document.getElementsByClassName("profilepageimg")[1].src = URL.createObjectURL(file);
       this.newprofilepic = file;
     },
   },

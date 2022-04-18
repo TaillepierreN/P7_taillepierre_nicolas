@@ -3,12 +3,14 @@
     <div class="post" id="post">
       <div class="post_info">
         <div class="post_info_user">
-          <img
-            :src="editPost.user.profilepic"
-            alt="Image de profile"
-            v-if="editPost.user.profilepic != null"
-          />
-          <img src="@/assets/img/icon.svg" alt="Image de profile" v-else />
+          <div class="post_info_user_img">
+            <img
+              :src="editPost.user.profilepic"
+              alt="Image de profile"
+              v-if="editPost.user.profilepic != null"
+            />
+            <img src="@/assets/img/icon.svg" alt="Image de profile" v-else />
+          </div>
           <h4>{{ editPost.user.username }}</h4>
         </div>
         <router-link
@@ -19,13 +21,15 @@
           {{ editPost.title }}
         </router-link>
         <input v-if="editMode" type="text" v-model="editPost.title" />
-        <p v-if="editPost.createdAt === editPost.updatedAt">
-          Posté le: {{ formatDate(editPost.createdAt) }}
-        </p>
-        <p v-else>
-          Posté le: {{ formatDate(editPost.createdAt) }} Modifié:
-          {{ formatDate(editPost.updatedAt) }}
-        </p>
+        <div class="post_info_date">
+          <p>Posté le: {{ formatDate(editPost.createdAt) }}</p>
+          <p
+            class="post_info_date_updated"
+            v-if="editPost.createdAt === editPost.updatedAt"
+          >
+            ( Modifié: {{ formatDate(editPost.updatedAt) }} )
+          </p>
+        </div>
       </div>
       <div class="post_content">
         <p v-if="!editMode">{{ editPost.content }}</p>
@@ -49,15 +53,15 @@
       <div class="post_likecombar">
         <div class="edit">
           <button
-            class="edit_button"
+            class="edit_button editbuttons"
             v-if="isUserOrAdmin == true && singlePost == true"
             @click="editMode = !editMode"
           >
             <p v-if="!editMode">Edit</p>
             <p v-else>Annuler</p>
           </button>
-          <button @click="editMsg" v-if="editMode">Sauvegarder</button>
-          <button @click="delMsg" v-if="editMode">Supprimer</button>
+          <button class="editbuttons" @click="editMsg" v-if="editMode">Sauvegarder</button>
+          <button class="editbuttons" @click="delMsg" v-if="editMode">Supprimer</button>
         </div>
         <div class="editDivider"></div>
         <div class="post_likecombar_counter">
@@ -71,15 +75,16 @@
               )
             </p>
           </a>
-          <button @click="likeswitch">
+          <button @click="likeswitch" class="likebutton">
+            <img class="likebutton_img" src="@\assets\img\icons8-like-32.png" alt="Bouton like">
             <p class="likeCount">
-              likes: (
+              
               <span v-if="singlePost == false">{{ editPost.likesCount }}</span>
               <span v-else-if="this.postlikesCount">
                 {{ this.postlikesCount }}</span
               >
               <span v-else>0</span>
-              )
+              
             </p>
           </button>
         </div>

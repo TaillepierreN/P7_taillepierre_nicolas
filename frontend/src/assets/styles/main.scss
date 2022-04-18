@@ -1,7 +1,10 @@
-@import './base/normes';
+@import './utils/variables';
 @import './utils/mixin';
+@import './base/normes';
 @import './layout/nav';
 @import './component/post';
+@import './component/likebutton';
+@import './component/editbuttons';
 @import './component/login';
 @import './component/signup';
 @import './component/comment';

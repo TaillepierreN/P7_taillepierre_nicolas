@@ -1,16 +1,21 @@
 nav {
-    padding: 2px;
+    padding-right: 30px;
+    top: -30px;
     @include flex;
-    position: absolute;
-    right: 30px;
-    top: 45px;
-    justify-content: flex-end;
-    overflow: hidden;
+    position: relative;
     align-items: center;
-
+    overflow: hidden;
+    justify-content: flex-end;
+    & a{
+        padding-left: 20px;
+        padding-right: 20px;
+    };
+    @include responsive(desktop){
+        justify-content: center;
+    }
 }
 
-img {
+#banner {
     height: 170px;
     display: block;
     margin: auto;
@@ -26,4 +31,5 @@ img {
         width: 35px;
         height: 35px;
     }
+    cursor: pointer;
 }

@@ -1,25 +1,49 @@
 .post {
     width: 100%;
-    height: 300px;
-    background-color: rgb(255, 255, 255);
+    height: 100%;
+    background-color: $bgcolor;
     margin-bottom: 20px;
+    border: 1px solid $mainRed;
+    border-left: 3px solid $mainRed;
+    border-right: 3px solid $mainRed;
+    box-shadow: 2px 3px 8px -1px black,inset 20px 16px 20px 10px #fdf1f169;
+
     &_info {
       @include flex;
       justify-content: space-between;
       align-items: center;
+      border-bottom: solid 1px rgba(0, 0, 0, 0.623);
       & p{
         margin-right: 10px;
       }
-    }
-    &_info_user {
-      @include flex;
-      align-items: center;
-      width: 200px;
-      & img {
-        margin: 1px;
-        height: 50px;
-        margin-right: 15px;
+      &_user {
+        @include flex;
+        align-items: center;
+        width: 200px;
+        font-size: 1.2rem;
+        &_img {
+          margin: 1px;
+          height: 60px;
+          width: 60px;
+          margin-right: 15px;
+          overflow: hidden;
+          border-radius: 50%;
+        }
+        & img{
+          object-fit: contain;
+          width: 60px;
+        }
       }
+      &_date{
+        font-size: 1rem;
+        &_updated{
+          font-size: 0.8rem;
+        }
+      }
+    }
+    &_title.router-link-exact-active{
+      color: black;
+      text-shadow: none;
     }
     &_content {
       height: 215px;
@@ -36,16 +60,39 @@
       margin-right: 35px;
       &_counter{
         display: flex;
+        margin-bottom: 10px;
         & p{
           margin: auto 5px;
         }
       }
     }
-    &_title{
-      color: black;
-    }
+
+    
 .postlink{
-  color: black;
+  font-size: 1rem;
+  @include flex;
+
 }
 
+}
+#newpostbutton{
+  position:sticky;
+  top: 15px;
+  background-color: $bgcolor;
+  height: 35px;
+  border-radius: 25px;
+  margin-bottom: 5px;
+  transition: all 0.2s ease-out;
+  box-shadow: none;
+  &:hover{
+    height: 40px;
+    width: 260px;
+    box-shadow: black 0px -3px 9px 0px;
+    top: 20px
+  };
+  & a{
+    color: $mainRed;
+
   }
+  
+}

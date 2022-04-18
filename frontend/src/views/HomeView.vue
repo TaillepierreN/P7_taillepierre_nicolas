@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <div class="wrap">
-      <button>
-        <router-link to="/post/" style="color: black">Nouveau</router-link>
+      <button id="newpostbutton">
+        <router-link to="/post/">Créer un nouveau post</router-link>
       </button>
       <PostComponent
         :post="post"

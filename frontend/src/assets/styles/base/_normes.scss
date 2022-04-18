@@ -13,19 +13,17 @@ a {
 }
 a {
     font-weight: bold;
-    color: #ffffff;
+    color: black;
     padding-inline: 15px;
     font-size: 20px;
 
     &.router-link-exact-active {
-        color: #b94242;
+        color: $mainRed;
+        text-shadow: -0.5px 0 black, 0 0.5px black, 0.5px 0 black, 0 -0.5px black;
     }
 }
 
 .wrap {
     margin: 0 auto;
     max-width: 1440px;
-}
-body{
-    background-color: rgb(29, 29, 29);
 }
