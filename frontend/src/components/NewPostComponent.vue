@@ -21,8 +21,8 @@
           type="file"
         />
         <div class="newpost_form_button">
-          <button>Enregistrer</button>
-          <button type="button" @click="cancel">annuler</button>
+          <button class="editbuttons">Enregistrer</button>
+          <button type="button" class="editbuttons" @click="cancel">annuler</button>
         </div>
       </form>
     </div>

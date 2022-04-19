@@ -127,6 +127,7 @@ exports.modifyMessage = async (req, res) => {
                 id: req.params.id
             }
         })
+        console.log(req.body)
         const postupdate = req.file ? {
             ...req.body,
             attachment: `${req.protocol}://${req.get('host')}/images/attachment/${req.file.filename}`
@@ -135,7 +136,7 @@ exports.modifyMessage = async (req, res) => {
         }
         if (post) {
             let toDelete
-            if (req.file) {
+            if (post.attachment && req.file) {
                 toDelete = post.attachment.split('/attachment/')[1];
             }
             await Post.update(postupdate, {

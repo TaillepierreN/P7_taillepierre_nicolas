@@ -12,7 +12,7 @@
       @include flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: solid 1px rgba(0, 0, 0, 0.623);
+      border-bottom: dashed 1px rgba(0, 0, 0, 0.623);
       & p{
         margin-right: 10px;
       }
@@ -46,10 +46,11 @@
       text-shadow: none;
     }
     &_content {
-      height: 215px;
+      height: 100%;
       width: 70%;
       margin: auto;
       padding-top: 40px;
+      overflow:auto;
       & p {
         height: 100%;
       }
@@ -73,7 +74,9 @@
   @include flex;
 
 }
-
+#imgpost{
+  max-height: 100px;
+}
 }
 #newpostbutton{
   position:sticky;

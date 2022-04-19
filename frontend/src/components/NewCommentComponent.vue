@@ -1,19 +1,18 @@
 <template>
   <form
     @submit="newcomment"
-    style="background-color: white"
-    class="newpost_content"
+    class="newcomment_content"
   >
     <h3>Nouveau commentaire</h3>
-    <label for="newpost_content"
+    <label for="newcomment_content"
       ><input
-        id="newpost_content"
+        id="newcomment_content"
         v-model="this.comment.content"
         type="textarea"
     /></label>
-    <div class="newpost_button">
-      <button>envoyer</button>
-      <button type="button" @click="cancel">annuler</button>
+    <div class="newcomment_button">
+      <button class="editbuttons">Envoyer</button>
+      <button type="button" class="editbuttons" @click="cancel">Annuler</button>
     </div>
   </form>
 </template>

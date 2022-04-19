@@ -1,8 +1,7 @@
-$background-block: rgb(218, 212, 192);
-
 .profile{
     width: 100%;
-    background-color: $background-block;
+    background-color: $bgcolor;
+    border: 1px solid $mainRed;
     @include flex(column);
     align-items: center;
     & h1{
@@ -12,6 +11,7 @@ $background-block: rgb(218, 212, 192);
     &_div{
     @include flex(column);
     margin: 15px;
+
     & *{
     margin: 15px;
 
@@ -19,10 +19,21 @@ $background-block: rgb(218, 212, 192);
     }
     &_post{
         margin-top: 20px;
-        background-color: $background-block;
-        width: 90%;
+        background-color: $bgcolor;
+        width: 100%;
+        @include flex(column);
+        align-items: center;
+    }
+    &_button button{
+        width: 150px;
+        margin-bottom: 15px;
     }
     &_post_list{
         height: 100px;
     }
+}
+
+.profilepageimg{
+    max-height: 200px;
+    max-width: 300px;
 }

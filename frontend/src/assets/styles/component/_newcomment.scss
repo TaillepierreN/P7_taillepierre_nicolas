@@ -1,0 +1,10 @@
+.newcomment{
+    &_content{
+        @include flex(column);
+        padding: 5px;
+    & *{
+        padding: 5px;
+    }
+    }
+
+}

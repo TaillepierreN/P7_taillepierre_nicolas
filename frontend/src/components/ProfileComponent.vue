@@ -32,20 +32,37 @@
           >username :{{ user.username }}
           <input type="text" v-if="editMode" v-model="editUser.username"
         /></label>
-        <button @click="editPass = !editPass" v-if="editMode">
+        <button
+          class="editbuttons"
+          @click="editPass = !editPass"
+          v-if="editMode"
+        >
           Changer de mot de passe
         </button>
         <label v-if="editPass"
           >Mot de passe:<input type="password" v-model="newpassword"
         /></label>
       </div>
-      <button @click="editModeFn" v-if="isUserOrAdmin == true && !editMode">
-        edit
-      </button>
-      <button v-else-if="editMode" @click="editMode = !editMode">
-        annuler
-      </button>
-      <button v-if="editMode" @click="editUsr">Sauvegarder</button>
+      <div class="profile_button">
+        <button v-if="editMode" @click="editUsr" class="editbuttons">
+          Sauvegarder
+        </button>
+        <button
+          @click="editModeFn"
+          class="editbuttons"
+          v-if="isUserOrAdmin == true && !editMode"
+        >
+          edit
+        </button>
+        <button
+          v-else-if="editMode"
+          class="editbuttons"
+          @click="editMode = !editMode"
+        >
+          annuler
+        </button>
+      </div>
+    </div>
       <div class="profile_post">
         <h1>Post de l'utilisateur</h1>
         <div class="profile_post_list">
@@ -57,7 +74,6 @@
           />
         </div>
       </div>
-    </div>
   </div>
 </template>
 
@@ -126,7 +142,6 @@ export default {
       }).then(() => {
         this.editMode = false;
         this.editPass = false;
-        
       });
     },
 
@@ -142,8 +157,10 @@ export default {
         e.target.value = null;
         return alert("Seul les fichiers jpg,jpeg,webp,gif,png sont accepté");
       }
-      document.getElementsByClassName("profilepageimg")[0].src = URL.createObjectURL(file);
-      document.getElementsByClassName("profilepageimg")[1].src = URL.createObjectURL(file);
+      document.getElementsByClassName("profilepageimg")[0].src =
+        URL.createObjectURL(file);
+      document.getElementsByClassName("profilepageimg")[1].src =
+        URL.createObjectURL(file);
       this.newprofilepic = file;
     },
   },

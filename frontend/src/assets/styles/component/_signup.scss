@@ -2,20 +2,50 @@
     width: 100%;
     height: 300px;
     padding-top: 45px;
-    background-color: rgb(218, 212, 192);
+    border: 1px $mainRed solid;
+    background-color: rgb(255, 255, 255);
+    color: #6e0000;
     &_div{
         
         @include flex(column);
         align-items: center;
-        justify-content: space-around;
+        justify-content: space-between;
         height: 50%;
         width: 50%;
         margin: auto;
     }
+    & label{
+        font-size: 1.1rem;
+    }
 }
 
-.password{
+.signform{
+    @include flex;
+    align-items: center;
+    margin-bottom: 5px;
+    &_inputs{
+        margin: 20px;
+        @include flex(column);
+    }
+    &_img{
+        @include flex(column);
+        align-items: center;
+        margin-left: 45px;
+        & img{
+            width: 100px;
+            max-height: 100px;
+        }
+    }
+}
+
+.email{
     margin-left: -30px;
+}
+.password{
+    margin-left: -61px;
+    &_img{
+        margin-left: -30px;
+    }
 }
 .username{
     margin-left: -33px;

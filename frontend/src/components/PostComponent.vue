@@ -25,15 +25,15 @@
           <p>Posté le: {{ formatDate(editPost.createdAt) }}</p>
           <p
             class="post_info_date_updated"
-            v-if="editPost.createdAt === editPost.updatedAt"
+            v-if="editPost.createdAt != editPost.updatedAt"
           >
             ( Modifié: {{ formatDate(editPost.updatedAt) }} )
           </p>
         </div>
       </div>
       <div class="post_content">
-        <p v-if="!editMode">{{ editPost.content }}</p>
         <img v-if="!editMode" id="imgpost" :src="editPost.attachment" alt="" />
+        <p v-if="!editMode">{{ editPost.content }}</p>
         <textarea
           class="editPostContent"
           type="text"
@@ -91,7 +91,7 @@
       </div>
     </div>
     <div v-if="comments && singlePost == true">
-      <button @click="addComment = !addComment">Ajouter commentaire</button>
+      <button class="editbuttons" @click="addComment = !addComment">Ajouter commentaire</button>
       <div class="newcomment">
         <NewCommentComponent v-if="addComment == true" :id="this.post.id" />
       </div>
@@ -153,6 +153,7 @@ export default {
       formData.append("title", this.editPost.title);
       formData.append("type", "post");
       formData.append("image", this.editPost.image);
+      formData.append("content", this.editPost.content)
       fetch(`http://localhost:3010/post/${this.$route.params.id}`, {
         method: "PUT",
         body: formData,

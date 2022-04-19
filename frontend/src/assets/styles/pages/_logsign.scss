@@ -1,24 +1,34 @@
 .logpanel,
 .slidingpanel{
     @include flex;
+    @include responsive(tablet){
+        @include flex(column)
+    }
 }
 .sliderlog,
 .slidersign{
     width: 50%;
     height: 300px;
-    background-color: #dad4c0;
+    background-color: #6e0000;
     position: relative;
     z-index: 2;
-    color: #2c3e50;
+    color: white;
     border-left: 1px solid black;
     border-right: 1px solid black;
     
     @include flex(column);
     justify-content:center;
     transform: translateY(-300px);
+    @include responsive(tablet){
+        width: 100%;
+        transform: translateY(-600px);
+    }
 }
 .slidersign{
     transform: translate(100%,-300px);
+    @include responsive(tablet){
+        transform: translateY(-300px);
+    }
 }
 .error{
     color: rgb(185, 4, 4)

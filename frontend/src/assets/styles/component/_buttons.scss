@@ -5,4 +5,9 @@
     color: black;
     height: 35px;
     margin-inline: 5px;
+    padding: 5px;
+    &:hover{
+        color: white;
+        background-color: $mainRed;
+    }
 }

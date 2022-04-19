@@ -10,7 +10,7 @@ nav {
         padding-left: 20px;
         padding-right: 20px;
     };
-    @include responsive(desktop){
+    @include responsive(tablet){
         justify-content: center;
     }
 }
