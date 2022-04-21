@@ -15,7 +15,7 @@
         >password:
         <input
           id="logpass"
-          type="text"
+          type="password"
           v-model="password"
           v-if="account === false"
         />

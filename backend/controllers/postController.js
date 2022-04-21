@@ -42,6 +42,7 @@ exports.showMessages = async (req, res) => {
                 "post.id"
             ]
         }
+        //Récupere que les message lié a l'utilisateur pour la page profile
         if (req.query.userId) {
             query.where = {
                 userId: req.query.userId
@@ -63,6 +64,15 @@ exports.showMessage = async (req, res) => {
             where: {
                 id: req.params.id
             },
+            // attributes: ["id", "title", "content", "updatedAt", "createdAt", "attachment",
+            //     [
+            //         db.Sequelize.fn("COUNT", db.Sequelize.col("comments.postId")), "commentsCount"
+            //     ],
+            // ],
+            // group: [
+            //     "post.id"
+            // ],
+
             include: [{
                 model: db.users,
                 as: 'user',
