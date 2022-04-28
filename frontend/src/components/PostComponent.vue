@@ -60,38 +60,48 @@
             <p v-if="!editMode">Edit</p>
             <p v-else>Annuler</p>
           </button>
-          <button class="editbuttons" @click="editMsg" v-if="editMode">Sauvegarder</button>
-          <button class="editbuttons" @click="delMsg" v-if="editMode">Supprimer</button>
+          <button class="editbuttons" @click="editMsg" v-if="editMode">
+            Sauvegarder
+          </button>
+          <button class="editbuttons" @click="delMsg" v-if="editMode">
+            Supprimer
+          </button>
         </div>
         <div class="editDivider"></div>
         <div class="post_likecombar_counter">
           <a class="postlink" href="#comment">
             <p class="commentsCount">
               Commentaire (
-              <span v-if="singlePost == false">
-                {{ editPost.commentsCount }}
+              <span>
+                {{ this.postCommentCount }}
               </span>
-              <span v-else> {{ editPost.comments.length }}</span>
               )
             </p>
           </a>
           <button @click="likeswitch" class="likebutton">
-            <img class="likebutton_img" src="@\assets\img\icons8-like-32.png" alt="Bouton like">
+            <img
+              class="likebutton_img"
+              v-if="!hasLiked"
+              src="@\assets\img\icons8-like-32.png"
+              alt="Bouton like"
+            />
+            <img
+              class="likebutton_img"
+              v-else
+              src="@\assets\img\icons8-like-32g.png"
+              alt="Bouton like"
+            />
             <p class="likeCount">
-              
-              <span v-if="singlePost == false">{{ editPost.likesCount }}</span>
-              <span v-else-if="this.postlikesCount">
-                {{ this.postlikesCount }}</span
-              >
-              <span v-else>0</span>
-              
+              <span> {{ this.postlikesCount }}</span>
             </p>
           </button>
         </div>
       </div>
     </div>
     <div v-if="comments && singlePost == true">
-      <button class="editbuttons" @click="addComment = !addComment">Ajouter commentaire</button>
+      <button class="editbuttons" @click="addComment = !addComment">
+        Ajouter commentaire
+      </button>
       <div class="newcomment">
         <NewCommentComponent v-if="addComment == true" :id="this.post.id" />
       </div>
@@ -112,7 +122,11 @@ import NewCommentComponent from "@/components/NewCommentComponent.vue";
 
 export default {
   name: "PostComponent",
-  props: ["post", "singlePost", "postlikesCount", "isUserOrAdmin"],
+  props: [
+    "post",
+    "singlePost",
+    "isUserOrAdmin",
+  ],
   components: {
     CommentComponent,
     NewCommentComponent,
@@ -131,6 +145,9 @@ export default {
         "image/gif",
       ],
       addComment: false,
+      hasLiked: false,
+      postlikesCount: 0,
+      postCommentCount: 0,
     };
   },
   mounted() {
@@ -138,6 +155,15 @@ export default {
     if (this.comments) {
       this.comments = this.comments.reverse();
     }
+    this.postlikesCount = this.editPost.likes.length;
+    this.postCommentCount = this.editPost.comments.length;
+    let uid = window.localStorage.getItem("userId");
+    let liketable = this.editPost.likes;
+    liketable.forEach((element) => {
+      if (element.userid == uid) {
+        return (this.hasLiked = true);
+      }
+    });
   },
 
   methods: {
@@ -153,7 +179,7 @@ export default {
       formData.append("title", this.editPost.title);
       formData.append("type", "post");
       formData.append("image", this.editPost.image);
-      formData.append("content", this.editPost.content)
+      formData.append("content", this.editPost.content);
       fetch(`http://localhost:3010/post/${this.$route.params.id}`, {
         method: "PUT",
         body: formData,
