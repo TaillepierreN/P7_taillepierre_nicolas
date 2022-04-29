@@ -1,7 +1,7 @@
 <template>
   <img src="@\assets\img\icon-above-font.svg" alt="Banniere Groupomania" id="banner" />
   <nav>
-    <router-link to="/">Acceuil</router-link> |
+    <router-link to="/" v-if="isLogged">Acceuil</router-link> |
     <router-link to="/login" v-if="!isLogged">Login</router-link>
     <router-link
       :to="{ name: 'profile', params: { id: userId } }"
