@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="post" id="post">
+    <div class="post showpost" id="post">
       <div class="post_info">
         <div class="post_info_user">
           <div class="post_info_user_img">
@@ -11,7 +11,8 @@
             />
             <img src="@/assets/img/icon.svg" alt="Image de profile" v-else />
           </div>
-          <h4>{{ editPost.user.username }}</h4>
+          <h4 v-if="!ownuser">{{ editPost.user.username }}</h4>
+          <h4 v-else class="ownuser">{{ editPost.user.username }}</h4>
         </div>
         <router-link
           v-if="!editMode"
@@ -122,11 +123,7 @@ import NewCommentComponent from "@/components/NewCommentComponent.vue";
 
 export default {
   name: "PostComponent",
-  props: [
-    "post",
-    "singlePost",
-    "isUserOrAdmin",
-  ],
+  props: ["post", "singlePost", "isUserOrAdmin"],
   components: {
     CommentComponent,
     NewCommentComponent,
@@ -148,6 +145,7 @@ export default {
       hasLiked: false,
       postlikesCount: 0,
       postCommentCount: 0,
+      ownuser: false,
     };
   },
   mounted() {
@@ -164,6 +162,9 @@ export default {
         return (this.hasLiked = true);
       }
     });
+    if (this.editPost.user.id == uid) {
+      return (this.ownuser = true);
+    }
   },
 
   methods: {

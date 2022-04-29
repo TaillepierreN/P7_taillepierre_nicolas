@@ -1,0 +1,25 @@
+#newpostbutton{
+    position:sticky;
+    top: 15px;
+    background-color: $bgcolor;
+    height: 35px;
+    border-radius: 25px;
+    margin-bottom: 5px;
+    transition: all 0.2s ease-out;
+    box-shadow: none;
+    & a{
+        color: $mainRed;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow: hidden;
+        width: 50px;
+        transition: width 0.4s ease-in-out;
+        &:hover{
+            width: 325px;
+        }
+        & h3{
+            margin-left: 10px;
+            height: 24px;
+        }
+    }
+}
