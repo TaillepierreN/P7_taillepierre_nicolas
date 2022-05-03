@@ -11,7 +11,8 @@
             />
             <img src="@/assets/img/icon.svg" alt v-else />
           </div>
-          <h4>{{ editComment.user.username }}</h4>
+          <h4 v-if="!owncomuser">{{ editComment.user.username }}</h4>
+          <h4 v-else class="ownuser">{{ editComment.user.username }}</h4>
         </div>
 
         <div class="comment_info_date">
@@ -23,7 +24,6 @@
             ( Modifié: {{ formatDate(editComment.updatedAt) }} )
           </p>
         </div>
-
       </div>
       <div class="comment_content">
         <p v-if="!editCom">{{ editComment.content }}</p>
@@ -35,10 +35,8 @@
           @click="editCom = !editCom"
           class="editbuttons"
         >
-        <p v-if="!editCom">
-          Edit
-        </p>
-        <p v-else>Annuler</p>
+          <p v-if="!editCom">Edit</p>
+          <p v-else>Annuler</p>
         </button>
         <div class="editcomment_buttons">
           <button v-if="editCom" @click="editCmt" class="editbuttons">
@@ -64,6 +62,7 @@ export default {
       isUserOrAdmin: false,
       editComment: { ...this.comment },
       editCom: false,
+      owncomuser: false,
     };
   },
 
@@ -106,6 +105,9 @@ export default {
     let admin = JSON.parse(window.localStorage.getItem("isAdmin"));
     if (this.comment.user.id == uid || admin == true) {
       this.isUserOrAdmin = true;
+    }
+    if (this.comment.user.id == uid) {
+      return (this.owncomuser = true);
     }
   },
 };
