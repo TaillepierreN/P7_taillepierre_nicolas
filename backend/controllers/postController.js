@@ -27,14 +27,12 @@ exports.showMessages = async (req, res) => {
             {
                 model: db.likes,
                 as: "likes",
-                attributes: [
-                    "userid"
-                ],
+                attributes: [],
             },
             {
                 model: db.comments,
                 as: "comments",
-                attributes: ["id", "userId", "postId"],
+                attributes: [],
             },
             ],
             order: [

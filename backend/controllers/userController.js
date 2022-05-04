@@ -50,7 +50,7 @@ exports.modifyUser = async (req, res) => {
                 userObject.password = hash
             }
             let toDelete
-            if (user.profilepic) {
+            if (user.profilepic && req.file) {
                 toDelete = user.profilepic.split('/profile/')[1];
             }
             await User.update({
@@ -86,14 +86,19 @@ exports.deleteUser = async (req, res) => {
                 id: req.params.id
             }
         })
-        const toDelete = user.profilepic.split('/profile/')[1];
         if (user) {
-            fs.unlinkSync(`/profile/${toDelete}`)
+            let toDelete
+            if (user.profilepic) {
+                toDelete = user.profilepic.split('/profile/')[1];
+            }
             await User.destroy({
                 where: {
                     id: req.params.id
                 }
             })
+            if (toDelete){
+                fs.unlinkSync(`/profile/${toDelete}`)
+            }
             return res.status(200).json({
                 message: 'Profile retiré'
             })

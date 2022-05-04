@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap">
+  <div>
     <div class="comment" id="comment">
       <div class="comment_info">
         <div class="comment_info_user">
@@ -52,6 +52,7 @@
 </template>
 <script>
 import dayjs from "dayjs";
+require("dayjs/locale/fr")
 
 export default {
   name: "CommentComponent",
@@ -109,6 +110,7 @@ export default {
     if (this.comment.user.id == uid) {
       return (this.owncomuser = true);
     }
+    dayjs.locale("fr")
   },
 };
 </script>

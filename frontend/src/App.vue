@@ -1,18 +1,34 @@
 <template>
-  <img src="@\assets\img\icon-above-font.svg" alt="Banniere Groupomania" id="banner" />
-  <nav>
-    <router-link to="/" v-if="isLogged">Acceuil</router-link> |
-    <router-link to="/login" v-if="!isLogged">Login</router-link>
-    <router-link
-      :to="{ name: 'profile', params: { id: userId } }"
-      v-if="isLogged"
-      >Profile ( {{ user.username }} )</router-link
-    >
-    |
-    <button v-if="isLogged" @click="disconnect" id="dcbutton">
-      <img src="@\assets\img\icons8-déconnexion-50.png" alt="" />
-    </button>
-  </nav>
+  <header id="banner">
+    <router-link to="/">
+      <img
+        src="@\assets\img\icon-left-font-monochrome-black.svg"
+        alt="Banniere Groupomania"
+        id="bannerimg"
+      />
+    </router-link>
+    <nav>
+      <button id="newpostbutton">
+        <router-link to="/post/">
+          <img
+            src="@/assets/img/icons8-plus-24.png"
+            alt="Ajouter un nouveau post"
+          />
+          <h3>Créer un nouveau post</h3>
+        </router-link>
+      </button>
+      <router-link to="/login" v-if="!isLogged">Login</router-link>
+      <router-link
+        :to="{ name: 'profile', params: { id: userId } }"
+        v-if="isLogged"
+        >Profile ( {{ user.username }} )</router-link
+      >
+      |
+      <button v-if="isLogged" @click="disconnect" id="dcbutton">
+        <img src="@\assets\img\icons8-déconnexion-50.png" alt="" />
+      </button>
+    </nav>
+  </header>
   <router-view />
 </template>
 

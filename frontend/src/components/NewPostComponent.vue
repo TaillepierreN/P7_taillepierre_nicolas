@@ -1,5 +1,5 @@
 <template>
-  <div class="newpost" style="background-color: white">
+  <div class="newpost wrap" style="background-color: white">
     <h1>Poster un nouveau message</h1>
     <div class="newpost_bloc">
       <form @submit="newpost" class="newpost_form">

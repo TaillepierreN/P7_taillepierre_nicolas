@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home wrap">
     <PostComponent
       v-if="post"
       :post="post"

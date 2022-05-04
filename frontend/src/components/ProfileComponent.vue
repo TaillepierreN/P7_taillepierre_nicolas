@@ -16,6 +16,17 @@
           alt="Image de profile"
           v-else
         />
+        <button
+          v-if="editMode"
+          class="editbuttons"
+          @click="confirmdel"
+        >
+          Supprimer le compte
+        </button>
+        <div class="deluser" id="deluser">
+          <h3>Voulez vous vraiment supprimer ce compte utilisateur?</h3>
+          <button class="editbuttons" @click="delUsr">Oui</button><button class="editbuttons" @click="confirmdel">non</button>
+        </div>
         <label for="image" v-if="editMode">image de profil:</label>
         <input
           id="image"
@@ -63,17 +74,17 @@
         </button>
       </div>
     </div>
-      <div class="profile_post">
-        <h1>Post de l'utilisateur</h1>
-        <div class="profile_post_list">
-          <PostComponent
-            :post="post"
-            v-for="post in posts"
-            :key="post.id"
-            :singlePost="false"
-          />
-        </div>
+    <div class="profile_post">
+      <h1>Post de l'utilisateur</h1>
+      <div class="profile_post_list">
+        <PostComponent
+          :post="post"
+          v-for="post in posts"
+          :key="post.id"
+          :singlePost="false"
+        />
       </div>
+    </div>
   </div>
 </template>
 
@@ -82,7 +93,7 @@ import PostComponent from "@/components/PostComponent.vue";
 
 export default {
   name: "ProfileComponent",
-  props: ["user"],
+  props: ["user", "userfound"],
   components: {
     PostComponent,
   },
@@ -115,7 +126,7 @@ export default {
       .then((res) => res.json())
       .then((data) => (this.posts = data))
       .catch((err) => console.log(err.message));
-
+    console.log(this.editUser.userid)
     let uid = window.localStorage.getItem("userId");
     let admin = JSON.parse(window.localStorage.getItem("isAdmin"));
     if (this.$route.params.id == uid || admin == true) {
@@ -145,6 +156,28 @@ export default {
       });
     },
 
+    confirmdel: function(e){
+      e.preventDefault();
+      let delbloc = document.getElementById("deluser");
+      if(delbloc.style.display === "block"){
+        delbloc.style.display = "none";
+      } else {
+        delbloc.style.display = "block";
+      }
+    },
+
+    delUsr: function (e) {
+      e.preventDefault();
+      fetch(`http://localhost:3010/user/${this.$route.params.id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+          "Content-type": "application/json",
+        },
+      })
+      .then(() => (window.location.href = "/"));
+    },
+
     editModeFn: function (e) {
       e.preventDefault();
       this.editMode = !this.editMode;
@@ -159,7 +192,7 @@ export default {
       }
       document.getElementsByClassName("profilepageimg")[0].src =
         URL.createObjectURL(file);
-      document.getElementsByClassName("profilepageimg")[1].src =
+      document.getElementsByClassName("profilepageimg")[0].src =
         URL.createObjectURL(file);
       this.newprofilepic = file;
     },

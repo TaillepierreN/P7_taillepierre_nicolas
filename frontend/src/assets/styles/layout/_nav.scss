@@ -1,6 +1,4 @@
 nav {
-    padding-right: 30px;
-    top: -30px;
     @include flex;
     position: relative;
     align-items: center;
@@ -14,11 +12,20 @@ nav {
         justify-content: center;
     }
 }
-
-#banner {
-    height: 170px;
+#banner{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    background-color: $bgcolor;
+}
+#bannerimg {
+    height: 60px;
     display: block;
-    margin: auto;
 }
 
 #dcbutton{

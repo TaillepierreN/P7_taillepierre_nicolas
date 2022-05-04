@@ -1,15 +1,6 @@
 <template>
   <div class="home">
     <div class="wrap">
-      <button id="newpostbutton">
-        <router-link to="/post/">
-          <img
-            src="@/assets/img/icons8-plus-24.png"
-            alt="Ajouter un nouveau post"
-          />
-          <h3>Créer un nouveau post</h3>
-        </router-link>
-      </button>
       <PostComponent
         :post="post"
         v-for="post in posts"

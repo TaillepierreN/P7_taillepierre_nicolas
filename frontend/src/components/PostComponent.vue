@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="post showpost" id="post">
+  <div class="postcom">
+    <div class="post">
       <div class="post_info">
         <div class="post_info_user">
           <div class="post_info_user_img">
@@ -11,8 +11,20 @@
             />
             <img src="@/assets/img/icon.svg" alt="Image de profile" v-else />
           </div>
-          <h4 v-if="!ownuser">{{ editPost.user.username }}</h4>
-          <h4 v-else class="ownuser">{{ editPost.user.username }}</h4>
+          <h4 v-if="!ownuser">
+            <router-link
+              :to="{ name: 'profile', params: { id: editPost.user.id } }"
+            >
+              {{ editPost.user.username }}
+            </router-link>
+          </h4>
+          <h4 v-else class="ownuser">
+            <router-link
+              :to="{ name: 'profile', params: { id: editPost.user.id } }"
+            >
+              {{ editPost.user.username }}
+            </router-link>
+          </h4>
         </div>
         <router-link
           v-if="!editMode"
@@ -23,7 +35,7 @@
         </router-link>
         <input v-if="editMode" type="text" v-model="editPost.title" />
         <div class="post_info_date">
-          <p>Posté le: {{ formatDate(editPost.createdAt) }}</p>
+          <p>Posté à: {{ formatDate(editPost.createdAt) }}</p>
           <p
             class="post_info_date_updated"
             v-if="editPost.createdAt != editPost.updatedAt"
@@ -99,7 +111,7 @@
         </div>
       </div>
     </div>
-    <div v-if="comments && singlePost == true">
+    <div v-if="comments && singlePost == true" class="com">
       <button class="editbuttons" @click="addComment = !addComment">
         Ajouter commentaire
       </button>
@@ -118,6 +130,7 @@
 
 <script>
 import dayjs from "dayjs";
+require("dayjs/locale/fr");
 import CommentComponent from "@/components/CommentComponent.vue";
 import NewCommentComponent from "@/components/NewCommentComponent.vue";
 
@@ -153,24 +166,30 @@ export default {
     if (this.comments) {
       this.comments = this.comments.reverse();
     }
-    this.postlikesCount = this.editPost.likes.length;
-    this.postCommentCount = this.editPost.comments.length;
     let uid = window.localStorage.getItem("userId");
-    let liketable = this.editPost.likes;
-    liketable.forEach((element) => {
-      if (element.userid == uid) {
-        return (this.hasLiked = true);
-      }
-    });
+    if (!this.singlePost) {
+      this.postlikesCount = this.editPost.likesCount;
+      this.postCommentCount = this.editPost.commentsCount;
+    } else {
+      this.postlikesCount = this.editPost.likes.length;
+      this.postCommentCount = this.editPost.comments.length;
+      let liketable = this.editPost.likes;
+      liketable.forEach((element) => {
+        if (element.userid == uid) {
+          return (this.hasLiked = true);
+        }
+      });
+    }
     if (this.editPost.user.id == uid) {
       return (this.ownuser = true);
     }
+    dayjs.locale("fr");
   },
 
   methods: {
     formatDate(dateString) {
       const date = dayjs(dateString);
-      return date.format("HH:mm - D MMM 'YY");
+      return date.format("HH:mm le D MMM 'YY");
     },
 
     editMsg: function (e) {
