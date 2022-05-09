@@ -19,7 +19,6 @@
     }
     &_post{
         margin-top: 20px;
-        background-color: $bgcolor;
         width: 100%;
         @include flex(column);
         align-items: center;
