@@ -9,8 +9,19 @@
     overflow: hidden;
     transition: width 0.4s ease-in-out;
     &:hover{
-        width: 325px;
-
+        width: 320px;
+    }
+    @include responsive(tablet){
+        &:hover{
+            width: 140px;
+            margin-left: 20px;
+        }
+    }
+    @include responsive(phone){
+        &:hover{
+            width: 35px;
+            margin-left: 0px;
+        }
     }
     & a{
         color: $mainRed;
@@ -24,6 +35,20 @@
         & h3{
             margin-left: 10px;
             height: 24px;
+        }
+    }
+}
+.newpostbutton{
+    &_full{
+        display: block;
+        @include responsive(tablet){
+            display: none;
+        }
+    }
+    &_cropped{
+        display: none;
+        @include responsive(tablet){
+            display: block;
         }
     }
 }

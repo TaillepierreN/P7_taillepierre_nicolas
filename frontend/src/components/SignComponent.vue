@@ -1,5 +1,5 @@
 <template>
-  <div class="signup wrap">
+  <div class="signup">
     <h1>Création de compte</h1>
     <form id="signform" @submit="signForm" method="post" class="signup_div">
       <div class="signform">

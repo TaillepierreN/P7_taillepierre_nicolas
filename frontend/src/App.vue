@@ -14,14 +14,15 @@
             src="@/assets/img/icons8-plus-24.png"
             alt="Ajouter un nouveau post"
           />
-          <h3>Créer un nouveau post</h3>
+          <h3 class="newpostbutton_full">Créer un nouveau post</h3>
+          <h3 class="newpostbutton_cropped">Poster</h3>
         </router-link>
       </button>
       <router-link to="/login" v-if="!isLogged">Login</router-link>
       <router-link
         :to="{ name: 'profile', params: { id: userId } }"
-        v-if="isLogged"
-        >Profile ( {{ user.username }} )</router-link
+        v-if="isLogged" class="linkprofile"
+        >Profile ({{ user.username }})</router-link
       >
       |
       <button v-if="isLogged" @click="disconnect" id="dcbutton">

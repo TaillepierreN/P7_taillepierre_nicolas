@@ -1,5 +1,5 @@
 <template>
-  <div class="login wrap">
+  <div class="login">
     <h1>Connexion</h1>
     <form id="logform" @submit="loginForm" method="post" class="login_div">
       <label class="email"
