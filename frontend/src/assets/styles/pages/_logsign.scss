@@ -1,3 +1,15 @@
+.logsignimg{
+    height: 260px;
+    border-radius: 135px;
+    margin-bottom: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    display:block;
+    @include responsive(tablet){
+        display: none;
+        margin-bottom: 0px;
+    }
+}
 .logpanel,
 .slidingpanel{
     @include flex;
