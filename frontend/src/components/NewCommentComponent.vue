@@ -1,8 +1,12 @@
 <template>
   <form @submit="newcomment" class="newcomment_content">
+    <h3>Nouveau commentaire</h3>
     <label for="newcomment_content">
-      <h3>Nouveau commentaire</h3>
-      <textarea id="newcomment_content" v-model="this.comment.content" placeholder="Ecrire un commentaire..." />
+      <textarea
+        id="newcomment_content"
+        v-model="this.comment.content"
+        placeholder="Ecrire un commentaire..."
+      />
     </label>
     <div class="newcomment_button">
       <button class="editbuttons">Envoyer</button>

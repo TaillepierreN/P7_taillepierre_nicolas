@@ -1,14 +1,22 @@
+.comTitle{
+  margin-bottom: 20px;
+}
 .comment {
     width: 90%;
     height: 100%;
-  border: 2px dashed $mainRed;
+  border-bottom: 2px solid $mainRed;
     margin: 20px auto;
+    padding: 10px;
+    @include flex;
     &_info {
         @include flex;
         justify-content: space-between;
         align-items: center;
         & p{
           margin-right: 10px;
+        }
+        &_date{
+          width: 200px;
         }
         &_date_updated{
           font-size: 0.8rem;
@@ -37,20 +45,29 @@
         height: 100%;
         width: 70%;
         margin: auto;
-        padding-top: 40px;
+        word-break: break-word;
         & p {
           height: 60%;
         }
       }
 }
 
+.rightPanelCom{
+  @include flex(column);
+  justify-content: center;
+
+}
+
 .editcomment{
-  margin-top: 30px;
+  margin-top: 10px;
   margin-bottom: 10px;
-  @include flex;
+  @include flex(column);
   justify-content: space-around;
+  align-items: center;
   & button{
     padding-inline: 5px;
+    width: 50%;
+    margin-bottom: 10px;
   }
 }
 #editComContent{

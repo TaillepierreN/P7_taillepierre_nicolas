@@ -35,7 +35,7 @@
         </router-link>
         <input v-if="editMode" type="text" v-model="editPost.title" />
         <div class="post_info_date">
-          <p>Posté à: {{ formatDate(editPost.createdAt) }}</p>
+          <p>Posté le {{ formatDate(editPost.createdAt) }}</p>
           <p
             class="post_info_date_updated"
             v-if="editPost.createdAt != editPost.updatedAt"
@@ -112,9 +112,12 @@
       </div>
     </div>
     <div v-if="comments && singlePost == true" class="com">
+      <div class="comment" id="newCom">
+      <h3 class="comTitle">Commentaires</h3>
       <button class="editbuttons" @click="addComment = !addComment">
         Ajouter commentaire
       </button>
+      </div>
       <div class="newcomment">
         <NewCommentComponent v-if="addComment == true" :id="this.post.id" />
       </div>
@@ -189,7 +192,7 @@ export default {
   methods: {
     formatDate(dateString) {
       const date = dayjs(dateString);
-      return date.format("HH:mm le D MMM 'YY");
+      return date.format("D MMM 'YY à HH:mm");
     },
 
     editMsg: function (e) {

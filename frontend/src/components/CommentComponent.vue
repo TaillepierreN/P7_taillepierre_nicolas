@@ -14,9 +14,14 @@
           <h4 v-if="!owncomuser">{{ editComment.user.username }}</h4>
           <h4 v-else class="ownuser">{{ editComment.user.username }}</h4>
         </div>
-
+      </div>
+      <div class="comment_content">
+        <p v-if="!editCom">{{ editComment.content }}</p>
+        <textarea v-else v-model="editComment.content" id="editComContent" />
+      </div>
+      <div class="rightPanelCom">
         <div class="comment_info_date">
-          <p>Posté le: {{ formatDate(editComment.createdAt) }}</p>
+          <p>{{ formatDate(editComment.createdAt) }}</p>
           <p
             class="comment_info_date_updated"
             v-if="editComment.createdAt != editComment.updatedAt"
@@ -24,21 +29,15 @@
             ( Modifié: {{ formatDate(editComment.updatedAt) }} )
           </p>
         </div>
-      </div>
-      <div class="comment_content">
-        <p v-if="!editCom">{{ editComment.content }}</p>
-        <textarea v-else v-model="editComment.content" id="editComContent"/>
-      </div>
-      <div class="editcomment">
-        <button
-          v-if="isUserOrAdmin == true"
-          @click="editCom = !editCom"
-          class="editbuttons"
-        >
-          <p v-if="!editCom">Edit</p>
-          <p v-else>Annuler</p>
-        </button>
-        <div class="editcomment_buttons">
+        <div class="editcomment">
+          <button
+            v-if="isUserOrAdmin == true"
+            @click="editCom = !editCom"
+            class="editbuttons"
+          >
+            <p v-if="!editCom">Edit</p>
+            <p v-else>Annuler</p>
+          </button>
           <button v-if="editCom" @click="editCmt" class="editbuttons">
             Enregistrer
           </button>
@@ -70,7 +69,7 @@ export default {
   methods: {
     formatDate(dateString) {
       const date = dayjs(dateString);
-      return date.format("HH:mm - D MMM 'YY");
+      return date.format("D MMM 'YY à HH:mm");
     },
 
     editCmt: function (e) {
