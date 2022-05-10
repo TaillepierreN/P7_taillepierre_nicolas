@@ -62,6 +62,7 @@ export default {
             window.localStorage.setItem("token", json.token);
             window.localStorage.setItem("userId", json.userId);
             window.localStorage.setItem("isAdmin", json.isAdmin);
+            window.localStorage.setItem("isMod", json.isMod);
             window.location.href = "/";
           } else {
             return (this.errormsg = JSON.stringify(json));

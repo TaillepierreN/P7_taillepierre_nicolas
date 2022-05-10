@@ -52,7 +52,7 @@
 </template>
 <script>
 import dayjs from "dayjs";
-require("dayjs/locale/fr")
+require("dayjs/locale/fr");
 
 export default {
   name: "CommentComponent",
@@ -104,13 +104,14 @@ export default {
   mounted() {
     let uid = window.localStorage.getItem("userId");
     let admin = JSON.parse(window.localStorage.getItem("isAdmin"));
-    if (this.comment.user.id == uid || admin == true) {
+    let mod = JSON.parse(window.localStorage.getItem("isMod"));
+    if (this.comment.user.id == uid || admin == true || mod == true) {
       this.isUserOrAdmin = true;
     }
     if (this.comment.user.id == uid) {
       return (this.owncomuser = true);
     }
-    dayjs.locale("fr")
+    dayjs.locale("fr");
   },
 };
 </script>

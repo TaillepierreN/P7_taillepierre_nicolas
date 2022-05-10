@@ -10,7 +10,7 @@ exports.showUser = async (req, res) => {
             where: {
                 id: req.params.id
             },
-            attributes: ["id", "username", "profilepic", "email"]
+            attributes: ["id", "username", "profilepic", "email", "isMod"]
         });
         if (user) {
             return res.status(200).json(user)

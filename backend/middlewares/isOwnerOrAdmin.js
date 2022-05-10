@@ -10,7 +10,7 @@ module.exports = async (req, res, next) => {
         const decodedToken = jwt.verify(token, process.env.TOKEN);
         const userId = decodedToken.userId;
         const user = await User.findOne({ where: { id: userId } })
-        if (user.isAdmin) {
+        if (user.isAdmin || user.isMod) {
             next();
         } else {
             switch (req.baseUrl) {

@@ -37,7 +37,8 @@ export default {
       .then(() => {
         let uid = window.localStorage.getItem("userId");
         let admin = JSON.parse(window.localStorage.getItem("isAdmin"));
-        if (this.post.user.id == uid || admin == true) {
+        let mod = JSON.parse(window.localStorage.getItem("isMod"));
+        if (this.post.user.id == uid || admin == true || mod == true) {
           this.isUserOrAdmin = true;
         }
       })

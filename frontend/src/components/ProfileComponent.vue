@@ -16,16 +16,13 @@
           alt="Image de profile"
           v-else
         />
-        <button
-          v-if="editMode"
-          class="editbuttons"
-          @click="confirmdel"
-        >
+        <button v-if="editMode" class="editbuttons" @click="confirmdel">
           Supprimer le compte
         </button>
         <div class="deluser" id="deluser">
           <h3>Voulez vous vraiment supprimer ce compte utilisateur?</h3>
-          <button class="editbuttons" @click="delUsr">Oui</button><button class="editbuttons" @click="confirmdel">non</button>
+          <button class="editbuttons" @click="delUsr">Oui</button
+          ><button class="editbuttons" @click="confirmdel">non</button>
         </div>
         <label for="image" v-if="editMode">image de profil:</label>
         <input
@@ -43,6 +40,10 @@
           >username :{{ user.username }}
           <input type="text" v-if="editMode" v-model="editUser.username"
         /></label>
+        <div class="modcheck" v-if="isAdmin && editMode">
+          <input type="checkbox" id="modcheck" v-model="this.editUser.isMod" />
+          <label for="modcheck">Modérateur</label>
+        </div>
         <button
           class="editbuttons"
           @click="editPass = !editPass"
@@ -107,6 +108,7 @@ export default {
       editPass: false,
       posts: [],
       isUserOrAdmin: false,
+      isAdmin: false,
       acceptedFile: [
         "imgage/png",
         "image/jpg",
@@ -126,11 +128,13 @@ export default {
       .then((res) => res.json())
       .then((data) => (this.posts = data))
       .catch((err) => console.log(err.message));
-    console.log(this.editUser.userid)
     let uid = window.localStorage.getItem("userId");
     let admin = JSON.parse(window.localStorage.getItem("isAdmin"));
     if (this.$route.params.id == uid || admin == true) {
       this.isUserOrAdmin = true;
+    }
+    if (admin == true) {
+      this.isAdmin = true;
     }
   },
 
@@ -144,6 +148,7 @@ export default {
         formData.append("password", this.newpassword);
       }
       formData.append("image", this.newprofilepic);
+      formData.append("isMod", this.editUser.isMod)
       fetch(`http://localhost:3010/user/${this.$route.params.id}`, {
         method: "PUT",
         body: formData,
@@ -156,10 +161,10 @@ export default {
       });
     },
 
-    confirmdel: function(e){
+    confirmdel: function (e) {
       e.preventDefault();
       let delbloc = document.getElementById("deluser");
-      if(delbloc.style.display === "block"){
+      if (delbloc.style.display === "block") {
         delbloc.style.display = "none";
       } else {
         delbloc.style.display = "block";
@@ -174,8 +179,7 @@ export default {
           Authorization: "Bearer " + localStorage.getItem("token"),
           "Content-type": "application/json",
         },
-      })
-      .then(() => (window.location.href = "/"));
+      }).then(() => (window.location.href = "/"));
     },
 
     editModeFn: function (e) {
