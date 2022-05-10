@@ -5,12 +5,16 @@
     cursor: pointer;
     &_img{
         width: 40px;
+        top: 5px;
+        position: relative;
     }
 }
 .likeCount{
     position: relative;
-    top: -23px;
-    left: 4px;
-    color: $bgcolor; 
-    font-size: 0.7rem;
+    top: -25px;
+    color: black; 
+    font-size: 0.8rem;
+    &.full{
+        color: $bgcolor !important;
+    }
 }

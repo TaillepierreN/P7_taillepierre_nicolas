@@ -95,16 +95,19 @@
             <img
               class="likebutton_img"
               v-if="!hasLiked"
-              src="@\assets\img\icons8-like-32.png"
+              src="@\assets\img\icons8-like-64.png"
               alt="Bouton like"
             />
             <img
               class="likebutton_img"
               v-else
-              src="@\assets\img\icons8-like-32g.png"
+              src="@\assets\img\icons8-like-64f.png"
               alt="Bouton like"
             />
-            <p class="likeCount">
+            <p v-if="!hasLiked" class="likeCount">
+              <span> {{ this.postlikesCount }}</span>
+            </p>
+            <p v-else class="likeCount full">
               <span> {{ this.postlikesCount }}</span>
             </p>
           </button>
@@ -113,10 +116,10 @@
     </div>
     <div v-if="comments && singlePost == true" class="com">
       <div class="comment" id="newCom">
-      <h3 class="comTitle">Commentaires</h3>
-      <button class="editbuttons" @click="addComment = !addComment">
-        Ajouter commentaire
-      </button>
+        <h3 class="comTitle">Commentaires</h3>
+        <button class="editbuttons" @click="addComment = !addComment">
+          Ajouter commentaire
+        </button>
       </div>
       <div class="newcomment">
         <NewCommentComponent v-if="addComment == true" :id="this.post.id" />
