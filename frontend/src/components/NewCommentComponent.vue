@@ -1,15 +1,9 @@
 <template>
-  <form
-    @submit="newcomment"
-    class="newcomment_content"
-  >
-    <h3>Nouveau commentaire</h3>
-    <label for="newcomment_content"
-      ><input
-        id="newcomment_content"
-        v-model="this.comment.content"
-        type="textarea"
-    /></label>
+  <form @submit="newcomment" class="newcomment_content">
+    <label for="newcomment_content">
+      <h3>Nouveau commentaire</h3>
+      <textarea id="newcomment_content" v-model="this.comment.content" placeholder="Ecrire un commentaire..." />
+    </label>
     <div class="newcomment_button">
       <button class="editbuttons">Envoyer</button>
       <button type="button" class="editbuttons" @click="cancel">Annuler</button>
@@ -30,7 +24,6 @@ export default {
   },
 
   methods: {
-    
     newcomment: function (e) {
       e.preventDefault();
       fetch(`http://localhost:3010/comment/`, {
@@ -44,16 +37,13 @@ export default {
           content: this.comment.content,
           userId: localStorage.getItem("userId"),
         }),
-      })
-      .then(() => (window.location.href = `/post/${this.$route.params.id}`));
-
+      }).then(() => (window.location.href = `/post/${this.$route.params.id}`));
     },
 
     cancel: function (e) {
       e.preventDefault();
       window.location.href = `/post/${this.$route.params.id}`;
     },
-
   },
 };
 </script>

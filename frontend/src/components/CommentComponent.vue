@@ -27,7 +27,7 @@
       </div>
       <div class="comment_content">
         <p v-if="!editCom">{{ editComment.content }}</p>
-        <input v-else v-model="editComment.content" type="textarea" />
+        <textarea v-else v-model="editComment.content" id="editComContent"/>
       </div>
       <div class="editcomment">
         <button
