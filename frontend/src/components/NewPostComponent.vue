@@ -66,7 +66,8 @@ export default {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       })
-      .then((window.location.href = "/"))
+      .then(res => res.json())
+      .then(data => window.location.href = "/post/" + data.id)
       .catch(error => alert(error.message))
     },
 

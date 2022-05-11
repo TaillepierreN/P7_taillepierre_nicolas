@@ -82,13 +82,15 @@
         </div>
         <div class="editDivider"></div>
         <div class="post_likecombar_counter">
-          <a class="postlink" href="#comment">
+          <a v-if="singlePost" class="postlink" href="#newCom">
             <p class="commentsCount">
-              Commentaire (
-              <span>
-                {{ this.postCommentCount }}
-              </span>
-              )
+              Commentaires
+              <span v-if="singlePost"> ({{ this.postCommentCount }}) </span>
+            </p>
+          </a>
+          <a v-else class="postlink" :href="`/post/${this.editPost.id}#newCom`">
+            <p class="commentsCount">
+              Commentaires
             </p>
           </a>
           <button @click="likeswitch" class="likebutton">
