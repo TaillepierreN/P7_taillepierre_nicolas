@@ -10,12 +10,12 @@ exports.showMessages = async (req, res) => {
         const query = {
             attributes: [
                 "id", "title", "content", "updatedAt", "createdAt", "attachment",
-                [
-                    db.Sequelize.fn("COUNT", db.Sequelize.col("comments.postId")), "commentsCount"
-                ],
                 // [
-                //     db.Sequelize.fn("COUNT", db.Sequelize.col("likes.postId")), "likesCount"
-                // ]
+                //     db.Sequelize.fn("COUNT", db.Sequelize.col("comments.postId")), "commentsCount"
+                // ],
+                [
+                    db.Sequelize.fn("COUNT", db.Sequelize.col("likes.postId")), "likesCount"
+                ]
             ],
             include: [{
                 model: db.users,
@@ -24,14 +24,14 @@ exports.showMessages = async (req, res) => {
                     "id", "username", "profilepic"
                 ]
             },
+            // {
+            //     model: db.comments,
+            //     as: "comments",
+            //     attributes: [],
+            // },
             {
                 model: db.likes,
                 as: "likes",
-                attributes: [],
-            },
-            {
-                model: db.comments,
-                as: "comments",
                 attributes: [],
             },
             ],
@@ -49,13 +49,6 @@ exports.showMessages = async (req, res) => {
             }
         }
         const posts = await Post.findAll(query);
-        // posts.forEach(post => {
-        //     const likeCount = Likes.count({
-        //         where: { postId: post.id }
-        //     })
-        //     return post.likeCount = likeCount
-        // });
-        // console.log(posts.likeCount)
         return res.status(200).json(posts);
     } catch (error) {
         return res.status(500).json({
@@ -125,10 +118,8 @@ exports.postMessage = async (req, res) => {
         if (req.file) {
             newpost.attachment = `${req.protocol}://${req.get('host')}/images/attachment/${req.file.filename}`
         }
-        await Post.create(newpost);
-        return res.status(201).json({
-            message: "Post crée"
-        });
+        const createdPost = await Post.create(newpost);
+        return res.status(201).json(createdPost);
     } catch (error) {
         return res.status(500).json({
             message: error
