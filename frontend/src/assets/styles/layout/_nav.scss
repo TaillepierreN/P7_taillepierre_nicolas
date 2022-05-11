@@ -1,19 +1,36 @@
 nav {
-    padding: 2px;
     @include flex;
-    position: absolute;
-    right: 30px;
-    top: 45px;
-    justify-content: flex-end;
-    overflow: hidden;
+    position: relative;
     align-items: center;
-
+    overflow: hidden;
+    justify-content: flex-end;
+    & a{
+        padding-left: 20px;
+        padding-right: 20px;
+    };
+    @include responsive(tablet){
+        justify-content: center;
+    }
 }
-
-img {
-    height: 170px;
+#banner{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    background-color: $bgcolor;
+    z-index: 2;
+    @include responsive(phone){
+        flex-direction: column;
+        height: 120px;
+    }
+}
+#bannerimg {
+    height: 60px;
     display: block;
-    margin: auto;
 }
 
 #dcbutton{
@@ -26,4 +43,5 @@ img {
         width: 35px;
         height: 35px;
     }
+    cursor: pointer;
 }

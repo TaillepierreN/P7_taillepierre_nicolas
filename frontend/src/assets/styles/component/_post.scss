@@ -1,31 +1,59 @@
 .post {
-    width: 100%;
-    height: 300px;
-    background-color: rgb(255, 255, 255);
+    margin-inline: auto;
+    width: 70%;
+    height: 100%;
+    background-color: $bgcolor;
     margin-bottom: 20px;
+    border: 1px solid black;
+    border-radius: 15px;
+    border-left: 3px solid $mainRed;
+    border-right: 3px solid $mainRed;
+    box-shadow: 2px 3px 8px -1px black,inset 20px 16px 20px 10px #fdf1f169;
+    @include responsive(phone){
+      width: 100%;
+    }
+
     &_info {
       @include flex;
       justify-content: space-between;
       align-items: center;
+      border-bottom: dashed 1px rgba(0, 0, 0, 0.623);
       & p{
         margin-right: 10px;
       }
-    }
-    &_info_user {
-      @include flex;
-      align-items: center;
-      width: 200px;
-      & img {
-        margin: 1px;
-        height: 50px;
-        margin-right: 15px;
+      &_user {
+        @include flex;
+        align-items: center;
+        width: 200px;
+        font-size: 1.2rem;
+        &_img {
+          margin: 1px;
+          height: 60px;
+          width: 60px;
+          overflow: hidden;
+          border-radius: 50%;
+        }
+        & img{
+          object-fit: contain;
+          width: 60px;
+        }
+      }
+      &_date{
+        font-size: 1rem;
+        &_updated{
+          font-size: 0.8rem;
+        }
       }
     }
+    &_title.router-link-exact-active{
+      color: black;
+      text-shadow: none;
+    }
     &_content {
-      height: 215px;
       width: 70%;
       margin: auto;
       padding-top: 40px;
+      overflow:auto;
       & p {
         height: 100%;
       }
@@ -33,19 +61,28 @@
     &_likecombar{
       @include flex;
       justify-content: flex-end;
+      position: relative;
+    bottom: 5px;
       margin-right: 35px;
       &_counter{
         display: flex;
+        margin-bottom: 10px;
         & p{
           margin: auto 5px;
         }
       }
     }
-    &_title{
-      color: black;
-    }
+    
 .postlink{
-  color: black;
+  font-size: 1rem;
+  @include flex;
+
+}
+#imgpost{
+  max-height: 270px;
 }
 
-  }
+}
+.ownuser a{
+  color: $mainRed
+}

@@ -4,12 +4,7 @@ const Comment = db.comments;
 //Ajout nouveau commentaire
 exports.newComment = async (req, res) => {
     try {
-        const newComment = {
-            postId: parseInt(req.params.id),
-            userId: req.body.userId,
-            content: req.body.content
-        };
-        await Comment.create(newComment)
+        await Comment.create(req.body)
         return res.status(201).json({
             message: "Commentaire posté"
         })
@@ -26,7 +21,7 @@ exports.editComment = async (req, res) => {
     try {
         const editComment = Comment.findOne({
             where: {
-                id: req.params.comId,
+                id: req.params.id,
                 userId: req.body.userId
             }
         });
@@ -36,17 +31,21 @@ exports.editComment = async (req, res) => {
                 { content: updatecom },
                 {
                     where: {
-                        id: req.params.comId,
+                        id: req.params.id,
                         userId: req.body.userId
                     }
                 })
             return res.status(200).json({
                 message: "Commentaire mis à jour"
             })
+        } else {
+            return res.status(404).json({
+                message: "Commentaire non trouvé"
+            })
         }
     } catch (error) {
         return res.status(500).json({
-            error
+            message: error
         })
     }
 }
@@ -55,24 +54,28 @@ exports.editComment = async (req, res) => {
 // Supprimer commentaire
 exports.deleteComment = async (req, res) => {
     try {
-        const comment = Comment.findOne({
+        const comment = await Comment.findOne({
             where: {
-                id: req.params.comId
+                id: req.params.id
             }
         });
         if (comment) {
             await Comment.destroy({
                 where: {
-                    id: req.params.comId
+                    id: req.params.id
                 }
             })
             return res.status(200).json({
                 message: "Commentaire supprimé"
             })
+        } else {
+            return res.status(404).json({
+                message: "Commentaire non trouvé"
+            })
         }
     } catch (error) {
         return res.status(500).json({
-            error
+            message: error
         });
     }
 }

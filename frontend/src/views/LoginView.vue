@@ -1,5 +1,6 @@
 <template>
   <main class="logsign wrap">
+    <img src="@\assets\img\icon-above-font.svg" alt="Logo Groupomania" class="logsignimg">
     <div class="logpanel">
       <LogComponent :account="ownAccount" />
       <SignComponent :account="ownAccount" />

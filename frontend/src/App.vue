@@ -1,27 +1,35 @@
 <template>
-  <div
-    style="display: flex;
-    align-items: center"
-  >
-    <div>
-    <img :src="user.profilepic" style="width:40px, height:auto" alt="">
-    <h3 style="color: white">{{ user.username }}</h3>
-    </div>
-    <img src="@\assets\img\icon-left-font-monochrome-white.png" alt="" />
+  <header id="banner">
+    <router-link to="/">
+      <img
+        src="@\assets\img\icon-left-font-monochrome-black.svg"
+        alt="Banniere Groupomania"
+        id="bannerimg"
+      />
+    </router-link>
     <nav>
-      <router-link to="/">Acceuil</router-link> |
+      <button id="newpostbutton">
+        <router-link to="/post/">
+          <img
+            src="@/assets/img/icons8-plus-24.png"
+            alt="Ajouter un nouveau post"
+          />
+          <h3 class="newpostbutton_full">Créer un nouveau post</h3>
+          <h3 class="newpostbutton_cropped">Poster</h3>
+        </router-link>
+      </button>
       <router-link to="/login" v-if="!isLogged">Login</router-link>
       <router-link
         :to="{ name: 'profile', params: { id: userId } }"
-        v-if="isLogged"
-        >Profile</router-link
+        v-if="isLogged" class="linkprofile"
+        >Profile ({{ user.username }})</router-link
       >
       |
       <button v-if="isLogged" @click="disconnect" id="dcbutton">
         <img src="@\assets\img\icons8-déconnexion-50.png" alt="" />
       </button>
     </nav>
-  </div>
+  </header>
   <router-view />
 </template>
 
@@ -42,7 +50,6 @@ export default {
     })
       .then((res) => res.json())
       .then((data) => (this.user = data));
-    console.log(this.user);
 
     if (localStorage.getItem("token")) {
       this.isLogged = true;
@@ -61,12 +68,3 @@ export default {
 };
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-</style>

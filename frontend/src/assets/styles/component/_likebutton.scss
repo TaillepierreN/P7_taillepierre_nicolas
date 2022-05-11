@@ -1,0 +1,20 @@
+.likebutton{
+    height: 50px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    &_img{
+        width: 40px;
+        top: 5px;
+        position: relative;
+    }
+}
+.likeCount{
+    position: relative;
+    top: -25px;
+    color: black; 
+    font-size: 0.8rem;
+    &.full{
+        color: $bgcolor !important;
+    }
+}

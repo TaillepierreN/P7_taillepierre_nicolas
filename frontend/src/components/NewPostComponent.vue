@@ -1,5 +1,5 @@
 <template>
-  <div class="newpost" style="background-color: white">
+  <div class="newpost wrap" style="background-color: white">
     <h1>Poster un nouveau message</h1>
     <div class="newpost_bloc">
       <form @submit="newpost" class="newpost_form">
@@ -21,8 +21,8 @@
           type="file"
         />
         <div class="newpost_form_button">
-          <button>Enregistrer</button>
-          <button type="button" @click="cancel">annuler</button>
+          <button class="editbuttons">Enregistrer</button>
+          <button type="button" class="editbuttons" @click="cancel">annuler</button>
         </div>
       </form>
     </div>
@@ -65,7 +65,10 @@ export default {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
-      }).then((window.location.href = "/"));
+      })
+      .then(res => res.json())
+      .then(data => window.location.href = "/post/" + data.id)
+      .catch(error => alert(error.message))
     },
 
     cancel: function (e) {

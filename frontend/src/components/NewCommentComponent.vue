@@ -1,19 +1,16 @@
 <template>
-  <form
-    @submit="newcomment"
-    style="background-color: white"
-    class="newpost_content"
-  >
+  <form @submit="newcomment" class="newcomment_content">
     <h3>Nouveau commentaire</h3>
-    <label for="newpost_content"
-      ><input
-        id="newpost_content"
+    <label for="newcomment_content">
+      <textarea
+        id="newcomment_content"
         v-model="this.comment.content"
-        type="textarea"
-    /></label>
-    <div class="newpost_button">
-      <button>envoyer</button>
-      <button type="button" @click="cancel">annuler</button>
+        placeholder="Ecrire un commentaire..."
+      />
+    </label>
+    <div class="newcomment_button">
+      <button class="editbuttons">Envoyer</button>
+      <button type="button" class="editbuttons" @click="cancel">Annuler</button>
     </div>
   </form>
 </template>
@@ -31,29 +28,26 @@ export default {
   },
 
   methods: {
-    
     newcomment: function (e) {
       e.preventDefault();
-      fetch(`http://localhost:3010/post/${this.$route.params.id}/comment`, {
+      fetch(`http://localhost:3010/comment/`, {
         method: "POST",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
           "Content-type": "application/json",
         },
         body: JSON.stringify({
+          postId: this.$route.params.id,
           content: this.comment.content,
           userId: localStorage.getItem("userId"),
         }),
-      })
-      .then(() => (window.location.href = `/post/${this.$route.params.id}`));
-
+      }).then(() => (window.location.href = `/post/${this.$route.params.id}`));
     },
 
     cancel: function (e) {
       e.preventDefault();
       window.location.href = `/post/${this.$route.params.id}`;
     },
-
   },
 };
 </script>

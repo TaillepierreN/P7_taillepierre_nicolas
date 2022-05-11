@@ -21,6 +21,10 @@ module.exports = (sequelize, Sequelize) => {
             profilepic:{
                 type: Sequelize.STRING(255),
                 allowNull: true
+            },
+            isMod:{
+                type: Sequelize.BOOLEAN,
+                defaultValue: false
             }
         });
     return User;

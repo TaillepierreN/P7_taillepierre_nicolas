@@ -1,8 +1,12 @@
 .newpost{
+    border: 1px solid $mainRed;
     &_form{
         display: flex;
         flex-direction: column;
         align-items: center;
-    
+    & *{
+        margin: 5px;
     }
+    }
+
 }

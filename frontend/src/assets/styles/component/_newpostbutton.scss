@@ -1,0 +1,54 @@
+#newpostbutton{
+    background-color: $bgcolor;
+    height: 35px;
+    border-radius: 25px;
+    margin-bottom: 5px;
+    transition: all 0.2s ease-out;
+    box-shadow: none;
+    width: 35px;
+    overflow: hidden;
+    transition: width 0.4s ease-in-out;
+    &:hover{
+        width: 320px;
+    }
+    @include responsive(tablet){
+        &:hover{
+            width: 140px;
+            margin-left: 20px;
+        }
+    }
+    @include responsive(phone){
+        &:hover{
+            width: 35px;
+            margin-left: 0px;
+        }
+    }
+    & a{
+        color: $mainRed;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow: hidden;
+        width: 325px;
+        & img{
+            margin-left: -16px;
+        }
+        & h3{
+            margin-left: 10px;
+            height: 24px;
+        }
+    }
+}
+.newpostbutton{
+    &_full{
+        display: block;
+        @include responsive(tablet){
+            display: none;
+        }
+    }
+    &_cropped{
+        display: none;
+        @include responsive(tablet){
+            display: block;
+        }
+    }
+}

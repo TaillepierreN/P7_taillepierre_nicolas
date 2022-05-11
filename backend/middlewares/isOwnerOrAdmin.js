@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const db = require("../models");
 const User = db.users;
 const Post = db.posts;
+const Comment = db.comments;
 
 module.exports = async (req, res, next) => {
     try {
@@ -9,7 +10,7 @@ module.exports = async (req, res, next) => {
         const decodedToken = jwt.verify(token, process.env.TOKEN);
         const userId = decodedToken.userId;
         const user = await User.findOne({ where: { id: userId } })
-        if (user.isAdmin) {
+        if (user.isAdmin || user.isMod) {
             next();
         } else {
             switch (req.baseUrl) {
@@ -26,6 +27,14 @@ module.exports = async (req, res, next) => {
                         next();
                     } else {
                         res.status(403).json({ message: "Vous n'avez pas le droit de modifier ce post" })
+                    }
+                    break;
+                case '/comment':
+                    const comment = await Comment.findOne({ where: { id: req.params.id } })
+                    if (userId === comment.userId) {
+                        next();
+                    } else {
+                        res.status(403).json({ message: "Vous n'avez pas le droit de modifier ce commentaire" })
                     }
                     break;
             }

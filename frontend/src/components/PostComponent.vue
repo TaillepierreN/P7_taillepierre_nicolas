@@ -1,15 +1,30 @@
 <template>
-  <div>
-    <div class="post" id="post">
+  <div class="postcom">
+    <div class="post">
       <div class="post_info">
         <div class="post_info_user">
-          <img
-            :src="editPost.user.profilepic"
-            alt="Image de profile"
-            v-if="editPost.user.profilepic != null"
-          />
-          <img src="@/assets/img/icon.svg" alt="Image de profile" v-else />
-          <h4>{{ editPost.user.username }}</h4>
+          <div class="post_info_user_img">
+            <img
+              :src="editPost.user.profilepic"
+              alt="Image de profile"
+              v-if="editPost.user.profilepic != null"
+            />
+            <img src="@/assets/img/icon.svg" alt="Image de profile" v-else />
+          </div>
+          <h4 v-if="!ownuser">
+            <router-link
+              :to="{ name: 'profile', params: { id: editPost.user.id } }"
+            >
+              {{ editPost.user.username }}
+            </router-link>
+          </h4>
+          <h4 v-else class="ownuser">
+            <router-link
+              :to="{ name: 'profile', params: { id: editPost.user.id } }"
+            >
+              {{ editPost.user.username }}
+            </router-link>
+          </h4>
         </div>
         <router-link
           v-if="!editMode"
@@ -19,17 +34,19 @@
           {{ editPost.title }}
         </router-link>
         <input v-if="editMode" type="text" v-model="editPost.title" />
-        <p v-if="editPost.createdAt === editPost.updatedAt">
-          Posté le: {{ formatDate(editPost.createdAt) }}
-        </p>
-        <p v-else>
-          Posté le: {{ formatDate(editPost.createdAt) }} Modifié:
-          {{ formatDate(editPost.updatedAt) }}
-        </p>
+        <div class="post_info_date">
+          <p>Posté le {{ formatDate(editPost.createdAt) }}</p>
+          <p
+            class="post_info_date_updated"
+            v-if="editPost.createdAt != editPost.updatedAt"
+          >
+            ( Modifié: {{ formatDate(editPost.updatedAt) }} )
+          </p>
+        </div>
       </div>
       <div class="post_content">
-        <p v-if="!editMode">{{ editPost.content }}</p>
         <img v-if="!editMode" id="imgpost" :src="editPost.attachment" alt="" />
+        <p v-if="!editMode">{{ editPost.content }}</p>
         <textarea
           class="editPostContent"
           type="text"
@@ -49,44 +66,63 @@
       <div class="post_likecombar">
         <div class="edit">
           <button
-            class="edit_button"
+            class="edit_button editbuttons"
             v-if="isUserOrAdmin == true && singlePost == true"
             @click="editMode = !editMode"
           >
             <p v-if="!editMode">Edit</p>
             <p v-else>Annuler</p>
           </button>
-          <button @click="editMsg" v-if="editMode">Sauvegarder</button>
-          <button @click="delMsg" v-if="editMode">Supprimer</button>
+          <button class="editbuttons" @click="editMsg" v-if="editMode">
+            Sauvegarder
+          </button>
+          <button class="editbuttons" @click="delMsg" v-if="editMode">
+            Supprimer
+          </button>
         </div>
         <div class="editDivider"></div>
         <div class="post_likecombar_counter">
-          <a class="postlink" href="#comment">
+          <a v-if="singlePost" class="postlink" href="#newCom">
             <p class="commentsCount">
-              Commentaire (
-              <span v-if="singlePost == false">
-                {{ editPost.commentsCount }}
-              </span>
-              <span v-else> {{ editPost.comments.length }}</span>
-              )
+              Commentaires
+              <span v-if="singlePost"> ({{ this.postCommentCount }}) </span>
             </p>
           </a>
-          <button @click="likeswitch">
-            <p class="likeCount">
-              likes: (
-              <span v-if="singlePost == false">{{ editPost.likesCount }}</span>
-              <span v-else-if="this.postlikesCount">
-                {{ this.postlikesCount }}</span
-              >
-              <span v-else>0</span>
-              )
+          <a v-else class="postlink" :href="`/post/${this.editPost.id}#newCom`">
+            <p class="commentsCount">
+              Commentaires
+            </p>
+          </a>
+          <button @click="likeswitch" class="likebutton">
+            <img
+              class="likebutton_img"
+              v-if="!hasLiked"
+              src="@\assets\img\icons8-like-64.png"
+              alt="Bouton like"
+            />
+            <img
+              class="likebutton_img"
+              v-else
+              src="@\assets\img\icons8-like-64f.png"
+              alt="Bouton like"
+            />
+            <p v-if="!hasLiked" class="likeCount">
+              <span> {{ this.postlikesCount }}</span>
+            </p>
+            <p v-else class="likeCount full">
+              <span> {{ this.postlikesCount }}</span>
             </p>
           </button>
         </div>
       </div>
     </div>
-    <div v-if="comments && singlePost == true">
-      <button @click="addComment = !addComment">Ajouter commentaire</button>
+    <div v-if="comments && singlePost == true" class="com">
+      <div class="comment" id="newCom">
+        <h3 class="comTitle">Commentaires</h3>
+        <button class="editbuttons" @click="addComment = !addComment">
+          Ajouter commentaire
+        </button>
+      </div>
       <div class="newcomment">
         <NewCommentComponent v-if="addComment == true" :id="this.post.id" />
       </div>
@@ -102,12 +138,13 @@
 
 <script>
 import dayjs from "dayjs";
+require("dayjs/locale/fr");
 import CommentComponent from "@/components/CommentComponent.vue";
 import NewCommentComponent from "@/components/NewCommentComponent.vue";
 
 export default {
   name: "PostComponent",
-  props: ["post", "singlePost", "postlikesCount", "isUserOrAdmin"],
+  props: ["post", "singlePost", "isUserOrAdmin"],
   components: {
     CommentComponent,
     NewCommentComponent,
@@ -126,13 +163,41 @@ export default {
         "image/gif",
       ],
       addComment: false,
+      hasLiked: false,
+      postlikesCount: 0,
+      postCommentCount: 0,
+      ownuser: false,
     };
+  },
+  mounted() {
+    this.comments = this.post.comments;
+    if (this.comments) {
+      this.comments = this.comments.reverse();
+    }
+    let uid = window.localStorage.getItem("userId");
+    if (!this.singlePost) {
+      this.postlikesCount = this.editPost.likesCount;
+      this.postCommentCount = this.editPost.commentsCount;
+    } else {
+      this.postlikesCount = this.editPost.likes.length;
+      this.postCommentCount = this.editPost.comments.length;
+      let liketable = this.editPost.likes;
+      liketable.forEach((element) => {
+        if (element.userid == uid) {
+          return (this.hasLiked = true);
+        }
+      });
+    }
+    if (this.editPost.user.id == uid) {
+      return (this.ownuser = true);
+    }
+    dayjs.locale("fr");
   },
 
   methods: {
     formatDate(dateString) {
       const date = dayjs(dateString);
-      return date.format("HH:mm - D MMM 'YY");
+      return date.format("D MMM 'YY à HH:mm");
     },
 
     editMsg: function (e) {
@@ -142,6 +207,7 @@ export default {
       formData.append("title", this.editPost.title);
       formData.append("type", "post");
       formData.append("image", this.editPost.image);
+      formData.append("content", this.editPost.content);
       fetch(`http://localhost:3010/post/${this.$route.params.id}`, {
         method: "PUT",
         body: formData,
@@ -179,7 +245,7 @@ export default {
     likeswitch(e) {
       e.preventDefault();
       fetch(`http://localhost:3010/post/${this.post.id}/like`, {
-        method: "POST",
+        method: "PATCH",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
           "Content-type": "application/json",
@@ -194,13 +260,6 @@ export default {
           window.location.reload();
         }
       });
-    },
-
-    mounted() {
-      this.comments = this.post.comments;
-      if (this.comments) {
-        this.comments = this.comments.reverse();
-      }
     },
   },
 };

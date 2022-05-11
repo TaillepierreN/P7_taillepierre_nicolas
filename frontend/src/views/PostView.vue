@@ -1,12 +1,12 @@
 <template>
-  <div class="home">
+  <div class="home wrap">
     <PostComponent
       v-if="post"
       :post="post"
       :singlePost="true"
-      :postlikesCount="postlikesCount"
       :isUserOrAdmin="isUserOrAdmin"
     />
+    <h3 v-if="!post">Aucun post trouvé</h3>
   </div>
 </template>
   
@@ -22,6 +22,7 @@ export default {
   data: () => ({
     post: null,
     postlikesCount: "0",
+    postCommentCount: "0",
     isUserOrAdmin: false,
   }),
 
@@ -36,19 +37,11 @@ export default {
       .then(() => {
         let uid = window.localStorage.getItem("userId");
         let admin = JSON.parse(window.localStorage.getItem("isAdmin"));
-        if (this.post.user.id == uid || admin == true) {
+        let mod = JSON.parse(window.localStorage.getItem("isMod"));
+        if (this.post.user.id == uid || admin == true || mod == true) {
           this.isUserOrAdmin = true;
         }
       })
-      .catch((err) => console.log(err.message));
-
-    fetch(`http://localhost:3010/post/${this.$route.params.id}/like`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => (this.postlikesCount = JSON.stringify(data)))
       .catch((err) => console.log(err.message));
   },
 };

@@ -1,0 +1,21 @@
+#newCom{
+    @include flex(column);
+    align-items: center;
+    & button{
+        width: 20%;
+        min-width: 140px;
+    }
+}
+.newcomment{
+    &_content{
+        @include flex(column);
+        padding: 5px;
+    & *{
+        padding: 5px;
+    }
+    }
+}
+#newcomment_content{
+    width: 90%;
+    height: 150px;
+}

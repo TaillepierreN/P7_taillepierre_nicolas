@@ -1,5 +1,5 @@
 <template>
-  <div class="login wrap">
+  <div class="login">
     <h1>Connexion</h1>
     <form id="logform" @submit="loginForm" method="post" class="login_div">
       <label class="email"
@@ -15,7 +15,7 @@
         >password:
         <input
           id="logpass"
-          type="text"
+          type="password"
           v-model="password"
           v-if="account === false"
         />
@@ -62,6 +62,7 @@ export default {
             window.localStorage.setItem("token", json.token);
             window.localStorage.setItem("userId", json.userId);
             window.localStorage.setItem("isAdmin", json.isAdmin);
+            window.localStorage.setItem("isMod", json.isMod);
             window.location.href = "/";
           } else {
             return (this.errormsg = JSON.stringify(json));
