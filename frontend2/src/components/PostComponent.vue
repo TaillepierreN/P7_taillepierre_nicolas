@@ -58,7 +58,8 @@
       <v-divider></v-divider>
       <v-row no-gutters>
         <v-btn plain outlined text @click="likeswitch" class="ml-1 my-1">
-          <v-icon left>mdi-thumb-up</v-icon>
+          <v-icon left v-if="!hasLiked">mdi-thumb-up-outline</v-icon>
+          <v-icon left v-else class="green--text">mdi-thumb-up</v-icon>
           <span v-if="this.postlikesCount != 0">{{ this.postlikesCount }}</span>
           <span v-else>Like</span>
         </v-btn>
@@ -110,19 +111,18 @@ export default {
     //   this.comments = this.comments.reverse();
     // }
     let uid = window.localStorage.getItem("userId");
-    if (!this.singlePost) {
-      this.postlikesCount = this.editPost.likesCount;
+    // if (!this.singlePost) {
       // this.postCommentCount = this.editPost.commentsCount;
-    } else {
+    // } else {
       this.postlikesCount = this.editPost.likes.length;
       // this.postCommentCount = this.editPost.comments.length;
       let liketable = this.editPost.likes;
       liketable.forEach((element) => {
-        if (element.userid == uid) {
+        if (element.userId == uid) {
           return (this.hasLiked = true);
         }
       });
-    }
+    // }
     if (this.editPost.user.id == uid) {
       return (this.ownuser = true);
     }
