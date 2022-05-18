@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app >
     <v-app-bar
       class="flex-sm-column all-nav"
       app
