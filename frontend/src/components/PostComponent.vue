@@ -89,9 +89,7 @@
             </p>
           </a>
           <a v-else class="postlink" :href="`/post/${this.editPost.id}#newCom`">
-            <p class="commentsCount">
-              Commentaires
-            </p>
+            <p class="commentsCount">Commentaires</p>
           </a>
           <button @click="likeswitch" class="likebutton">
             <img
@@ -171,6 +169,7 @@ export default {
   },
   mounted() {
     this.comments = this.post.comments;
+    dayjs.locale("fr");
     if (this.comments) {
       this.comments = this.comments.reverse();
     }
@@ -191,7 +190,6 @@ export default {
     if (this.editPost.user.id == uid) {
       return (this.ownuser = true);
     }
-    dayjs.locale("fr");
   },
 
   methods: {

@@ -62,6 +62,7 @@ export default {
       window.localStorage.removeItem("token");
       window.localStorage.removeItem("userId");
       window.localStorage.removeItem("isAdmin");
+      window.localStorage.removeItem("isMod");
       location.reload();
     },
   },

@@ -1,0 +1,5 @@
+.v-main{
+    @include responsive(tablet){
+        padding: 130px 0 0 !important;
+    }
+}

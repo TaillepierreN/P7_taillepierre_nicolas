@@ -1,0 +1,17 @@
+.all-nav{
+    @include responsive(tablet){
+        height: 130px !important;
+    }
+}
+
+.v-toolbar__content{
+    @include responsive(tablet){
+        @include flex(column);
+    }
+}
+
+.navbar{
+    @include flex;
+    align-items: center;
+}
+    
