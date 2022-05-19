@@ -25,10 +25,11 @@
         <v-btn href="/login" text v-if="!isLogged">
           <span class="mr-2">Login</span>
         </v-btn>
-        <v-btn text v-if="isLogged">
+        <!-- <v-btn text v-if="isLogged">
           <v-icon>mdi-plus</v-icon>
           Nouveau post
-        </v-btn>
+        </v-btn> -->
+        <NewPost v-if="isLogged"/>
         <v-btn
           :to="{ name: 'profile', params: { id: userId } }"
           text
@@ -50,8 +51,13 @@
 </template>
 
 <script>
+
+import NewPost from './components/Newpost.vue'
+
 export default {
-  name: "App",
+  components:{
+    NewPost
+  },
 
   data: () => ({
     isLogged: false,

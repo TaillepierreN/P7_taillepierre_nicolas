@@ -68,21 +68,8 @@
                   </v-layout>
                 </v-container>
               </v-form>
-              <!-- <v-container id="deluser">
-                <v-card>
-                  <v-card-title
-                    >Voulez-vous vraiment supprimer le compte?</v-card-title
-                  >
-                  <v-card-action>
-                    <v-btn>Non</v-btn>
-                    <v-spacer></v-spacer>
-                    <v-btn>Oui</v-btn>
-                  </v-card-action>
-                </v-card>
-              </v-container> -->
               <v-card-actions class="edit_profil_action">
                 <pop-up />
-                <!-- <v-btn color="red lighten-1" dark>supprimer le compte</v-btn> -->
                 <v-spacer></v-spacer>
                 <v-btn color="grey lighten-1" dark @click="editModeFn"
                   >Annuler</v-btn
@@ -123,7 +110,7 @@
           >
         </v-list-item>
         <v-spacer></v-spacer>
-        <v-btn v-if="isUserOrAdmin" @click="editMode = !editMode"
+        <v-btn  class="mr-3" v-if="isUserOrAdmin" @click="editMode = !editMode"
           >Editer le profil</v-btn
         >
       </v-layout>

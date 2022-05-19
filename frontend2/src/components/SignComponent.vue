@@ -37,9 +37,10 @@
                 accept="image/png, image/jpeg, image/gif , image/webp, image/jpeg"
                 placeholder="Choisir une image de profile(optionel)"
                 prepend-icon="mdi-camera"
-                label="Profilepic"
+                label="Image de profile(optionel)"
                 v-model="sign.profilepic"
                 @change="onProfilChange"
+                :rule="picRules"
               ></v-file-input>
               <v-container>
                 <v-layout>
@@ -104,12 +105,10 @@ export default {
     signForm: function (e) {
       e.preventDefault();
       const formData = new FormData();
-      console.log(this.sign.profilepic);
       formData.append("email", this.sign.email);
       formData.append("password", this.sign.password);
       formData.append("username", this.sign.username);
       formData.append("image", this.sign.profilepic);
-      console.log(formData);
       fetch("http://localhost:3010/auth/signup", {
         method: "POST",
         body: formData,
