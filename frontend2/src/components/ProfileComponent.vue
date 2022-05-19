@@ -110,24 +110,35 @@
           >
         </v-list-item>
         <v-spacer></v-spacer>
-        <v-btn  class="mr-3" v-if="isUserOrAdmin" @click="editMode = !editMode"
+        <v-btn class="mr-3" v-if="isUserOrAdmin" @click="editMode = !editMode"
           >Editer le profil</v-btn
         >
       </v-layout>
     </v-card>
+    <v-layout class="mx-auto column" justify-center align-center tile max-width="600px">
+      <v-card-title>Liste des posts de l'utilisateur</v-card-title>
+      <v-spacer></v-spacer>
+      <PostComponent
+        :post="post"
+        v-for="post in posts"
+        :key="post.id"
+        :singlePost="false"
+      />
+    </v-layout>
   </v-container>
 </template>
 
 <script>
-// import PostComponent from "@/components/PostComponent.vue";
+import PostComponent from "@/components/PostComponent.vue";
 import dayjs from "dayjs";
+require("dayjs/locale/fr");
 import PopUp from "./Popup.vue";
 
 export default {
   name: "ProfileComponent",
   props: ["user", "userfound"],
   components: {
-    // PostComponent,
+    PostComponent,
     PopUp,
   },
 

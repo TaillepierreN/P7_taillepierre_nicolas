@@ -87,7 +87,7 @@ exports.showMessage = async (req, res) => {
                 model: db.likes,
                 as: "likes",
                 attributes: [
-                    "userid"
+                    "userId"
                 ]
             },
             ],
