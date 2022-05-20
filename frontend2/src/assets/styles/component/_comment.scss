@@ -1,0 +1,25 @@
+.com{
+    &_user{
+        @include flex(column);
+        align-items: center;
+        &_nameplate{
+            flex-direction: column;
+            justify-content: center;
+        }
+        &_name{
+            word-break: normal
+        }
+    }
+    &_content{
+        @include flex(column);
+    }
+    &_btn{
+        @include flex(column);
+        justify-content: flex-end;
+        &_text{
+            @include responsive(tablet){
+                display: none;
+            }
+        }
+    }
+}

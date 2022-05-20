@@ -19,10 +19,9 @@ exports.newComment = async (req, res) => {
 //editer commentaire
 exports.editComment = async (req, res) => {
     try {
-        const editComment = Comment.findOne({
+        const editComment = await Comment.findOne({
             where: {
                 id: req.params.id,
-                userId: req.body.userId
             }
         });
         if (editComment) {
@@ -32,7 +31,6 @@ exports.editComment = async (req, res) => {
                 {
                     where: {
                         id: req.params.id,
-                        userId: req.body.userId
                     }
                 })
             return res.status(200).json({
