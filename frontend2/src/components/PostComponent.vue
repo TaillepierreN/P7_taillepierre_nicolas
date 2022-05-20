@@ -107,8 +107,8 @@
         </v-card>
       </v-layout>
     </v-lazy>
-    <v-card id="commentSection" width="1500" class="ma-auto" justify-center align-center>
-      <NewCom/>
+    <v-card v-if="singlePost" id="commentSection" width="1500" class="ma-auto" justify-center align-center>
+      <NewCom />
       <CommentComponent
         :comment="comment"
         v-for="comment in comments"
