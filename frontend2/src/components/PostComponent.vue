@@ -108,6 +108,7 @@
       </v-layout>
     </v-lazy>
     <v-card id="commentSection" width="1500" class="ma-auto" justify-center align-center>
+      <NewCom/>
       <CommentComponent
         :comment="comment"
         v-for="comment in comments"
@@ -123,9 +124,9 @@ import dayjs from "dayjs";
 import EditPostComponent from "./EditPostComponent.vue";
 import DelPostComponent from "./DelPostComponent.vue";
 import CommentComponent from "@/components/CommentComponent.vue";
+import NewCom from "@/components/NewCom.vue";
 require("dayjs/locale/fr");
 
-// import NewCommentComponent from "@/components/NewCommentComponent.vue";
 
 export default {
   name: "PostComponent",
@@ -134,7 +135,7 @@ export default {
     EditPostComponent,
     DelPostComponent,
     CommentComponent,
-    // NewCommentComponent,
+    NewCom,
   },
 
   data() {

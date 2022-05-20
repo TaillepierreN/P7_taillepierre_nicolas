@@ -25,7 +25,7 @@
                     ({{ formatDate(editComment.updatedAt) }})
                 </v-card-subtitle>
             </v-col>
-            <v-col cols="8" class="com_content">
+            <v-col cols="8" class="com_content mb-2">
                 <v-textarea v-if="editCom == true" v-model="modifiedContent">
                 </v-textarea>
                 <v-container v-else>
