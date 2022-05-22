@@ -1,0 +1,15 @@
+.profile_avatar{
+    position: absolute;
+    top: 130px;
+    border: solid 3px red;
+}
+.edit_profil_action{
+    @include responsive(tablet){
+        flex-direction: column-reverse;
+        align-items: unset;
+        & > .v-btn.v-btn{
+            margin-left: 0 !important;
+            margin-top: 10px;
+        }
+    }
+}

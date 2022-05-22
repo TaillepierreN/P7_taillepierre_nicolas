@@ -13,9 +13,9 @@ exports.showMessages = async (req, res) => {
                 // [
                 //     db.Sequelize.fn("COUNT", db.Sequelize.col("comments.postId")), "commentsCount"
                 // ],
-                [
-                    db.Sequelize.fn("COUNT", db.Sequelize.col("likes.postId")), "likesCount"
-                ]
+                // [
+                //     db.Sequelize.fn("COUNT", db.Sequelize.col("likes.postId")), "likesCount"
+                // ]
             ],
             include: [{
                 model: db.users,
@@ -32,15 +32,15 @@ exports.showMessages = async (req, res) => {
             {
                 model: db.likes,
                 as: "likes",
-                attributes: [],
+                attributes: [ "userId"],
             },
             ],
             order: [
                 ["createdAt", "DESC"]
             ],
-            group: [
-                "post.id"
-            ]
+            // group: [
+            //     "post.id"
+            // ]
         }
         //Récupere que les message lié a l'utilisateur pour la page profile
         if (req.query.userId) {
@@ -87,7 +87,7 @@ exports.showMessage = async (req, res) => {
                 model: db.likes,
                 as: "likes",
                 attributes: [
-                    "userid"
+                    "userId"
                 ]
             },
             ],

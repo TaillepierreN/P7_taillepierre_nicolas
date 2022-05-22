@@ -1,0 +1,9 @@
+@mixin flex($flex-direction: row) {
+    display: flex;
+    flex-flow: $flex-direction;
+}
+@mixin responsive($device) {
+    @media screen and (max-width: map-get($breakpoints, $device)) {
+        @content;
+    }
+}
