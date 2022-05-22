@@ -131,8 +131,8 @@
 <script>
 import PostComponent from "@/components/PostComponent.vue";
 import dayjs from "dayjs";
-require("dayjs/locale/fr");
 import PopUp from "./Popup.vue";
+require("dayjs/locale/fr");
 
 export default {
   name: "ProfileComponent",
@@ -180,6 +180,8 @@ export default {
   },
 
   mounted() {
+
+    /** Récupère les posts dont l'utilisateur est le créateur*/
     fetch(`http://localhost:3010/post?userId=${this.$route.params.id}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
@@ -188,6 +190,8 @@ export default {
       .then((res) => res.json())
       .then((data) => (this.posts = data))
       .catch((err) => console.log(err.message));
+
+    /** Vérifie si l'utilsateur est le propriétaire ou Admin */
     let uid = window.localStorage.getItem("userId");
     let admin = JSON.parse(window.localStorage.getItem("isAdmin"));
     if (this.$route.params.id == uid || admin == true) {
@@ -196,6 +200,7 @@ export default {
     if (admin == true) {
       this.isAdmin = true;
     }
+
     dayjs.locale("fr");
     this.urlpic = this.editUser.profilepic;
   },
@@ -206,6 +211,7 @@ export default {
       return date.format("D MMM 'YY");
     },
 
+    /** Permet d'éditer le profil a partir du formulaire */
     editUsr: function (e) {
       e.preventDefault();
       let isValid = this.$refs.form.validate();
@@ -232,6 +238,7 @@ export default {
       }
     },
 
+    /** Affiche la confirmation de la suppression du compte */
     confirmdel: function (e) {
       e.preventDefault();
       let delbloc = document.getElementById("deluser");
@@ -242,6 +249,7 @@ export default {
       }
     },
 
+    /** Supprime le compte */
     delUsr: function (e) {
       e.preventDefault();
       fetch(`http://localhost:3010/user/${this.$route.params.id}`, {
@@ -253,6 +261,7 @@ export default {
       }).then(() => (window.location.href = "/"));
     },
 
+    /** Annule les modification du profil*/
     editModeFn: function (e) {
       e.preventDefault();
       this.editMode = !this.editMode;
@@ -261,6 +270,7 @@ export default {
       this.urlpic = this.user.profilepic;
     },
 
+    /** Lorsqu'une image est uploadé,verifie le format et met à jour l'aperçu */
     onProfilChange() {
       if (this.newprofilepic) {
         const file = this.newprofilepic;

@@ -77,6 +77,8 @@ export default {
     };
   },
   methods: {
+
+    /** Permet de crée un nouveau post a partir du formulaire */
     newpost: function (e) {
       e.preventDefault();
       let isValid = this.$refs.form.validate();
@@ -99,6 +101,8 @@ export default {
           .catch((error) => alert(error.message));
       }
     },
+
+    /** Lorsqu'une image est uploadé,verifie le format et met à jour l'aperçu */
     onFileChange() {
       if (this.post.image) {
         const file = this.post.image;
@@ -114,6 +118,5 @@ export default {
     },
   },
 
-  mounted() {},
 };
 </script>

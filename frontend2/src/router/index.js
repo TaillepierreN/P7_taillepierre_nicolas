@@ -42,6 +42,7 @@ const router = new VueRouter({
   routes
 })
 
+/** Redirige vers les pages login/signup si l'utilisateur n'est pas connecté*/
 router.beforeEach((to, from, next) => {
   if ((to.name !== 'login' && to.name !== 'signup') && !localStorage.getItem('token')) {
     next({ name: 'login' })

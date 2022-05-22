@@ -93,11 +93,13 @@ export default {
     },
 
     methods: {
+
         formatDate(dateString) {
         const date = dayjs(dateString);
         return date.format("D/MM/YY à HH:mm");
         },
 
+        /** Permet de modifier le commentaire */
         editCmt: function (e) {
         e.preventDefault();
         fetch(`http://localhost:3010/comment/${this.comment.id}`, {
@@ -115,6 +117,7 @@ export default {
         });
         },
 
+        /** Permet de supprimer le commentaire */
         delCmt: function (e) {
         e.preventDefault();
         fetch(`http://localhost:3010/comment/${this.comment.id}`, {
@@ -125,6 +128,7 @@ export default {
         }).then(() => window.location.reload());
         },
 
+        /** Annule les changement du commentaire non enregistré */
         annulCmt: function (e) {
         e.preventDefault();
         this.editComment.content = this.comment.content;
@@ -136,6 +140,8 @@ export default {
         let uid = window.localStorage.getItem("userId");
         let admin = JSON.parse(window.localStorage.getItem("isAdmin"));
         let mod = JSON.parse(window.localStorage.getItem("isMod"));
+
+        /** Vérifie que l'utilisateur loggé est soit admin/mod soit le propriétaire */
         if (this.comment.user.id == uid || admin == true || mod == true) {
         this.comUserOrAdmin = true;
         }

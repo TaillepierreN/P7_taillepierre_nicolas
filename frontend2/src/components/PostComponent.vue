@@ -107,7 +107,14 @@
         </v-card>
       </v-layout>
     </v-lazy>
-    <v-card v-if="singlePost" id="commentSection" width="1500" class="ma-auto" justify-center align-center>
+    <v-card
+      v-if="singlePost"
+      id="commentSection"
+      width="1500"
+      class="ma-auto"
+      justify-center
+      align-center
+    >
       <NewCom />
       <CommentComponent
         :comment="comment"
@@ -126,7 +133,6 @@ import DelPostComponent from "./DelPostComponent.vue";
 import CommentComponent from "@/components/CommentComponent.vue";
 import NewCom from "@/components/NewCom.vue";
 require("dayjs/locale/fr");
-
 
 export default {
   name: "PostComponent",
@@ -159,21 +165,29 @@ export default {
   },
   mounted() {
     dayjs.locale("fr");
+
+    /** Range les commentaire du plus récent au plus ancien */
     this.comments = this.post.comments;
     if (this.comments) {
       this.comments = this.comments.reverse();
     }
+
+    /** Compte les commentaire et les likes */
     let uid = window.localStorage.getItem("userId");
     this.postlikesCount = this.editPost.likes.length;
     if (this.singlePost) {
       this.postCommentCount = this.editPost.comments.length;
     }
+
+    /** Vérifie si l'utilisateur a liké ce post */
     let liketable = this.editPost.likes;
     liketable.forEach((element) => {
       if (element.userId == uid) {
         return (this.hasLiked = true);
       }
     });
+
+    /** Vérifie si l'utilisateur connecté est le propriétaire du post */
     if (this.editPost.user.id == uid) {
       return (this.ownuser = true);
     }
@@ -185,15 +199,7 @@ export default {
       return date.format("D MMM 'YY à HH:mm");
     },
 
-    onFileChange(e) {
-      const file = e.target.files[0];
-      if (!this.acceptedFile.includes(file.type)) {
-        e.target.value = null;
-        return alert("Seul les fichiers jpg,jpeg,webp,gif,png sont accepté");
-      }
-      this.editPost.image = file;
-    },
-
+    /** Permet de liké ou retirer le like du post */
     likeswitch(e) {
       e.preventDefault();
       fetch(`http://localhost:3010/post/${this.post.id}/like`, {
@@ -206,11 +212,7 @@ export default {
           userId: localStorage.getItem("userId"),
         }),
       }).then(() => {
-        if (this.singlePost == true) {
-          window.location.href = `/post/${this.post.id}`;
-        } else {
-          window.location.reload();
-        }
+        window.location.reload();
       });
     },
   },

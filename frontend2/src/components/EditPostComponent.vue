@@ -73,6 +73,8 @@ export default {
     };
   },
   methods: {
+
+    /** Permet de modifier un post */
     editMsg: function (e) {
       e.preventDefault();
       const formData = new FormData();
@@ -91,6 +93,8 @@ export default {
         window.location.reload();
       });
     },
+
+    /** Lorsqu'une image est uploadé,verifie le format et met à jour l'aperçu */
     onFileChange() {
       if (this.edit.image) {
         const file = this.edit.image;

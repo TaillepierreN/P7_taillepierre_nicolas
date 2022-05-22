@@ -27,6 +27,8 @@ export default {
   name: "PopUp",
 
   methods: {
+
+    /** Permet de supprimer l'utilisateur */
     delUsr: function (e) {
       e.preventDefault();
       fetch(`http://localhost:3010/user/${this.$route.params.id}`, {

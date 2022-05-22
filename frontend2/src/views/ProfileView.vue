@@ -26,6 +26,7 @@ export default {
   },
 
   mounted() {
+    /** Récupere l'utilisateur par son ID */
     fetch(`http://localhost:3010/user/${this.$route.params.id}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),

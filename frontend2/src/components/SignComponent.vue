@@ -102,6 +102,8 @@ export default {
   },
 
   methods: {
+
+    /** Crée un nouveau compte a partir du formulaire */
     signForm: function (e) {
       e.preventDefault();
       const formData = new FormData();
@@ -117,6 +119,7 @@ export default {
         .then((window.location.href = "/login"));
     },
 
+    /** Lorsqu'une image est uploadé,verifie le format et met à jour l'aperçu */
     onProfilChange() {
       if (this.sign.profilepic) {
         const file = this.sign.profilepic;

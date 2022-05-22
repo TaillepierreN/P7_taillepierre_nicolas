@@ -11,7 +11,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import PostComponent from "@/components/PostComponent.vue";
 
 export default {
@@ -25,6 +24,7 @@ export default {
     }),
 
     mounted() {
+        /** Récupère le post par son Id */
         fetch(`http://localhost:3010/post/${this.$route.params.id}`, {
             headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -33,6 +33,7 @@ export default {
         .then((res) => res.json())
         .then((data) => (this.post = data))
         .then(() => {
+            /** Vérifie que l'utilisateur loggé est soit admin/mod soit le propriétaire */
             let uid = window.localStorage.getItem("userId");
             let admin = JSON.parse(window.localStorage.getItem("isAdmin"));
             let mod = JSON.parse(window.localStorage.getItem("isMod"));

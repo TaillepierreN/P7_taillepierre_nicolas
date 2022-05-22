@@ -36,6 +36,7 @@ export default {
     };
   },
   mounted(){
+    /** Change le component en fonction de la route */
     if (this.$route.name == "signup"){
       return this.ownAccount = false
     }

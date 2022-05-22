@@ -1,0 +1,18 @@
+/* Installation BACKEND */
+
+Faire un "npm install" dans le dossier "backend"
+
+/* Installation FRONTEND */
+
+Faire un "npm install" dans le dossier "frontend2"
+
+/* Lancer le projet */
+
+Faire un "nodemon start" dans le dossier "backend"
+Faire un "npm run serve" dans le dossier "frontend2"
+Puis aller sur http://localhost:8080/ dans le navigateur
+
+
+/* PS */
+
+Le dossier "frontend" contient une version du site fonctionel crée avec Vue3 mais pas manque de compatibilité avec certains plugin et documentation le projet a été recrée avec Vue2 dans le dossier "frontend2" fonctionel et plus complet.

@@ -21,14 +21,11 @@
       </div>
 
       <v-spacer></v-spacer>
+      
       <div class="navbar">
         <v-btn href="/login" text v-if="!isLogged">
           <span class="mr-2">Login</span>
         </v-btn>
-        <!-- <v-btn text v-if="isLogged">
-          <v-icon>mdi-plus</v-icon>
-          Nouveau post
-        </v-btn> -->
         <NewPost v-if="isLogged"/>
         <v-btn
           :to="{ name: 'profile', params: { id: userId } }"
@@ -67,6 +64,8 @@ export default {
 
   mounted() {
     const userId = window.localStorage.getItem("userId");
+
+    /** Affiche le nom de l'utilisateur dans la barre de navigation si loggé */
     if (this.$route.name != "login") {
       if (this.$route.name != "signup") {
         fetch(`http://localhost:3010/user/${userId}`, {
@@ -79,6 +78,7 @@ export default {
       }
     }
 
+    /** Verifie si l'utilisateur est loggé en vérifiant si un token est présent*/
     if (localStorage.getItem("token")) {
       this.isLogged = true;
     }

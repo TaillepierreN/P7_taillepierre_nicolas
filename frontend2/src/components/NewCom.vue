@@ -26,6 +26,8 @@ export default {
   },
 
   methods: {
+
+    /** Permet de crée un nouveau commentaire a partir du textarea */
     newComment: function (e) {
       e.preventDefault();
       fetch(`http://localhost:3010/comment/`, {
@@ -42,6 +44,7 @@ export default {
       }).then(() => window.location.reload());
     },
 
+    /** Permet d'annuler le nouveau commentaire et fermer le panneau */
     cancelNewCom: function (e) {
       e.preventDefault();
         this.panel =[]

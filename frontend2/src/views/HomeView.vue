@@ -23,6 +23,7 @@ export default {
     posts: [],
   }),
   mounted() {
+    /** Récupere la liste des posts */
     fetch("http://localhost:3010/post/", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),

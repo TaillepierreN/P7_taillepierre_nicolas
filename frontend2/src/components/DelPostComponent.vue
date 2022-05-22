@@ -30,6 +30,8 @@ export default {
   ],
 
   methods: {
+    
+    /** Permet de supprimer un post */
     delMsg: function (e) {
       e.preventDefault();
       fetch(`http://localhost:3010/post/${this.$route.params.id}`, {

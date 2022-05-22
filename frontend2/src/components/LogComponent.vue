@@ -57,6 +57,8 @@ export default {
   },
 
   methods: {
+
+    /** Permet de se connecter a partir des informations du formulaire */
     loginForm: function (e) {
       e.preventDefault();
       fetch("http://localhost:3010/auth/login", {
@@ -71,6 +73,7 @@ export default {
       })
         .then((res) => res.json())
         .then((json) => {
+          /** Enregistre les informations du compte dans le local storage */
           if (json.token) {
             window.localStorage.setItem("token", json.token);
             window.localStorage.setItem("userId", json.userId);
