@@ -22,12 +22,18 @@
                 type="password"
                 v-model="password"
                 :rules="passwordRules"
-              ></v-text-field>
+              >
+              </v-text-field>
+              <v-container class="error--text">
+                {{ this.errormsg }}
+              </v-container>
             </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue lighten-1" dark @click="loginForm" >Se connecter</v-btn>
+            <v-btn color="blue lighten-1" dark @click="loginForm"
+              >Se connecter</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -57,7 +63,6 @@ export default {
   },
 
   methods: {
-
     /** Permet de se connecter a partir des informations du formulaire */
     loginForm: function (e) {
       e.preventDefault();

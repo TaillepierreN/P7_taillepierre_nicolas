@@ -11,7 +11,12 @@
             <v-col cols="2" class="pt-1 com_user">
                 <v-layout class="com_user_nameplate" align-center>
                     <v-avatar size="65">
-                        <v-img :src="editComment.user.profilepic"></v-img>
+                        <v-img :src="editComment.user.profilepic" v-if="editComment.user.profilepic != null"></v-img>
+                        <v-img
+                            src="../assets/img/icon.png"
+                            alt="Image de profile"
+                            v-else
+                        />
                     </v-avatar>
                     <v-card-title class="com_user_name">{{ editComment.user.username }}</v-card-title>
                 </v-layout>

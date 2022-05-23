@@ -17,6 +17,11 @@
                 alt="Image de profile"
                 v-if="editPost.user.profilepic != null"
               />
+              <img
+                src="../assets/img/icon.png"
+                alt="Image de profile"
+                v-else
+              />
             </v-avatar>
             <div>
               <router-link
@@ -148,14 +153,6 @@ export default {
     return {
       editPost: { ...this.post },
       comments: [],
-      acceptedFile: [
-        "imgage/png",
-        "image/jpg",
-        "image/jpeg",
-        "image/webp",
-        "image/gif",
-      ],
-      addComment: false,
       hasLiked: false,
       postlikesCount: 0,
       postCommentCount: 0,

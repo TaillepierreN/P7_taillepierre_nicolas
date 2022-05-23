@@ -40,11 +40,12 @@
                 label="Image de profile(optionel)"
                 v-model="sign.profilepic"
                 @change="onProfilChange"
-                :rule="picRules"
               ></v-file-input>
               <v-container>
                 <v-layout>
-                  <v-card-text id="previewsign" v-if="urlpic">Aperçu:</v-card-text>
+                  <v-card-text id="previewsign" v-if="urlpic"
+                    >Aperçu:</v-card-text
+                  >
                   <v-avatar size="72">
                     <v-img :src="urlpic" alt=""></v-img>
                   </v-avatar>
@@ -86,37 +87,33 @@ export default {
         profilepic: null,
       },
       acceptedFile: [
-        "imgage/png",
+        "image/png",
         "image/jpg",
         "image/jpeg",
         "image/webp",
         "image/gif",
-      ],
-      picRules: [
-        (v) =>
-          this.acceptedFile.includes(v.type) ||
-          "Le fichier doit etre une image au format png/jpg/jpeg/webp/gif",
       ],
       urlpic: "",
     };
   },
 
   methods: {
-
     /** Crée un nouveau compte a partir du formulaire */
     signForm: function (e) {
       e.preventDefault();
-      const formData = new FormData();
-      formData.append("email", this.sign.email);
-      formData.append("password", this.sign.password);
-      formData.append("username", this.sign.username);
-      formData.append("image", this.sign.profilepic);
-      fetch("http://localhost:3010/auth/signup", {
-        method: "POST",
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((window.location.href = "/login"));
+      if (this.$refs.form.validate()) {
+        const formData = new FormData();
+        formData.append("email", this.sign.email);
+        formData.append("password", this.sign.password);
+        formData.append("username", this.sign.username);
+        formData.append("image", this.sign.profilepic);
+        fetch("http://localhost:3010/auth/signup", {
+          method: "POST",
+          body: formData,
+        })
+          .then((res) => res.json())
+          .then((window.location.href = "/login"));
+      }
     },
 
     /** Lorsqu'une image est uploadé,verifie le format et met à jour l'aperçu */

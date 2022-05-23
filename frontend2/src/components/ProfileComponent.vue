@@ -169,7 +169,7 @@ export default {
         (v) => v === this.newpassword || "Le mot de passe ne correspond pas",
       ],
       acceptedFile: [
-        "imgage/png",
+        "image/png",
         "image/jpg",
         "image/jpeg",
         "image/webp",

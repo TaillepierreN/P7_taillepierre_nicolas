@@ -64,7 +64,7 @@ export default {
       previewurl: "",
       fieldRules: [(v) => !!v || "Champ requis"],
       acceptedFile: [
-        "imgage/png",
+        "image/png",
         "image/jpg",
         "image/jpeg",
         "image/webp",
