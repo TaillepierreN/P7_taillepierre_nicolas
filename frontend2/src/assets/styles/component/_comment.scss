@@ -7,7 +7,10 @@
             justify-content: center;
         }
         &_name{
-            word-break: normal
+            word-break: normal;
+            @include responsive(phone){
+                font-size: 0.9rem
+            }
         }
     }
     &_content{

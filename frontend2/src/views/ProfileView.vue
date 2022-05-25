@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div v-if="this.userfound == false" class="missingprofile">
-      <h2>Aucun profile trouvé</h2>
+      <v-card-title class="ma-auto center" justify-center>Aucun profile trouvé</v-card-title>
     </div>
     <ProfileComponent v-else :user="user" :userfound="userfound" />
   </div>
@@ -39,7 +39,9 @@ export default {
           this.userfound = true;
         }
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        this.userfound = false
+        console.log(err.message)});
   },
 };
 </script>

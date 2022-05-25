@@ -9,6 +9,8 @@
         <v-container>
         <v-row no-gutter>
             <v-col cols="2" class="pt-1 com_user">
+                <router-link
+                :to="{ name: 'profile', params:{id: editComment.user.id}}">
                 <v-layout class="com_user_nameplate" align-center>
                     <v-avatar size="65">
                         <v-img :src="editComment.user.profilepic" v-if="editComment.user.profilepic != null"></v-img>
@@ -20,6 +22,7 @@
                     </v-avatar>
                     <v-card-title class="com_user_name">{{ editComment.user.username }}</v-card-title>
                 </v-layout>
+                </router-link>
                 <v-card-subtitle class="pa-0">
                     {{ formatDate(editComment.createdAt) }}
                 </v-card-subtitle>

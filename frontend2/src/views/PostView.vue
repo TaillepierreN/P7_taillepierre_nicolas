@@ -1,12 +1,12 @@
 <template>
     <div class="home wrap">
+        <v-card-title class="ma-auto center" v-if="this.post == null">Aucun post trouvé</v-card-title>
         <PostComponent
-            v-if="post"
+            v-else
             :post="post"
             :singlePost="true"
             :isUserOrAdmin="isUserOrAdmin"
         />
-        <h3 v-if="!post">Aucun post trouvé</h3>
     </div>
 </template>
 
@@ -41,7 +41,9 @@ export default {
                 this.isUserOrAdmin = true;
             }
         })
-        .catch((err) => console.log(err.message));
-    },
-};
+        .catch((err) => {
+            this.post = null
+            console.log(err.message)})
+        }
+    }
 </script>
