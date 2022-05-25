@@ -14,7 +14,7 @@
             class="shrink mr-2"
             contain
             src="./assets\img\icon-left-font-monochrome-white.svg"
-            width="350"
+            width="295"
             height="80"
           />
         </v-btn>

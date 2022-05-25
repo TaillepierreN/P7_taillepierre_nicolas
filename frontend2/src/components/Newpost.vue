@@ -3,7 +3,7 @@
     <template v-slot:activator="{ on, attrs }">
       <v-btn text v-bind="attrs" v-on="on">
         <v-icon>mdi-plus</v-icon>
-        Nouveau post
+        <span class="small_hide">Nouveau post</span>
       </v-btn>
     </template>
     <template v-slot:default="dialog">

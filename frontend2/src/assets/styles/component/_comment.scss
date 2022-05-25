@@ -1,24 +1,52 @@
 .com{
+    @include responsive(phone){
+        flex-direction: column;
+        align-items: center;
+    }
     &_user{
         @include flex(column);
         align-items: center;
+        @include responsive(phone){
+            flex-direction: row;
+            justify-content: center;
+        }
         &_nameplate{
             flex-direction: column;
             justify-content: center;
+            @include responsive(phone){
+                flex-direction: row;
+            }
         }
         &_name{
-            word-break: normal;
             @include responsive(phone){
                 font-size: 0.9rem
+            }
+        }
+        &_date{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-right: 20px;
+            @include responsive(phone){
+                align-items: flex-start
             }
         }
     }
     &_content{
         @include flex(column);
+        @include responsive(phone){
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
     }
     &_btn{
         @include flex(column);
         justify-content: flex-end;
+        @include responsive(phone){
+            flex-direction: row;
+            justify-content: center;
+        }
         &_text{
             @include responsive(tablet){
                 display: none;

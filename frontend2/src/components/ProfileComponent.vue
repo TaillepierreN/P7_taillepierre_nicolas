@@ -111,12 +111,12 @@
         </v-list-item>
         <v-spacer></v-spacer>
         <v-btn class="mr-3" v-if="isUserOrAdmin" @click="editMode = !editMode"
-          >Editer le profil</v-btn
+          >Editer <span class="small_hide">le profil</span></v-btn
         >
       </v-layout>
     </v-card>
     <v-layout class="mx-auto column" justify-center align-center tile max-width="600px">
-      <v-card-title>Liste des posts de l'utilisateur</v-card-title>
+      <v-card-title class="wordbreakN">Liste des posts de l'utilisateur</v-card-title>
       <v-spacer></v-spacer>
       <PostComponent
         :post="post"

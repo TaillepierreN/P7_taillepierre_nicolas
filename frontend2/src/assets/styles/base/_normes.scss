@@ -7,3 +7,11 @@ a{
 .center{
     justify-content: center;
 }
+.small_hide{
+    @include responsive(phone){
+        display: none;
+    }
+}
+.wordbreakN{
+    word-break: normal;
+}

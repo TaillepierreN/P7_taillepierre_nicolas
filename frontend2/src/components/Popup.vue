@@ -9,8 +9,8 @@
       <v-card>
         <v-toolbar color="error" dark>Supprimer le compte</v-toolbar>
         <v-card-text>
-          <div class="text-h6 pa-12">
-            Voulez vous définitivement supprimer le compte?
+          <div class="text-h6 pa-12 wordbreakN">
+            Voulez-vous définitivement supprimer le compte?
           </div>
         </v-card-text>
         <v-card-actions class="space-between">
