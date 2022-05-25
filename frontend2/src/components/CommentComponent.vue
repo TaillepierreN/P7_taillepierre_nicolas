@@ -37,7 +37,7 @@
                 </v-container>
             </v-col>
             <v-col cols="8" class="com_content mb-2">
-                <v-textarea v-if="editCom == true" v-model="modifiedContent">
+                <v-textarea v-if="editCom == true" v-model="modifiedContent" label="Modifier le commentaire">
                 </v-textarea>
                 <v-container v-else>
                     {{ editComment.content }}
@@ -50,7 +50,7 @@
                     tile
                     width="100%"
                     dark
-                    class="mb-5 blue"
+                    class="mb-5 blue darken-2"
                     ><v-icon left>mdi-content-save</v-icon><span class="com_btn_text">Sauvegarder</span></v-btn
                 >
                 <v-btn
@@ -67,7 +67,7 @@
                     tile
                     width="100%"
                     dark
-                    class="mb-5 red lighten-1"
+                    class="mb-5 red darken-2"
                     ><v-icon left>mdi-delete-forever</v-icon><span class="com_btn_text">Supprimer</span></v-btn
                 >
                 <v-btn

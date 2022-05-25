@@ -9,6 +9,7 @@
     >
       <div class="d-flex align-center">
         <v-btn text height="80" href="/">
+        <span style="display: none">Groupomania</span>
           <v-img
             alt="Groupomania Logo"
             class="shrink mr-2"
@@ -36,7 +37,7 @@
         </v-btn>
 
         <v-btn class="mx-1" icon v-if="isLogged" @click="disconnect">
-          <v-icon dark>mdi-logout-variant</v-icon>
+          <span class="small_hide">Logout</span> <v-icon dark>mdi-logout-variant</v-icon>
         </v-btn>
       </div>
     </v-app-bar>

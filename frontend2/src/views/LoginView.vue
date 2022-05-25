@@ -7,11 +7,11 @@
         <v-flex xs12 sm8 md6>
           <p v-if="ownAccount === true">
             Pas de compte?
-            <a @click="ownAccount = false">S'inscrire</a>
+            <a @click="ownAccount = false" class="blue--text text--darken-3">S'inscrire</a>
           </p>
           <p v-if="ownAccount === false">
             Vous possédez déja un compte?
-            <a @click="ownAccount = true">Se connecter</a>
+            <a @click="ownAccount = true" class="blue--text text--darken-4">Se connecter</a>
           </p>
         </v-flex>
       </v-layout>

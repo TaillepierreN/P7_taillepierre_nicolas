@@ -1,7 +1,7 @@
 <template>
   <v-dialog transition="dialog-bottom-transition" max-width="600">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn color="red" dark v-bind="attrs" v-on="on"
+      <v-btn class="red darken-2" dark v-bind="attrs" v-on="on"
         >Supprimer</v-btn
       >
     </template>

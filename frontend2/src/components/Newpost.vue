@@ -8,7 +8,7 @@
     </template>
     <template v-slot:default="dialog">
       <v-card>
-        <v-toolbar color="error" dark>Nouveau Post</v-toolbar>
+        <v-toolbar color="red darken-2" dark>Nouveau Post</v-toolbar>
         <v-card-text>
           <v-form ref="form">
             <v-text-field
@@ -48,7 +48,7 @@
         <v-card-actions class="space-between">
           <v-btn text @click="dialog.value = false">Annuler</v-btn>
           <v-spacer></v-spacer>
-          <v-btn class="green" dark text @click="newpost">Poster</v-btn>
+          <v-btn class="green darken-3" dark text @click="newpost">Poster</v-btn>
         </v-card-actions>
       </v-card>
     </template>

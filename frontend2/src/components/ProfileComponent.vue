@@ -4,7 +4,7 @@
       <v-layout align-center justify-center>
         <v-flex xs12 sm8 md6>
           <v-card class="elevation-12">
-            <v-toolbar align-center dark color="green lighten-1">
+            <v-toolbar align-center dark color="green darken-3">
               <v-toolbar-title>Editer le profile</v-toolbar-title>
             </v-toolbar>
             <v-card-text>
@@ -71,10 +71,10 @@
               <v-card-actions class="edit_profil_action">
                 <pop-up />
                 <v-spacer></v-spacer>
-                <v-btn color="grey lighten-1" dark @click="editModeFn"
+                <v-btn color="grey darken-1" dark @click="editModeFn"
                   >Annuler</v-btn
                 >
-                <v-btn color="green lighten-1" dark @click="editUsr"
+                <v-btn color="green darken-3" dark @click="editUsr"
                   >Enregistrer</v-btn
                 >
               </v-card-actions>

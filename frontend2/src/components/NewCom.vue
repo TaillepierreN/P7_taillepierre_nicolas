@@ -3,11 +3,11 @@
     <v-expansion-panel>
       <v-expansion-panel-header><v-spacer></v-spacer><span><v-icon>mdi-chat-plus</v-icon> Nouveau Commentaire</span></v-expansion-panel-header>
       <v-expansion-panel-content>
-        <v-textarea v-model="newCom"></v-textarea>
+        <v-textarea v-model="newCom" label="nouveau commentaire"></v-textarea>
         <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn @click="cancelNewCom">Annuler</v-btn>
-            <v-btn dark class="green" @click="newComment">Envoyer</v-btn>
+            <v-btn dark class="green darken-3" @click="newComment">Envoyer</v-btn>
         </v-card-actions>
       </v-expansion-panel-content>
     </v-expansion-panel>

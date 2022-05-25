@@ -3,7 +3,7 @@
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md6>
         <v-card class="elevation-12">
-          <v-toolbar align-center dark color="blue darken-1">
+          <v-toolbar align-center dark color="blue darken-3">
             <v-toolbar-title>Connexion</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
@@ -31,7 +31,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue lighten-1" dark @click="loginForm"
+            <v-btn color="blue darken-2" dark @click="loginForm"
               >Se connecter</v-btn
             >
           </v-card-actions>

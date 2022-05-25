@@ -36,15 +36,15 @@
                 v-else
                 :to="{ name: 'profile', params: { id: editPost.user.id } }"
               >
-                <h4 class="red--text ml-5">
+                <h4 class="red--text text--darken-2 ml-5">
                   {{ editPost.user.username }}
                 </h4>
               </router-link>
-              <div class="grey--text ms-5 text-caption">
+              <div class="black--text text--lighten-1 ms-5 text-caption">
                 {{ formatDate(editPost.createdAt) }}
               </div>
               <div
-                class="grey--text ms-5 text-caption"
+                class="black--text text--lighten-1 ms-5 text-caption"
                 v-if="editPost.createdAt != editPost.updatedAt"
               >
                 (modifié:{{ formatDate(editPost.updatedAt) }})
