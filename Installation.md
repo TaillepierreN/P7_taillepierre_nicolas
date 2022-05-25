@@ -1,5 +1,15 @@
 ## Installation BACKEND 
 
+Créer un fichier .env dans backend/config contenant:"
+
+    PORT=3010
+    MYSQLROOT=exemple
+    MYSQLPASS=exemple
+    DBPORT=3310
+    TOKEN=exemple
+
+en remplaçant "exemple" par votre choix
+
 Faire un "npm install" dans le dossier "backend"
 
 ## Installation FRONTEND 
@@ -8,31 +18,21 @@ Faire un "npm install" dans le dossier "frontend2"
 
 ### Lancer le projet
 
-**Vérifier que les lignes de codes suivantes soient bien décommentée dans le fichier backend/server.js lors de la première utilisation**
-
-    db.sequelize.sync({ force: true }).then(() => {
-        console.log("Drop and re-sync db.");
-    });`
-
-**Vérifier que la ligne de code suivante soit bien commentée dans le fichier backend/server.js lors de la première utilisation**
-
-    db.sequelize.sync();
-
-
 Faire un "nodemon start" dans le dossier "backend"
 Faire un "npm run serve" dans le dossier "frontend2"
 Puis aller sur http://localhost:8080/ dans le navigateur
 
-**Après la première initialisation de la base de donnée,commentez les lignes de codes suivantes dans le fichier backend/server.js**
+**Si il y a un soucis a la création de la base de donnée, si elle existe déjà ou si il y a eu des modifications,décommentez les lignes suivante dans le fichier backend/server.js permettant de détruire et recrée la base de donnée a 0**
 
     db.sequelize.sync({ force: true }).then(() => {
         console.log("Drop and re-sync db.");
-    });`
+    });
 
-**Après la première initialisation de la base de donnée,décommentez la ligne de code suivante dans le fichier backend/server.js**
+**et commentez les lignes suivantes dans le même fichier**
 
     db.sequelize.sync();
 
+**Pensez à bien recommenter et décommenter ces deux bout de code une fois la base de donnée recrée**
 
 #### PS
 
