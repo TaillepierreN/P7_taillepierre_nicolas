@@ -1,3 +1,6 @@
+# Projet 7 - Création d'un réseau social d'entreprise
+Le projet consiste à construire un réseau social interne pour les employés de Groupomania. Le but de cet outil est de faciliter les interactions entre collègues.
+
 ## Installation BACKEND 
 
 Créer un fichier .env dans backend/config contenant:"
